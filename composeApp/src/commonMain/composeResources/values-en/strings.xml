@@ -34,4 +34,11 @@
     <string name="asked">Asked</string>
     <string name="answers">Answers</string>
     <string name="link">Link</string>
+
+    <string name="mobile">Mobile</string>
+    <string name="database">Database</string>
+    <string name="test">Test</string>
+    <string name="cloud">Cloud</string>
+    <string name="framework">Framework</string>
+    <string name="language">Language</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.m4ykey.stos.search.presentation
+package com.m4ykey.stos.search.data.model
 
 data class QueryParameters(
     val sort : String,

@@ -1,12 +1,15 @@
 package com.m4ykey.stos.search.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,7 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.m4ykey.stos.question.presentation.detail.TagListWrap
+import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.back
@@ -55,7 +58,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel(),
     onSearchScreen : (String, String) -> Unit,
-    onBack : (() -> Unit)
+    onBack : () -> Unit
 ) {
 
     var inTitle by remember { mutableStateOf("") }
@@ -98,30 +101,11 @@ fun SearchScreen(
             onInTitleChange = { inTitle = it },
             onTagClick = { clickedTag ->
                 viewModel.onAction(SearchListAction.OnSearchClick(inTitle = inTitle, tag = clickedTag))
-            }
+            },
+            viewModel = viewModel
         )
     }
 }
-
-val mobileTags = listOf(
-    "android-studio", "android-jetpack-compose", "xcode", "react-native", "flutter", "material-ui"
-)
-val databaseTags = listOf(
-    "sql", "mysql", "postgresql", "mongodb", "sqlite", "oracle"
-)
-val testTags = listOf(
-    "junit", "selenium", "cypress", "github-actions"
-)
-val cloudTags = listOf(
-    "docker", "kubernetes", "aws", "azure", "firebase", "jenkins", "terraform"
-)
-val frameworksTags = listOf(
-    "angular", "vue.js", "spring", "flask", "django", "express", "laravel", "bootstrap", "tensorflow", "pandas", "numpy"
-)
-val languageTags = listOf(
-    "typescript", "c++", "swift", "ruby", "go", "kotlin", "r", "rust", "scala", "dart", "bash", "objective-c", "c"
-)
-val allTags = mobileTags + databaseTags + testTags + cloudTags + frameworksTags + languageTags
 
 @Composable
 fun SearchContent(
@@ -130,9 +114,10 @@ fun SearchContent(
     inTitle : String,
     onInTitleChange : (String) -> Unit,
     onSearch : () -> Unit,
-    onTagClick : (String) -> Unit
+    onTagClick : (String) -> Unit,
+    viewModel: SearchViewModel
 ) {
-    val shuffledTags = remember { allTags.shuffled() }
+    val tags = viewModel.tagSection
 
     LazyColumn(
         state = listState,
@@ -156,11 +141,46 @@ fun SearchContent(
                 text = stringResource(Res.string.popular_tags)
             )
         }
-        item {
-            TagListWrap(
-                tags = shuffledTags,
-                onTagClick = onTagClick
+        items(
+            items = tags,
+            key = { section -> section.title.toString() }
+        ) { section ->
+            TagList(
+                onTagClick = onTagClick,
+                tags = section.tags,
+                title = stringResource(section.title)
             )
+        }
+    }
+}
+
+@Composable
+fun TagList(
+    title : String,
+    tags : List<String>,
+    onTagClick: (String) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = title,
+            fontWeight = FontWeight.SemiBold
+        )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 4.dp)
+        ) {
+            items(
+                items = tags,
+                key = { it }
+            ) { tag ->
+                ChipItem(
+                    title = tag,
+                    selected = false,
+                    onSelect = { onTagClick(tag) }
+                )
+            }
         }
     }
 }

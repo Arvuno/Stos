@@ -34,4 +34,11 @@
     <string name="asked">Zapytano</string>
     <string name="answers">Odpowiedzi</string>
     <string name="link">Link</string>
+
+    <string name="mobile">Mobilne</string>
+    <string name="database">Bazy Danych</string>
+    <string name="test">Test</string>
+    <string name="cloud">Chmura</string>
+    <string name="framework">Framework</string>
+    <string name="language">Języki</string>
 </resources>
