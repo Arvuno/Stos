@@ -3,7 +3,7 @@ package com.m4ykey.stos.question.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.m4ykey.stos.core.network.handleApiResult
-import com.m4ykey.stos.question.domain.usecase.QuestionUseCase
+import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

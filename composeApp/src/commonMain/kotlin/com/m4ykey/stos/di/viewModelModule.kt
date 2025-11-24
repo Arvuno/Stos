@@ -11,5 +11,5 @@ val viewModelModule = module {
     viewModel { QuestionListViewModel(get()) }
     viewModel { QuestionDetailViewModel(get()) }
     viewModel { QuestionTagViewModel(get()) }
-    viewModel { SearchViewModel() }
+    viewModel { SearchViewModel(get()) }
 }

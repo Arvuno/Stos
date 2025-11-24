@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.Question
-import com.m4ykey.stos.question.domain.usecase.QuestionUseCase
+import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
 import com.m4ykey.stos.question.presentation.list.QuestionListState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

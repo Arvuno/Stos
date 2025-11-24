@@ -93,7 +93,7 @@ fun SearchScreen(
             listState = listState,
             inTitle = inTitle,
             onSearch = {
-                SearchListAction.OnSearchClick(inTitle = inTitle, tag = "")
+                viewModel.onAction(SearchListAction.OnSearchClick(inTitle = inTitle, tag = ""))
             },
             onInTitleChange = { inTitle = it },
             onTagClick = { clickedTag ->

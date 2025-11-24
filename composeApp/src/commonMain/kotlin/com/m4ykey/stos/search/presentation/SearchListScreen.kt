@@ -24,6 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.stos.core.views.BasePagingList
+import com.m4ykey.stos.question.presentation.components.QuestionItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.back
@@ -41,6 +44,9 @@ fun SearchListScreen(
     viewModel: SearchViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit
 ) {
+    //val viewState by viewModel.questionListState.collectAsState()
+    //val onAction = viewModel::onAction
+    val questions = viewModel.searchResults.collectAsLazyPagingItems()
 
     val initialSearchText = buildString {
         if (inTitle.isNotEmpty()) {
@@ -104,6 +110,18 @@ fun SearchListScreen(
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
+            BasePagingList(
+                itemContent = { question ->
+                    QuestionItem(
+                        question = question,
+                        onQuestionClick = {
+                            onQuestionClick(question.questionId)
+                        }
+                    )
+                },
+                items = questions,
+                listState = listState
+            )
         }
     }
 }

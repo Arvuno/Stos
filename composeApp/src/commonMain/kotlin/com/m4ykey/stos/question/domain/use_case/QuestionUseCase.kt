@@ -1,4 +1,4 @@
-package com.m4ykey.stos.question.domain.usecase
+package com.m4ykey.stos.question.domain.use_case
 
 import androidx.paging.PagingData
 import com.m4ykey.stos.core.network.ApiResult
