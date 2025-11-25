@@ -18,5 +18,7 @@ data class QuestionDetailDto(
     val link : String? = null,
     val title : String? = null,
     @SerialName("closed_details") val closedDetails : ClosedDetailsDto? = null,
-    @SerialName("comment_count") val commentCount : Int? = 0
+    @SerialName("comment_count") val commentCount : Int? = 0,
+    @SerialName("last_edit_date") val lastEditDate : Int? = 0,
+    @SerialName("last_editor") val lastEditor : QuestionOwnerDto? = null
 )

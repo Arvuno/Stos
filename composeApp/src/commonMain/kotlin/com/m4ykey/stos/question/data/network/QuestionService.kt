@@ -20,7 +20,6 @@ class QuestionService(
         page: Int,
         pageSize: Int,
         sort: String,
-        order: String,
         tagged: String
     ): Items<QuestionDto> {
         return client.get {
@@ -31,7 +30,6 @@ class QuestionService(
                     "page" to page,
                     "pagesize" to pageSize,
                     "sort" to sort,
-                    "order" to order,
                     "tagged" to tagged
                 )
             }
@@ -72,8 +70,7 @@ class QuestionService(
         page: Int,
         pageSize: Int,
         filter: String,
-        sort: String,
-        order: String
+        sort: String
     ): Items<QuestionDto> {
         return client.get {
             url {
@@ -82,8 +79,7 @@ class QuestionService(
                     "page" to page,
                     "pagesize" to pageSize,
                     "filter" to filter,
-                    "sort" to sort,
-                    "order" to order
+                    "sort" to sort
                 )
             }
         }.body()

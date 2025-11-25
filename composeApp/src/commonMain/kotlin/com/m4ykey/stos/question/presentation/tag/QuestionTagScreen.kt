@@ -30,7 +30,6 @@ fun QuestionTagScreen(
             when (event) {
                 is ListUiEvent.ChangeSort -> listViewModel.updateSort(event.sort)
                 is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
-                is ListUiEvent.ChangeOrder -> listViewModel.updateOrder(event.order)
             }
         }
     }

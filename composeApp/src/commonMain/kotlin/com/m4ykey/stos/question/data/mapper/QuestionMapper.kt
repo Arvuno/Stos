@@ -63,7 +63,9 @@ fun QuestionDetailDto.toDomain() = QuestionDetail(
     upVoteCount = upVoteCount ?: 0,
     owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
     closedDetails = closedDetails?.toDomain() ?: ClosedDetails.EMPTY,
-    commentCount = commentCount ?: 0
+    commentCount = commentCount ?: 0,
+    lastEditor = lastEditor?.toDomain() ?: QuestionOwner.EMPTY,
+    lastEditDate = lastEditDate ?: 0
 )
 
 fun BadgeCountsDto.toDomain() = BadgeCounts(

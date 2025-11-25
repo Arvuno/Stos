@@ -32,8 +32,6 @@ import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
-import kmp_stos.composeapp.generated.resources.menu
-import kmp_stos.composeapp.generated.resources.order
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -50,7 +48,6 @@ fun BaseQuestionListScreen(
     actions : @Composable RowScope.() -> Unit = {}
 ) {
     val sort = viewState.sort
-    val order = viewState.order
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyListState = rememberLazyListState()
@@ -81,12 +78,6 @@ fun BaseQuestionListScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { showDialog = true }) {
-                        Icon(
-                            contentDescription = stringResource(Res.string.order),
-                            painter = painterResource(Res.drawable.menu)
-                        )
-                    }
                     actions()
                 }
             )
@@ -120,17 +111,6 @@ fun BaseQuestionListScreen(
             sort = sort,
             onAction = onAction,
             onQuestionClick = onQuestionClick
-        )
-    }
-
-    if (showDialog) {
-        OrderDialog(
-            order = order,
-            onSelectOrder = { selected ->
-                onAction(QuestionListAction.OnOrderClick(selected))
-                showDialog = false
-            },
-            onDismiss = { showDialog = false }
         )
     }
 }

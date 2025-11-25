@@ -126,7 +126,7 @@ fun QuestionDetailScreen(
                         }
                     }
                     val commentCount = detail?.commentCount
-                    if (commentCount != null) {
+                    if (commentCount != null && commentCount > 0) {
                         IconButton(onClick = { onCommentClick(id) }) {
                             Icon(
                                 contentDescription = stringResource(Res.string.comments),
@@ -285,13 +285,13 @@ fun DisplayOwner(
 ) {
     if (item.displayName.isBlank()) return
 
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(modifier = modifier.fillMaxWidth()) {
         OwnerCard(
             owner = item,
-            modifier = modifier.align(Alignment.CenterVertically)
+            modifier = Modifier.align(Alignment.CenterVertically)
         )
-        Spacer(modifier = modifier.width(5.dp))
-        Column(modifier = modifier.weight(1f)) {
+        Spacer(modifier = Modifier.width(5.dp))
+        Column(modifier = Modifier.weight(1f)) {
             TextMarkdown(text = item.displayName)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(

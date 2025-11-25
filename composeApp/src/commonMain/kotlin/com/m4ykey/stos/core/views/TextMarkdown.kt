@@ -163,7 +163,7 @@ fun TextMarkdown(
 
     Box(modifier = modifier.fillMaxWidth()) {
         Markdown(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             imageTransformer = coil3ImageTransfer,
             typography = customTypography,
             components = customComponents,

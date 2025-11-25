@@ -10,7 +10,6 @@ import com.m4ykey.stos.question.domain.model.Question
 class QuestionTagPaging(
     private val service : RemoteQuestionService,
     private val sort : String,
-    private val order : String,
     private val tagged : String
 ) : BasePagingSource<Question>() {
 
@@ -23,7 +22,6 @@ class QuestionTagPaging(
                 page = page,
                 pageSize = pageSize,
                 sort = sort,
-                order = order,
                 tagged = tagged
             )
         }.run {

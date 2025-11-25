@@ -30,12 +30,11 @@ class QuestionTagViewModel(
     fun getQuestionsTag(tag : String) : Flow<PagingData<Question>> {
         return tagFlowCache.getOrPut(tag) {
             _questionListState
-                .map { it.sort to it.order }
+                .map { it.sort }
                 .distinctUntilChanged()
                 .debounce(500L)
-                .flatMapLatest { (sort, order) ->
+                .flatMapLatest { sort ->
                     useCase.getQuestionsByTag(
-                        order = order.name,
                         sort = sort.name,
                         tagged = tag
                     )

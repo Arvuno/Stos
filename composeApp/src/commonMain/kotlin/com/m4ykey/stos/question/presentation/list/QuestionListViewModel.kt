@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
-import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -35,14 +33,10 @@ class QuestionListViewModel(
     val listUiEvent = _listUiEvent.asSharedFlow()
 
     private val _questionFlow = _questionListState
-        .map { it.sort to it.order }
+        .map { it.sort }
         .distinctUntilChanged()
-        .debounce(1000L)
-        .flatMapLatest { (sort, order) ->
-            useCase.getQuestions(
-                sort = sort.name,
-                order = order.name
-            )
+        .flatMapLatest { sort ->
+            useCase.getQuestions(sort = sort.name)
         }
         .cachedIn(viewModelScope)
 
@@ -52,7 +46,6 @@ class QuestionListViewModel(
         viewModelScope.launch {
             val event = when (action) {
                 is QuestionListAction.OnSortClick -> ListUiEvent.ChangeSort(action.sort)
-                is QuestionListAction.OnOrderClick -> ListUiEvent.ChangeOrder(action.order)
                 is QuestionListAction.OnQuestionClick -> ListUiEvent.OnQuestionClick(action.id)
             }
             _listUiEvent.emit(event)
@@ -61,10 +54,6 @@ class QuestionListViewModel(
 
     fun updateSort(sort : QuestionSort) {
         _questionListState.update { it.copy(sort = sort) }
-    }
-
-    fun updateOrder(order : QuestionOrder) {
-        _questionListState.update { it.copy(order = order) }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.m4ykey.stos.search.presentation
 
-import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 
 sealed interface SearchListAction {
@@ -8,5 +7,4 @@ sealed interface SearchListAction {
     data class OnTagClick(val tag : String) : SearchListAction
     data class OnSearchClick(val inTitle : String, val tag : String = "") : SearchListAction
     data class OnSortClick(val sort : QuestionSort) : SearchListAction
-    data class OnOrderClick(val order : QuestionOrder) : SearchListAction
 }

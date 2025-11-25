@@ -28,8 +28,7 @@ interface RemoteQuestionService {
         page : Int,
         pageSize : Int,
         filter : String = QUESTION_FILTER,
-        sort : String,
-        order : String
+        sort : String
     ) : Items<QuestionDto>
 
     suspend fun getQuestionById(
@@ -42,7 +41,6 @@ interface RemoteQuestionService {
         page : Int,
         pageSize : Int,
         sort : String,
-        order : String,
         tagged : String
     ) : Items<QuestionDto>
 

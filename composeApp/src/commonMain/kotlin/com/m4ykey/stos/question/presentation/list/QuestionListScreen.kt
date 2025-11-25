@@ -48,7 +48,6 @@ fun QuestionListScreen(
             when (event) {
                 is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
                 is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
-                is ListUiEvent.ChangeOrder -> viewModel.updateOrder(event.order)
             }
         }
     }

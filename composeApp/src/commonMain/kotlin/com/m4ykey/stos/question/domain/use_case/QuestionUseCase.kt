@@ -25,10 +25,9 @@ class QuestionUseCase(
         page : Int = 1,
         pageSize : Int = 20,
         sort : String,
-        order : String,
         tagged : String
     ) : Flow<PagingData<Question>> {
-        return repository.getQuestionsByTag(page = page, pageSize = pageSize, order = order, tagged = tagged, sort = sort)
+        return repository.getQuestionsByTag(page = page, pageSize = pageSize, tagged = tagged, sort = sort)
     }
 
     fun getQuestionsAnswer(
@@ -46,10 +45,9 @@ class QuestionUseCase(
     fun getQuestions(
         page : Int = 1,
         pageSize : Int = 20,
-        sort : String,
-        order : String
+        sort : String
     ) : Flow<PagingData<Question>> {
-        return repository.getQuestions(page, pageSize, sort, order)
+        return repository.getQuestions(page, pageSize, sort)
     }
 
 }

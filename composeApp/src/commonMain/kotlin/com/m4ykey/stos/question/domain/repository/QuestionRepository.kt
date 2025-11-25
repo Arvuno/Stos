@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuestionRepository {
 
-    fun getQuestions(page : Int, pageSize : Int, sort : String, order : String) : Flow<PagingData<Question>>
+    fun getQuestions(page : Int, pageSize : Int, sort : String) : Flow<PagingData<Question>>
     fun getQuestionById(id : Int) : Flow<ApiResult<QuestionDetail>>
     fun getQuestionsAnswer(id : Int) : Flow<ApiResult<List<QuestionAnswer>>>
-    fun getQuestionsByTag(page : Int, pageSize : Int, sort : String, order : String, tagged : String) : Flow<PagingData<Question>>
+    fun getQuestionsByTag(page : Int, pageSize : Int, sort : String, tagged : String) : Flow<PagingData<Question>>
     fun getQuestionsComment(page : Int, pageSize : Int, id : Int) : Flow<PagingData<QuestionComment>>
 
 }

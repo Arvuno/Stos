@@ -29,13 +29,12 @@ class RemoteQuestionRepository(
         page: Int,
         pageSize: Int,
         sort: String,
-        order: String,
         tagged: String
     ): Flow<PagingData<Question>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                QuestionTagPaging(order = order, sort = sort, service = remoteQuestionService, tagged = tagged)
+                QuestionTagPaging(sort = sort, service = remoteQuestionService, tagged = tagged)
             }
         ).flow.flowOn(dispatcherIO)
     }
@@ -84,13 +83,12 @@ class RemoteQuestionRepository(
     override fun getQuestions(
         page: Int,
         pageSize: Int,
-        sort: String,
-        order : String
+        sort: String
     ): Flow<PagingData<Question>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                QuestionPaging(service = remoteQuestionService, sort = sort, order = order)
+                QuestionPaging(service = remoteQuestionService, sort = sort)
             }
         ).flow.flowOn(dispatcherIO)
     }

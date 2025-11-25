@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.gms) apply false
+    alias(libs.plugins.crashlytics) apply false
 }

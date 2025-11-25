@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
-import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.search.data.model.QueryParameters
 import com.m4ykey.stos.search.data.model.TagSection
@@ -119,7 +118,6 @@ class SearchViewModel(
                 is SearchListAction.OnTagClick -> ListUiEvent.TagClick(action.tag)
                 is SearchListAction.OnSearchClick -> ListUiEvent.NavigateToSearch(action.inTitle, action.tag)
                 is SearchListAction.OnSortClick -> ListUiEvent.ChangeSort(action.sort)
-                is SearchListAction.OnOrderClick -> ListUiEvent.ChangeOrder(action.order)
             }
             _listUiEvent.emit(event)
         }
@@ -127,10 +125,6 @@ class SearchViewModel(
 
     fun updateSort(sort: QuestionSort) {
         _questionListState.update { it.copy(sort = sort) }
-    }
-
-    fun updateOrder(order : QuestionOrder) {
-        _questionListState.update { it.copy(order = order) }
     }
 
     fun searchQuestion(inTitle : String, tag : String) {

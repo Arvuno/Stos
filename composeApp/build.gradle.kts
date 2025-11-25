@@ -15,6 +15,12 @@ plugins {
     alias(libs.plugins.crashlytics)
 }
 
+val localProps = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
+val k : String = localProps.getProperty("k")
+
 val versionProperties = Properties().apply {
     load(rootProject.file("version.properties").inputStream())
 }
@@ -116,6 +122,8 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100
         versionName = "$versionMajor.$versionMinor.$versionPatch"
+
+        buildConfigField("String", "k", "\"${k}\"")
     }
     packaging {
         resources {
@@ -125,7 +133,11 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -135,6 +147,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -146,10 +159,19 @@ compose.desktop {
     application {
         mainClass = "com.m4ykey.stos.MainKt"
 
+        jvmArgs += listOf(
+            "-Xmx2g",
+            "-DAPP_API_KEY=$k"
+        )
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
             packageName = "com.m4ykey.stos"
             packageVersion = "$versionMajor.$versionMinor.$versionPatch"
+
+            macOS {
+                bundleID = "com.m4ykey.stos"
+            }
         }
     }
 }

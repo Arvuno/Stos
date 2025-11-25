@@ -74,7 +74,6 @@ fun SearchListScreen(
             when (event) {
                 is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
                 is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
-                is ListUiEvent.ChangeOrder -> viewModel.updateOrder(event.order)
             }
         }
     }

@@ -23,7 +23,7 @@ import kotlinx.serialization.json.Json
 object NetworkClient {
 
     private const val API_VERSION = "2.3"
-    private const val API_KEY = ""
+    private val API_KEY = API_KEY_VALUE
     private const val BASE_HOST = "api.stackexchange.com"
     private const val DEFAULT_SITE = "stackoverflow"
 
