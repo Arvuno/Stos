@@ -1,4 +1,4 @@
-package com.m4ykey.stos.question.presentation.list
+package com.m4ykey.stos.question.presentation.list.enums
 
 enum class QuestionSort {
     HOT,

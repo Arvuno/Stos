@@ -6,25 +6,29 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
-import com.m4ykey.stos.question.presentation.list.QuestionListState
-import com.m4ykey.stos.question.presentation.list.QuestionOrder
-import com.m4ykey.stos.question.presentation.list.QuestionSort
+import com.m4ykey.stos.question.presentation.list.state.QuestionListState
+import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
+import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.search.data.model.QueryParameters
 import com.m4ykey.stos.search.data.model.TagSection
+import com.m4ykey.stos.search.data.model.aiTags
 import com.m4ykey.stos.search.data.model.cloudTags
 import com.m4ykey.stos.search.data.model.databaseTags
 import com.m4ykey.stos.search.data.model.frameworksTags
 import com.m4ykey.stos.search.data.model.languageTags
 import com.m4ykey.stos.search.data.model.mobileTags
 import com.m4ykey.stos.search.data.model.testTags
+import com.m4ykey.stos.search.data.model.webTags
 import com.m4ykey.stos.search.domain.use_case.SearchUseCase
 import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.ai
 import kmp_stos.composeapp.generated.resources.cloud
 import kmp_stos.composeapp.generated.resources.database
 import kmp_stos.composeapp.generated.resources.framework
 import kmp_stos.composeapp.generated.resources.language
 import kmp_stos.composeapp.generated.resources.mobile
 import kmp_stos.composeapp.generated.resources.test
+import kmp_stos.composeapp.generated.resources.web
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -71,6 +75,14 @@ class SearchViewModel(
         TagSection(
             title = Res.string.language,
             tags = languageTags.shuffled().take(10)
+        ),
+        TagSection(
+            title = Res.string.web,
+            tags = webTags.shuffled().take(10)
+        ),
+        TagSection(
+            title = Res.string.ai,
+            tags = aiTags.shuffled().take(10)
         )
     )
 
@@ -80,7 +92,7 @@ class SearchViewModel(
     private val _searchFlow = combine(
         _questionListState,
         _searchQuery
-    ) { listState, queryState ->
+    ) { _, queryState ->
         QueryParameters(
             sort = "activity",
             inTitle = queryState.inTitle,

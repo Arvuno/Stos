@@ -1,5 +1,8 @@
 package com.m4ykey.stos.question.presentation.list
 
+import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
+import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
+
 interface ListUiEvent {
     data class ChangeSort(val sort: QuestionSort) : ListUiEvent
     data class OnQuestionClick(val id: Int) : ListUiEvent

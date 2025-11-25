@@ -16,5 +16,7 @@ data class QuestionDetailDto(
     @SerialName("question_id") val questionId : Int? = 0,
     @SerialName("body_markdown") val bodyMarkdown : String? = null,
     val link : String? = null,
-    val title : String? = null
+    val title : String? = null,
+    @SerialName("closed_details") val closedDetails : ClosedDetailsDto? = null,
+    @SerialName("comment_count") val commentCount : Int? = 0
 )

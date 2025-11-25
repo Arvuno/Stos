@@ -23,7 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.m4ykey.stos.question.presentation.list.QuestionOrder
+import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.ascending
 import kmp_stos.composeapp.generated.resources.descending

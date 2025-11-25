@@ -1,15 +1,32 @@
 package com.m4ykey.stos.question.data.mapper
 
 import com.m4ykey.stos.question.data.network.model.BadgeCountsDto
+import com.m4ykey.stos.question.data.network.model.ClosedDetailsDto
 import com.m4ykey.stos.question.data.network.model.QuestionAnswerDto
+import com.m4ykey.stos.question.data.network.model.QuestionCommentDto
 import com.m4ykey.stos.question.data.network.model.QuestionDetailDto
 import com.m4ykey.stos.question.data.network.model.QuestionDto
 import com.m4ykey.stos.question.data.network.model.QuestionOwnerDto
 import com.m4ykey.stos.question.domain.model.BadgeCounts
+import com.m4ykey.stos.question.domain.model.ClosedDetails
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
+import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.model.QuestionOwner
+
+fun QuestionCommentDto.toDomain() = QuestionComment(
+    body = body.orEmpty(),
+    bodyMarkdown = bodyMarkdown.orEmpty(),
+    creationDate = creationDate ?: 0,
+    owner = owner?.toDomain() ?: QuestionOwner.EMPTY
+)
+
+fun ClosedDetailsDto.toDomain() = ClosedDetails(
+    reason = reason.orEmpty(),
+    description = description.orEmpty(),
+    originalQuestion = originalQuestions.orEmpty()
+)
 
 fun QuestionAnswerDto.toDomain() = QuestionAnswer(
     answerId = answerId ?: 0,
@@ -43,7 +60,9 @@ fun QuestionDetailDto.toDomain() = QuestionDetail(
     viewCount = viewCount ?: 0,
     tags = tags.orEmpty(),
     upVoteCount = upVoteCount ?: 0,
-    owner = owner?.toDomain() ?: QuestionOwner.EMPTY
+    owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
+    closedDetails = closedDetails?.toDomain() ?: ClosedDetails.EMPTY,
+    commentCount = commentCount ?: 0
 )
 
 fun BadgeCountsDto.toDomain() = BadgeCounts(

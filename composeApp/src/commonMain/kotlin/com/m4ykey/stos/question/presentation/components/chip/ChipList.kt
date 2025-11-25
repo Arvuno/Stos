@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.m4ykey.stos.core.views.CenteredContent
-import com.m4ykey.stos.question.presentation.list.QuestionSort
+import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.activity
 import kmp_stos.composeapp.generated.resources.creation

@@ -28,6 +28,7 @@
 
     <string name="search">Szukaj</string>
     <string name="back">Wróć</string>
+    <string name="comments">Komentarze</string>
 
     <string name="popular_tags">Popularne Tagi</string>
 
@@ -41,4 +42,6 @@
     <string name="cloud">Chmura</string>
     <string name="framework">Framework</string>
     <string name="language">Języki</string>
+    <string name="web">Strony Internetowe</string>
+    <string name="ai">Sztuczna Inteligencja</string>
 </resources>

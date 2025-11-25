@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,9 +27,11 @@ import com.m4ykey.stos.core.views.BasePagingList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -89,7 +89,7 @@ fun SearchListScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             contentDescription = stringResource(Res.string.back),
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack
+                            painter = painterResource(Res.drawable.arrow_left)
                         )
                     }
                 }

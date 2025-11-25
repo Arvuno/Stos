@@ -28,6 +28,7 @@
 
     <string name="search">Search</string>
     <string name="back">Back</string>
+    <string name="comments">Comments</string>
 
     <string name="popular_tags">Popular Tags</string>
 
@@ -41,4 +42,6 @@
     <string name="cloud">Cloud</string>
     <string name="framework">Framework</string>
     <string name="language">Language</string>
+    <string name="web">Web</string>
+    <string name="AI">AI</string>
 </resources>

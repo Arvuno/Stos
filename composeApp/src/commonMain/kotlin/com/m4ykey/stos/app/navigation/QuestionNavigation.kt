@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.m4ykey.stos.question.presentation.detail.QuestionDetailScreen
+import com.m4ykey.stos.question.presentation.list.QuestionCommentListScreen
 import com.m4ykey.stos.question.presentation.list.QuestionListScreen
 import com.m4ykey.stos.question.presentation.tag.QuestionTagScreen
 
@@ -32,6 +33,9 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
             id = id,
             onTagClick = { tag ->
                 navHostController.navigate(Route.QuestionTag.route(tag))
+            },
+            onCommentClick = { id ->
+                navHostController.navigate(Route.QuestionComment.route(id))
             }
         )
     }
@@ -48,6 +52,15 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
                     launchSingleTop = true
                 }
             }
+        )
+    }
+    composable(
+        route = Route.QuestionComment.routeWithArgs,
+        arguments = Route.QuestionComment.arguments
+    ) { navBackStackEntry ->
+        val id = navBackStackEntry.savedStateHandle.get<Int>(Route.QuestionComment.getIdKey()) ?: return@composable
+        QuestionCommentListScreen(
+            id = id
         )
     }
 }

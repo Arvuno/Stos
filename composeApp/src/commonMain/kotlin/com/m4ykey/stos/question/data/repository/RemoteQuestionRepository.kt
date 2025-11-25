@@ -7,10 +7,12 @@ import com.m4ykey.stos.core.network.safeApi
 import com.m4ykey.stos.core.paging.pagingConfig
 import com.m4ykey.stos.question.data.mapper.toDomain
 import com.m4ykey.stos.question.data.network.RemoteQuestionService
+import com.m4ykey.stos.question.data.paging.QuestionCommentPaging
 import com.m4ykey.stos.question.data.paging.QuestionPaging
 import com.m4ykey.stos.question.data.paging.QuestionTagPaging
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
+import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.repository.QuestionRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,6 +36,19 @@ class RemoteQuestionRepository(
             config = pagingConfig,
             pagingSourceFactory = {
                 QuestionTagPaging(order = order, sort = sort, service = remoteQuestionService, tagged = tagged)
+            }
+        ).flow.flowOn(dispatcherIO)
+    }
+
+    override fun getQuestionsComment(
+        page: Int,
+        pageSize: Int,
+        id: Int
+    ): Flow<PagingData<QuestionComment>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                QuestionCommentPaging(id = id, service = remoteQuestionService)
             }
         ).flow.flowOn(dispatcherIO)
     }

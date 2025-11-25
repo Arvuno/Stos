@@ -17,13 +17,15 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Public
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -33,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -47,17 +50,21 @@ import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.model.QuestionOwner
 import com.m4ykey.stos.question.presentation.components.AnswerItem
 import com.m4ykey.stos.question.presentation.components.ErrorCard
-import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.components.QuestionStatsRow
 import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
+import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answers
+import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.asked
 import kmp_stos.composeapp.generated.resources.back
+import kmp_stos.composeapp.generated.resources.comment
+import kmp_stos.composeapp.generated.resources.comments
 import kmp_stos.composeapp.generated.resources.link
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -66,8 +73,9 @@ import org.koin.compose.viewmodel.koinViewModel
 fun QuestionDetailScreen(
     id : Int,
     viewModel : QuestionDetailViewModel = koinViewModel(),
-    onBack : (() -> Unit),
-    onTagClick : (String) -> Unit
+    onBack : () -> Unit,
+    onTagClick : (String) -> Unit,
+    onCommentClick : (Int) -> Unit
 ) {
     val detailState by viewModel.questionDetailState.collectAsStateWithLifecycle()
     val answerState by viewModel.questionAnswerState.collectAsStateWithLifecycle()
@@ -83,7 +91,7 @@ fun QuestionDetailScreen(
 
     val onAction = viewModel::onAction
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel) {
         viewModel.detailUiEvent.collectLatest { event ->
             if (event is DetailUiEvent.TagClick) onTagClick(event.tag)
         }
@@ -103,7 +111,7 @@ fun QuestionDetailScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             contentDescription = stringResource(resource = Res.string.back),
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack
+                            painter = painterResource(Res.drawable.arrow_left)
                         )
                     }
                 },
@@ -114,6 +122,15 @@ fun QuestionDetailScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Public,
                                 contentDescription = stringResource(Res.string.link)
+                            )
+                        }
+                    }
+                    val commentCount = detail?.commentCount
+                    if (commentCount != null) {
+                        IconButton(onClick = { onCommentClick(id) }) {
+                            Icon(
+                                contentDescription = stringResource(Res.string.comments),
+                                painter = painterResource(Res.drawable.comment)
                             )
                         }
                     }
@@ -152,6 +169,41 @@ fun QuestionDetailScreen(
 }
 
 @Composable
+fun ClosedDetailCard(
+    reason : String,
+    description : String,
+    cardColor : Color = Color.Red,
+    contentColor : Color = Color.White
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = cardColor,
+            contentColor = contentColor
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = reason,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            TextMarkdown(
+                text = description
+            )
+        }
+    }
+}
+
+@Composable
 fun QuestionDetailContent(
     modifier : Modifier = Modifier,
     item : QuestionDetail,
@@ -165,6 +217,14 @@ fun QuestionDetailContent(
         modifier = modifier.padding(paddingValues = paddingValues).padding(horizontal = 10.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        item {
+            if (item.closedDetails.reason.isNotBlank() || item.closedDetails.description.isNotBlank()) {
+                ClosedDetailCard(
+                    reason = item.closedDetails.reason,
+                    description = item.closedDetails.description
+                )
+            }
+        }
         item {
             TextMarkdown(
                 text = item.title,
@@ -200,7 +260,7 @@ fun QuestionDetailContent(
         item {
             Text(
                 text = "${stringResource(resource = Res.string.answers)}: ${item.answerCount}",
-                fontSize = 14.sp
+                fontSize = 16.sp
             )
         }
         items(

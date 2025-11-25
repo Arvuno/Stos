@@ -13,10 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,10 +42,13 @@ import androidx.compose.ui.unit.sp
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
+import kmp_stos.composeapp.generated.resources.close
 import kmp_stos.composeapp.generated.resources.popular_tags
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -82,7 +81,7 @@ fun SearchScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            painter = painterResource(Res.drawable.arrow_left),
                             contentDescription = stringResource(Res.string.back)
                         )
                     }
@@ -210,7 +209,7 @@ fun SearchBox(
         leadingIcon = {
             Icon(
                 contentDescription = null,
-                imageVector = Icons.Default.Search
+                painter = painterResource(Res.drawable.search)
             )
         },
         singleLine = true,
@@ -219,7 +218,7 @@ fun SearchBox(
                 IconButton(onClick = { onValueChange("") }) {
                     Icon(
                         contentDescription = null,
-                        imageVector = Icons.Default.Close
+                        painter = painterResource(Res.drawable.close)
                     )
                 }
             }

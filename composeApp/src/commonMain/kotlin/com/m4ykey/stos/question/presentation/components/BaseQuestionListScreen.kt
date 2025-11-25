@@ -6,9 +6,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Reorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -30,11 +28,14 @@ import androidx.paging.compose.LazyPagingItems
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.list.QuestionListAction
 import com.m4ykey.stos.question.presentation.list.QuestionListContent
-import com.m4ykey.stos.question.presentation.list.QuestionListState
+import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
+import kmp_stos.composeapp.generated.resources.menu
 import kmp_stos.composeapp.generated.resources.order
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,7 +75,7 @@ fun BaseQuestionListScreen(
                         IconButton(onClick = it) {
                             Icon(
                                 contentDescription = stringResource(Res.string.back),
-                                imageVector = Icons.AutoMirrored.Default.ArrowBack
+                                painter = painterResource(Res.drawable.arrow_left)
                             )
                         }
                     }
@@ -83,7 +84,7 @@ fun BaseQuestionListScreen(
                     IconButton(onClick = { showDialog = true }) {
                         Icon(
                             contentDescription = stringResource(Res.string.order),
-                            imageVector = Icons.Default.Reorder
+                            painter = painterResource(Res.drawable.menu)
                         )
                     }
                     actions()

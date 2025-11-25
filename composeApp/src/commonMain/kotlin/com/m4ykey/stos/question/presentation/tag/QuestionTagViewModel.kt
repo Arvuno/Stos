@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
-import com.m4ykey.stos.question.presentation.list.QuestionListState
+import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

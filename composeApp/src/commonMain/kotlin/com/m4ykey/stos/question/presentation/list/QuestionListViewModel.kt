@@ -5,7 +5,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.Question
+import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
+import com.m4ykey.stos.question.presentation.list.enums.QuestionOrder
+import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
+import com.m4ykey.stos.question.presentation.list.state.QuestionCommentState
+import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -28,8 +33,16 @@ class QuestionListViewModel(
     private val _questionListState = MutableStateFlow(QuestionListState())
     val questionListState = _questionListState.asStateFlow()
 
+    private val _questionCommentState = MutableStateFlow(QuestionCommentState())
+    val questionCommentState = _questionCommentState.asStateFlow()
+
     private val _listUiEvent = MutableSharedFlow<ListUiEvent>()
     val listUiEvent = _listUiEvent.asSharedFlow()
+
+    fun getQuestionComment(id : Int) : Flow<PagingData<QuestionComment>> {
+        return useCase.getQuestionComment(id = id)
+            .cachedIn(viewModelScope)
+    }
 
     private val _questionFlow = _questionListState
         .map { it.sort to it.order }

@@ -37,6 +37,20 @@ sealed class Route(val route : String) {
         fun getIdTag() : String = ID_TAG
     }
 
+    object QuestionComment {
+        private const val ID_KEY = "id"
+        const val base = "question_comment"
+
+        const val routeWithArgs = "$base/{$ID_KEY}"
+
+        val arguments = listOf(
+            navArgument(ID_KEY) { type = NavType.IntType }
+        )
+
+        fun route(id : Int) = "$base/$id"
+        fun getIdKey() : String = ID_KEY
+    }
+
     object SearchList {
         private const val ID_TAG = "tag"
         private const val ID_IN_TITLE = "inTitle"

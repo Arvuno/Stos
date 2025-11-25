@@ -8,15 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
@@ -24,11 +22,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.stos.core.views.BasePagingList
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.BaseQuestionListScreen
-import com.m4ykey.stos.question.presentation.components.chip.ChipList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
+import com.m4ykey.stos.question.presentation.components.chip.ChipList
+import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -62,7 +62,7 @@ fun QuestionListScreen(
             IconButton(onClick = onSearch) {
                 Icon(
                     contentDescription = stringResource(Res.string.search),
-                    imageVector = Icons.Default.Search
+                    painter = painterResource(Res.drawable.search)
                 )
             }
         }

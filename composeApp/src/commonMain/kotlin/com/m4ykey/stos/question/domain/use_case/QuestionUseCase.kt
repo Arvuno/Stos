@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
+import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.repository.QuestionRepository
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,14 @@ import kotlinx.coroutines.flow.Flow
 class QuestionUseCase(
     private val repository: QuestionRepository
 ) {
+
+    fun getQuestionComment(
+        page : Int = 1,
+        pageSize: Int = 20,
+        id : Int
+    ) : Flow<PagingData<QuestionComment>> {
+        return repository.getQuestionsComment(page = page, id = id, pageSize = pageSize)
+    }
 
     fun getQuestionsByTag(
         page : Int = 1,

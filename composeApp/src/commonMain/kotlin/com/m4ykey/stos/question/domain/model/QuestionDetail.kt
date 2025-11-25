@@ -12,5 +12,7 @@ data class QuestionDetail(
     val questionId : Int,
     val bodyMarkdown : String,
     val link : String,
-    val title : String
+    val title : String,
+    val closedDetails: ClosedDetails,
+    val commentCount : Int
 )
