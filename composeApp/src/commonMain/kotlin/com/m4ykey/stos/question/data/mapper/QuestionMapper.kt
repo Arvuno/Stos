@@ -19,7 +19,8 @@ fun QuestionCommentDto.toDomain() = QuestionComment(
     body = body.orEmpty(),
     bodyMarkdown = bodyMarkdown.orEmpty(),
     creationDate = creationDate ?: 0,
-    owner = owner?.toDomain() ?: QuestionOwner.EMPTY
+    owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
+    commentId = commentId ?: 0
 )
 
 fun ClosedDetailsDto.toDomain() = ClosedDetails(

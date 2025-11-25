@@ -283,6 +283,8 @@ fun DisplayOwner(
     modifier : Modifier = Modifier,
     item: QuestionOwner
 ) {
+    if (item.displayName.isBlank()) return
+
     Row(modifier = Modifier.fillMaxWidth()) {
         OwnerCard(
             owner = item,

@@ -1,5 +1,6 @@
 package com.m4ykey.stos.di
 
+import com.m4ykey.stos.question.presentation.comment.QuestionCommentViewModel
 import com.m4ykey.stos.question.presentation.detail.QuestionDetailViewModel
 import com.m4ykey.stos.question.presentation.list.QuestionListViewModel
 import com.m4ykey.stos.question.presentation.tag.QuestionTagViewModel
@@ -12,4 +13,5 @@ val viewModelModule = module {
     viewModel { QuestionDetailViewModel(get()) }
     viewModel { QuestionTagViewModel(get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { QuestionCommentViewModel(get()) }
 }
