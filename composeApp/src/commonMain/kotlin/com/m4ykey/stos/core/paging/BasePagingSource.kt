@@ -1,6 +1,7 @@
 package com.m4ykey.stos.core.paging
 
-import androidx.paging.*
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 

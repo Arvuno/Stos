@@ -171,17 +171,15 @@ fun QuestionDetailScreen(
 @Composable
 fun ClosedDetailCard(
     reason : String,
-    description : String,
-    cardColor : Color = Color.Red,
-    contentColor : Color = Color.White
+    description : String
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = cardColor,
-            contentColor = contentColor
+            containerColor = Color.Red,
+            contentColor = Color.White
         )
     ) {
         Column(

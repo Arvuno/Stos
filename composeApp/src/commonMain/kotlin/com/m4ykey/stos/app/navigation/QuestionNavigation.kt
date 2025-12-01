@@ -3,8 +3,8 @@ package com.m4ykey.stos.app.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.m4ykey.stos.question.presentation.detail.QuestionDetailScreen
 import com.m4ykey.stos.question.presentation.comment.QuestionCommentListScreen
+import com.m4ykey.stos.question.presentation.detail.QuestionDetailScreen
 import com.m4ykey.stos.question.presentation.list.QuestionListScreen
 import com.m4ykey.stos.question.presentation.tag.QuestionTagScreen
 

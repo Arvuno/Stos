@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -106,7 +107,8 @@ fun TextMarkdown(
     text : String,
     modifier : Modifier = Modifier,
     fontSize : TextUnit = 16.sp,
-    fontWeight: FontWeight = FontWeight.Normal
+    fontWeight: FontWeight = FontWeight.Normal,
+    color : Color = LocalContentColor.current
 ) {
     val isDarkTheme = isSystemInDarkTheme()
 
@@ -143,7 +145,11 @@ fun TextMarkdown(
             override val h4 = TextStyle(fontSize = fontSize * 1.1f, fontWeight = fontWeight)
             override val h5 = TextStyle(fontSize = fontSize, fontWeight = fontWeight)
             override val h6 = TextStyle(fontSize = fontSize * 0.9f, fontWeight = fontWeight)
-            override val paragraph = TextStyle(fontSize = fontSize, fontWeight = fontWeight)
+            override val paragraph = TextStyle(
+                fontSize = fontSize,
+                fontWeight = fontWeight,
+                color = color
+            )
             override val text = paragraph
             override val bullet = paragraph
             override val list = paragraph
