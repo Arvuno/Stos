@@ -55,6 +55,7 @@ import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
+import com.mikepenz.markdown.compose.elements.MarkdownText
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answers
 import kmp_stos.composeapp.generated.resources.arrow_left
@@ -63,6 +64,7 @@ import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.closed
 import kmp_stos.composeapp.generated.resources.comment
 import kmp_stos.composeapp.generated.resources.comments
+import kmp_stos.composeapp.generated.resources.last_edited_by
 import kmp_stos.composeapp.generated.resources.link
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
@@ -241,6 +243,16 @@ fun QuestionDetailContent(
             )
         }
         item { TextMarkdown(text = item.bodyMarkdown) }
+
+        item {
+            if (item.lastEditor.displayName.isNotBlank()) {
+                TextMarkdown(
+                    fontSize = 15.sp,
+                    text = "*${stringResource(Res.string.last_edited_by)}: ${item.lastEditor.displayName}*"
+                )
+            }
+        }
+
         item {
             TagListWrap(
                 tags = item.tags,
@@ -298,7 +310,7 @@ fun DisplayOwner(
             owner = item,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(10.dp))
         Column(modifier = Modifier.weight(1f)) {
             TextMarkdown(text = item.displayName)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

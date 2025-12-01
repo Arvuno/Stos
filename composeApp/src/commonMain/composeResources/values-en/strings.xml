@@ -39,4 +39,5 @@
     <string name="web">Web</string>
     <string name="ai">AI</string>
     <string name="closed">Closed</string>
+    <string name="last_edited_by">Last edited by</string>
 </resources>
