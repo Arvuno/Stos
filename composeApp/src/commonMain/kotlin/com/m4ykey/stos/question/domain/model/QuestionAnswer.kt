@@ -6,5 +6,6 @@ data class QuestionAnswer(
     val owner : QuestionOwner,
     val downVoteCount : Int,
     val answerId : Int,
-    val upVoteCount : Int
+    val upVoteCount : Int,
+    val isAccepted : Boolean
 )

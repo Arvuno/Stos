@@ -60,6 +60,7 @@ import kmp_stos.composeapp.generated.resources.answers
 import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.asked
 import kmp_stos.composeapp.generated.resources.back
+import kmp_stos.composeapp.generated.resources.closed
 import kmp_stos.composeapp.generated.resources.comment
 import kmp_stos.composeapp.generated.resources.comments
 import kmp_stos.composeapp.generated.resources.link
@@ -171,8 +172,11 @@ fun QuestionDetailScreen(
 @Composable
 fun ClosedDetailCard(
     reason : String,
-    description : String
+    description : String,
+    closedDate : Int
 ) {
+    val closedDate = formatCreationDate(closedDate.toLong())
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -197,6 +201,11 @@ fun ClosedDetailCard(
             TextMarkdown(
                 text = description
             )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = "${stringResource(Res.string.closed)}: $closedDate",
+                fontSize = 13.sp
+            )
         }
     }
 }
@@ -219,7 +228,8 @@ fun QuestionDetailContent(
             if (item.closedDetails.reason.isNotBlank() || item.closedDetails.description.isNotBlank()) {
                 ClosedDetailCard(
                     reason = item.closedDetails.reason,
-                    description = item.closedDetails.description
+                    description = item.closedDetails.description,
+                    closedDate = item.closedDate
                 )
             }
         }

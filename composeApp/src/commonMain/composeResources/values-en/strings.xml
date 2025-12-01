@@ -9,7 +9,6 @@
     <string name="unauthorized">Unauthorized</string>
     <string name="unknown_error">Unknown error</string>
     <string name="unresolved_string">Unresolved string</string>
-
     <string name="hot">Hot</string>
     <string name="activity">Activity</string>
     <string name="votes">Votes</string>
@@ -20,22 +19,17 @@
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="select_order">Select order</string>
-
     <string name="min">min.</string>
     <string name="days">days</string>
     <string name="sec">sec.</string>
     <string name="hours">h</string>
-
     <string name="search">Search</string>
     <string name="back">Back</string>
     <string name="comments">Comments</string>
-
     <string name="popular_tags">Popular Tags</string>
-
     <string name="asked">Asked</string>
     <string name="answers">Answers</string>
     <string name="link">Link</string>
-
     <string name="mobile">Mobile</string>
     <string name="database">Database</string>
     <string name="test">Test</string>
@@ -43,5 +37,6 @@
     <string name="framework">Framework</string>
     <string name="language">Language</string>
     <string name="web">Web</string>
-    <string name="AI">AI</string>
+    <string name="ai">AI</string>
+    <string name="closed">Closed</string>
 </resources>

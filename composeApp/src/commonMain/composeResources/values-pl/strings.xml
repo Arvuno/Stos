@@ -9,7 +9,6 @@
     <string name="unauthorized">Nieautoryzowany</string>
     <string name="unknown_error">Nieznany błąd</string>
     <string name="unresolved_string">Nierozwiązany ciąg znaków</string>
-
     <string name="hot">Gorące</string>
     <string name="activity">Aktywność</string>
     <string name="votes">Głosy</string>
@@ -20,22 +19,17 @@
     <string name="ascending">Rosnąco</string>
     <string name="descending">Malejąco</string>
     <string name="select_order">Wybierz kolejność</string>
-
     <string name="min">min.</string>
     <string name="days">dni</string>
     <string name="sec">sek</string>
     <string name="hours">godz.</string>
-
     <string name="search">Szukaj</string>
     <string name="back">Wróć</string>
     <string name="comments">Komentarze</string>
-
     <string name="popular_tags">Popularne Tagi</string>
-
     <string name="asked">Zapytano</string>
     <string name="answers">Odpowiedzi</string>
     <string name="link">Link</string>
-
     <string name="mobile">Mobilne</string>
     <string name="database">Bazy Danych</string>
     <string name="test">Test</string>
@@ -44,4 +38,5 @@
     <string name="language">Języki</string>
     <string name="web">Strony Internetowe</string>
     <string name="ai">Sztuczna Inteligencja</string>
+    <string name="closed">Zamknięto</string>
 </resources>

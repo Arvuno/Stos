@@ -1,4 +1,4 @@
-package com.m4ykey.stos.question.data.network.model
+package com.m4ykey.stos.question.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

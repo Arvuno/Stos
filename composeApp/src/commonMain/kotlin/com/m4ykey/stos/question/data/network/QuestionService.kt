@@ -2,10 +2,10 @@ package com.m4ykey.stos.question.data.network
 
 import com.m4ykey.stos.core.model.Items
 import com.m4ykey.stos.core.network.setParameters
-import com.m4ykey.stos.question.data.network.model.QuestionAnswerDto
-import com.m4ykey.stos.question.data.network.model.QuestionCommentDto
-import com.m4ykey.stos.question.data.network.model.QuestionDetailDto
-import com.m4ykey.stos.question.data.network.model.QuestionDto
+import com.m4ykey.stos.question.data.network.dto.QuestionAnswerDto
+import com.m4ykey.stos.question.data.network.dto.QuestionCommentDto
+import com.m4ykey.stos.question.data.network.dto.QuestionDetailDto
+import com.m4ykey.stos.question.data.network.dto.QuestionDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

@@ -44,8 +44,6 @@ fun SearchListScreen(
     viewModel: SearchViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit
 ) {
-    //val viewState by viewModel.questionListState.collectAsState()
-    //val onAction = viewModel::onAction
     val questions = viewModel.searchResults.collectAsLazyPagingItems()
 
     val initialSearchText = buildString {
@@ -69,7 +67,7 @@ fun SearchListScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel) {
         viewModel.listUiEvent.collectLatest { event ->
             when (event) {
                 is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
@@ -102,9 +100,7 @@ fun SearchListScreen(
         ) {
             SearchBox(
                 value = searchText,
-                onSearch = {
-
-                },
+                onSearch = { viewModel.searchQuestion(searchText, "") },
                 onValueChange = { searchText = it },
                 modifier = Modifier.padding(horizontal = 10.dp)
             )

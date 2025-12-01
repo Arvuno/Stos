@@ -1,12 +1,12 @@
 package com.m4ykey.stos.question.data.mapper
 
-import com.m4ykey.stos.question.data.network.model.BadgeCountsDto
-import com.m4ykey.stos.question.data.network.model.ClosedDetailsDto
-import com.m4ykey.stos.question.data.network.model.QuestionAnswerDto
-import com.m4ykey.stos.question.data.network.model.QuestionCommentDto
-import com.m4ykey.stos.question.data.network.model.QuestionDetailDto
-import com.m4ykey.stos.question.data.network.model.QuestionDto
-import com.m4ykey.stos.question.data.network.model.QuestionOwnerDto
+import com.m4ykey.stos.question.data.network.dto.BadgeCountsDto
+import com.m4ykey.stos.question.data.network.dto.ClosedDetailsDto
+import com.m4ykey.stos.question.data.network.dto.QuestionAnswerDto
+import com.m4ykey.stos.question.data.network.dto.QuestionCommentDto
+import com.m4ykey.stos.question.data.network.dto.QuestionDetailDto
+import com.m4ykey.stos.question.data.network.dto.QuestionDto
+import com.m4ykey.stos.question.data.network.dto.QuestionOwnerDto
 import com.m4ykey.stos.question.domain.model.BadgeCounts
 import com.m4ykey.stos.question.domain.model.ClosedDetails
 import com.m4ykey.stos.question.domain.model.Question
@@ -35,7 +35,8 @@ fun QuestionAnswerDto.toDomain() = QuestionAnswer(
     creationDate = creationDate ?: 0,
     downVoteCount = downVoteCount ?: 0,
     upVoteCount = upVoteCount ?: 0,
-    owner = owner?.toDomain() ?: QuestionOwner.EMPTY
+    owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
+    isAccepted = isAccepted
 )
 
 fun QuestionDetail.toQuestion() = Question(
@@ -65,7 +66,8 @@ fun QuestionDetailDto.toDomain() = QuestionDetail(
     closedDetails = closedDetails?.toDomain() ?: ClosedDetails.EMPTY,
     commentCount = commentCount ?: 0,
     lastEditor = lastEditor?.toDomain() ?: QuestionOwner.EMPTY,
-    lastEditDate = lastEditDate ?: 0
+    lastEditDate = lastEditDate ?: 0,
+    closedDate = closedDate ?: 0
 )
 
 fun BadgeCountsDto.toDomain() = BadgeCounts(

@@ -1,4 +1,4 @@
-package com.m4ykey.stos.question.data.network.model
+package com.m4ykey.stos.question.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -10,5 +10,6 @@ data class QuestionAnswerDto(
     val owner : QuestionOwnerDto? = null,
     @SerialName("down_vote_count") val downVoteCount : Int? = 0,
     @SerialName("answer_id") val answerId : Int? = 0,
-    @SerialName("up_vote_count") val upVoteCount : Int? = 0
+    @SerialName("up_vote_count") val upVoteCount : Int? = 0,
+    @SerialName("is_accepted") val isAccepted : Boolean = false
 )
