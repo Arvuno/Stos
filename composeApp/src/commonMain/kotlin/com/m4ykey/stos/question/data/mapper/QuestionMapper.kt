@@ -36,7 +36,8 @@ fun QuestionAnswerDto.toDomain() = QuestionAnswer(
     downVoteCount = downVoteCount ?: 0,
     upVoteCount = upVoteCount ?: 0,
     owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
-    isAccepted = isAccepted
+    isAccepted = isAccepted,
+    commentCount = commentCount ?: 0
 )
 
 fun QuestionDetail.toQuestion() = Question(

@@ -4,7 +4,7 @@ import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
 import com.m4ykey.stos.core.paging.BasePagingSource
 import com.m4ykey.stos.question.data.mapper.toDomain
-import com.m4ykey.stos.question.data.network.RemoteQuestionService
+import com.m4ykey.stos.question.data.network.service.RemoteQuestionService
 import com.m4ykey.stos.question.domain.model.Question
 
 class QuestionTagPaging(

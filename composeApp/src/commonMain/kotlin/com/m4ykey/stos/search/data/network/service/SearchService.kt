@@ -1,4 +1,4 @@
-package com.m4ykey.stos.search.data.network
+package com.m4ykey.stos.search.data.network.service
 
 import com.m4ykey.stos.core.model.Items
 import com.m4ykey.stos.core.network.setParameters

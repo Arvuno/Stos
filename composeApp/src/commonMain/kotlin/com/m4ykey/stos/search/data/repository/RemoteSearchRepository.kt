@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.m4ykey.stos.core.paging.pagingConfig
 import com.m4ykey.stos.question.domain.model.Question
-import com.m4ykey.stos.search.data.network.RemoteSearchService
+import com.m4ykey.stos.search.data.network.service.RemoteSearchService
 import com.m4ykey.stos.search.data.paging.SearchPaging
 import com.m4ykey.stos.search.domain.repository.SearchRepository
 import kotlinx.coroutines.CoroutineDispatcher

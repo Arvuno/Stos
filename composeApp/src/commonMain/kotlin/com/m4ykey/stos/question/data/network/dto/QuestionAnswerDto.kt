@@ -11,5 +11,6 @@ data class QuestionAnswerDto(
     @SerialName("down_vote_count") val downVoteCount : Int? = 0,
     @SerialName("answer_id") val answerId : Int? = 0,
     @SerialName("up_vote_count") val upVoteCount : Int? = 0,
-    @SerialName("is_accepted") val isAccepted : Boolean = false
+    @SerialName("is_accepted") val isAccepted : Boolean = false,
+    @SerialName("comment_count") val commentCount : Int? = 0
 )

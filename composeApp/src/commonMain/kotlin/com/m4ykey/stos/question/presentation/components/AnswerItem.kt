@@ -13,24 +13,48 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.stos.answer.domain.model.AnswerComment
+import com.m4ykey.stos.answer.presentation.components.CommentSection
+import com.m4ykey.stos.answer.presentation.components.CommentToggleRow
 import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionOwner
 import com.m4ykey.stos.question.presentation.detail.DisplayOwner
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.votes
+import kotlinx.coroutines.flow.Flow
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AnswerItem(
     answer : QuestionAnswer,
-    owner : QuestionOwner
+    owner : QuestionOwner,
+    onLoadComments : (id : Int) -> Flow<PagingData<AnswerComment>>
 ) {
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+
+    val commentsFlow : Flow<PagingData<AnswerComment>> = remember(answer.answerId) {
+        onLoadComments(answer.answerId)
+    }
+
+    val commentsPaging = if (isExpanded) {
+        commentsFlow.collectAsLazyPagingItems()
+    } else {
+        null
+    }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(5.dp)
@@ -59,5 +83,16 @@ fun AnswerItem(
             fontSize = 14.sp
         )
         TextMarkdown(text = answer.bodyMarkdown)
+        if (answer.commentCount > 0) {
+            CommentToggleRow(
+                isExpanded = isExpanded,
+                commentCount = answer.commentCount,
+                onClick = { isExpanded = !isExpanded }
+            )
+        }
+
+        if (isExpanded && commentsPaging != null) {
+            CommentSection(commentsPaging)
+        }
     }
 }

@@ -1,23 +1,23 @@
-package com.m4ykey.stos.question.data.paging
+package com.m4ykey.stos.answer.data.paging
 
+import com.m4ykey.stos.answer.data.mapper.toDomain
+import com.m4ykey.stos.answer.data.network.service.RemoteAnswerService
+import com.m4ykey.stos.answer.domain.model.AnswerComment
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
 import com.m4ykey.stos.core.paging.BasePagingSource
-import com.m4ykey.stos.question.data.mapper.toDomain
-import com.m4ykey.stos.question.data.network.service.RemoteQuestionService
-import com.m4ykey.stos.question.domain.model.QuestionComment
 
-class QuestionCommentPaging(
-    private val service : RemoteQuestionService,
+class AnswerCommentPaging(
+    private val service : RemoteAnswerService,
     private val id : Int
-) : BasePagingSource<QuestionComment>() {
+) : BasePagingSource<AnswerComment>() {
 
     override suspend fun loadData(
         page: Int,
         pageSize: Int
-    ): Result<List<QuestionComment>> {
+    ): Result<List<AnswerComment>> {
         return safeApi {
-            service.getQuestionComments(
+            service.getCommentAnswer(
                 page = page,
                 pageSize = pageSize,
                 id = id
@@ -32,4 +32,5 @@ class QuestionCommentPaging(
             }
         }
     }
+
 }

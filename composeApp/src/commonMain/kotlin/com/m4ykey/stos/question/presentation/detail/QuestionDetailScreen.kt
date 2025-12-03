@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.m4ykey.stos.answer.presentation.AnswerViewModel
 import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.owner.presentation.components.OwnerCard
@@ -55,7 +56,6 @@ import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
-import com.mikepenz.markdown.compose.elements.MarkdownText
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answers
 import kmp_stos.composeapp.generated.resources.arrow_left
@@ -78,7 +78,8 @@ fun QuestionDetailScreen(
     viewModel : QuestionDetailViewModel = koinViewModel(),
     onBack : () -> Unit,
     onTagClick : (String) -> Unit,
-    onCommentClick : (Int) -> Unit
+    onCommentClick : (Int) -> Unit,
+    answerViewModel : AnswerViewModel = koinViewModel()
 ) {
     val detailState by viewModel.questionDetailState.collectAsStateWithLifecycle()
     val answerState by viewModel.questionAnswerState.collectAsStateWithLifecycle()
@@ -156,7 +157,8 @@ fun QuestionDetailScreen(
                         listState = listState,
                         answers = answers,
                         onAction = onAction,
-                        paddingValues = padding
+                        paddingValues = padding,
+                        answerViewModel = answerViewModel
                     )
                 }
                 else -> {
@@ -219,7 +221,8 @@ fun QuestionDetailContent(
     paddingValues: PaddingValues,
     listState : LazyListState,
     answers : List<QuestionAnswer>,
-    onAction: (QuestionDetailAction) -> Unit
+    onAction: (QuestionDetailAction) -> Unit,
+    answerViewModel: AnswerViewModel
 ) {
     LazyColumn(
         state = listState,
@@ -290,7 +293,11 @@ fun QuestionDetailContent(
         ) { answer ->
             AnswerItem(
                 answer = answer,
-                owner = answer.owner
+                owner = answer.owner,
+                onLoadComments = { answerId ->
+                    answerViewModel.loadCommentAnswer(answerId)
+                    answerViewModel.comments
+                }
             )
             Spacer(modifier = Modifier.height(5.dp))
             HorizontalDivider(modifier = Modifier.padding(horizontal = 5.dp))

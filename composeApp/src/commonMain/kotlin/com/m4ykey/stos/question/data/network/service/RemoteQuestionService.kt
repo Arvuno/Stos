@@ -1,4 +1,4 @@
-package com.m4ykey.stos.question.data.network
+package com.m4ykey.stos.question.data.network.service
 
 import com.m4ykey.stos.core.Filters.QUESTION_ANSWER_FILTER
 import com.m4ykey.stos.core.Filters.QUESTION_COMMENTS

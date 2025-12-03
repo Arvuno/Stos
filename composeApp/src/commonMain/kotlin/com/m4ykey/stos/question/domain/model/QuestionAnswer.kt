@@ -7,5 +7,6 @@ data class QuestionAnswer(
     val downVoteCount : Int,
     val answerId : Int,
     val upVoteCount : Int,
-    val isAccepted : Boolean
+    val isAccepted : Boolean,
+    val commentCount : Int
 )

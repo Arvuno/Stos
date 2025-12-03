@@ -5,7 +5,7 @@ import com.m4ykey.stos.core.network.safeApi
 import com.m4ykey.stos.core.paging.BasePagingSource
 import com.m4ykey.stos.question.data.mapper.toDomain
 import com.m4ykey.stos.question.domain.model.Question
-import com.m4ykey.stos.search.data.network.RemoteSearchService
+import com.m4ykey.stos.search.data.network.service.RemoteSearchService
 
 class SearchPaging(
     private val service : RemoteSearchService,
