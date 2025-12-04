@@ -15,5 +15,6 @@ interface QuestionRepository {
     fun getQuestionsAnswer(id : Int) : Flow<ApiResult<List<QuestionAnswer>>>
     fun getQuestionsByTag(page : Int, pageSize : Int, sort : String, tagged : String) : Flow<PagingData<Question>>
     fun getQuestionsComment(page : Int, pageSize : Int, id : Int) : Flow<PagingData<QuestionComment>>
+    fun getRelatedQuestions(page : Int, pageSize : Int, id : Int, sort : String) : Flow<PagingData<Question>>
 
 }

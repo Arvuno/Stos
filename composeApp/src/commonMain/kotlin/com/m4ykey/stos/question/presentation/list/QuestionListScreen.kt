@@ -77,7 +77,8 @@ fun QuestionListContent(
     padding : PaddingValues,
     questions : LazyPagingItems<Question>,
     onAction : (QuestionListAction) -> Unit,
-    onQuestionClick: (Int) -> Unit
+    onQuestionClick: (Int) -> Unit,
+    availableSorts : List<QuestionSort> = QuestionSort.entries
 ) {
 
     val coroutineScope = rememberCoroutineScope()
@@ -95,7 +96,8 @@ fun QuestionListContent(
                     listState.animateScrollToItem(0)
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            availableSorts = availableSorts
         )
         Spacer(modifier = Modifier.height(8.dp))
         BasePagingList(

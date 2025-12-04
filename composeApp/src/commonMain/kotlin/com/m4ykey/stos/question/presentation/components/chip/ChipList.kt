@@ -21,21 +21,25 @@ import org.jetbrains.compose.resources.stringResource
 fun ChipList(
     modifier: Modifier = Modifier,
     selectedChip : QuestionSort,
-    onChipSelected : (QuestionSort) -> Unit
+    onChipSelected : (QuestionSort) -> Unit,
+    availableSorts : List<QuestionSort>
 ) {
-    val chipList = QuestionSort.entries.map { sort ->
-        sort.getLabel() to sort
-    }
-
     CenteredContent(modifier = modifier) { contentModifier ->
         LazyRow(
             modifier = contentModifier.padding(horizontal = 5.dp)
         ) {
-            items(chipList) { (label, sortKey) ->
+            items(availableSorts) { sortKey ->
+
+                val label = sortKey.getLabel()
+
                 ChipItem(
                     title = label,
                     selected = selectedChip == sortKey,
-                    onSelect = { onChipSelected(sortKey) },
+                    onSelect = {
+                        if (availableSorts.contains(sortKey)) {
+                            onChipSelected(sortKey)
+                        }
+                    },
                     modifier = Modifier.padding(horizontal = 5.dp)
                 )
             }

@@ -32,7 +32,6 @@ class QuestionTagViewModel(
             _questionListState
                 .map { it.sort }
                 .distinctUntilChanged()
-                .debounce(500L)
                 .flatMapLatest { sort ->
                     useCase.getQuestionsByTag(
                         sort = sort.name,

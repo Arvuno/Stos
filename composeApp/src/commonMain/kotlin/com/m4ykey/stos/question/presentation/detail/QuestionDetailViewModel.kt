@@ -27,10 +27,17 @@ class QuestionDetailViewModel(
 
     fun onAction(action: QuestionDetailAction) {
         viewModelScope.launch {
-            val event = when (action) {
-                is QuestionDetailAction.OnTagClick -> DetailUiEvent.TagClick(action.tag)
+            when (action) {
+                is QuestionDetailAction.OnTagClick -> {
+                    _detailUiEvent.emit(DetailUiEvent.TagClick(action.tag))
+                }
+                is QuestionDetailAction.OnRelatedClick -> {
+                    _detailUiEvent.emit(DetailUiEvent.RelatedClick(action.id))
+                }
+                is QuestionDetailAction.OnCommentClick -> {
+                    _detailUiEvent.emit(DetailUiEvent.CommentClick(action.id))
+                }
             }
-            _detailUiEvent.emit(event)
         }
     }
 

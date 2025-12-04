@@ -25,9 +25,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.compose.LazyPagingItems
+import com.m4ykey.stos.core.views.BaseListState
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.list.QuestionListAction
 import com.m4ykey.stos.question.presentation.list.QuestionListContent
+import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.arrow_left
@@ -42,10 +44,11 @@ fun BaseQuestionListScreen(
     title : String? = null,
     onBack : (() -> Unit)? = null,
     questions : LazyPagingItems<Question>,
-    viewState : QuestionListState,
+    viewState : BaseListState,
     onAction : (QuestionListAction) -> Unit,
     onQuestionClick: (Int) -> Unit,
-    actions : @Composable RowScope.() -> Unit = {}
+    actions : @Composable RowScope.() -> Unit = {},
+    availableSorts : List<QuestionSort> = QuestionSort.entries
 ) {
     val sort = viewState.sort
 
@@ -109,7 +112,8 @@ fun BaseQuestionListScreen(
             questions = questions,
             sort = sort,
             onAction = onAction,
-            onQuestionClick = onQuestionClick
+            onQuestionClick = onQuestionClick,
+            availableSorts = availableSorts
         )
     }
 }

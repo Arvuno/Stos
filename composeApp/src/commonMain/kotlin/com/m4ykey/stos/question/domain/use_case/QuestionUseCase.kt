@@ -13,6 +13,15 @@ class QuestionUseCase(
     private val repository: QuestionRepository
 ) {
 
+    fun getRelatedQuestions(
+        id : Int,
+        page: Int = 1,
+        pageSize : Int = 20,
+        sort : String
+    ) : Flow<PagingData<Question>> {
+        return repository.getRelatedQuestions(page = page, pageSize = pageSize, id = id, sort = sort)
+    }
+
     fun getQuestionComment(
         page : Int = 1,
         pageSize: Int = 20,

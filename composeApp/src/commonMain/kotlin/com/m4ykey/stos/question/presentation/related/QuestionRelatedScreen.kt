@@ -1,6 +1,5 @@
-package com.m4ykey.stos.question.presentation.tag
+package com.m4ykey.stos.question.presentation.related
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,16 +11,16 @@ import com.m4ykey.stos.question.presentation.list.QuestionListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuestionTagScreen(
-    tag : String,
-    onBack : (() -> Unit),
-    viewModel: QuestionTagViewModel = koinViewModel(),
+fun QuestionRelatedScreen(
+    onBack : () -> Unit,
+    id : Int,
+    viewModel: QuestionRelatedViewModel = koinViewModel(),
     listViewModel : QuestionListViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit
 ) {
-    val questions = viewModel.getQuestionsTag(tag).collectAsLazyPagingItems()
+
+    val questions = viewModel.getRelatedQuestion(id).collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
     val onAction = listViewModel::onAction
 
@@ -35,11 +34,12 @@ fun QuestionTagScreen(
     }
 
     BaseQuestionListScreen(
-        title = tag,
+        title = "",
         questions = questions,
         onQuestionClick = onQuestionClick,
         onBack = onBack,
         viewState = viewState,
-        onAction = onAction
+        onAction = onAction,
+        availableSorts = RELATED_SORT_OPTIONS
     )
 }

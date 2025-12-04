@@ -100,7 +100,11 @@ fun QuestionDetailScreen(
 
     LaunchedEffect(viewModel) {
         viewModel.detailUiEvent.collectLatest { event ->
-            if (event is DetailUiEvent.TagClick) onTagClick(event.tag)
+            when (event) {
+                is DetailUiEvent.TagClick -> onTagClick(event.tag)
+                is DetailUiEvent.RelatedClick -> onRelatedClick(event.id)
+                is DetailUiEvent.CommentClick -> onCommentClick(event.id)
+            }
         }
     }
 
@@ -134,14 +138,14 @@ fun QuestionDetailScreen(
                     }
                     val commentCount = detail?.commentCount
                     if (commentCount != null && commentCount > 0) {
-                        IconButton(onClick = { onCommentClick(id) }) {
+                        IconButton(onClick = { viewModel.onAction(QuestionDetailAction.OnCommentClick(id)) }) {
                             Icon(
                                 contentDescription = stringResource(Res.string.comments),
                                 painter = painterResource(Res.drawable.comment)
                             )
                         }
                     }
-                    IconButton(onClick = { onRelatedClick(id) }) {
+                    IconButton(onClick = { viewModel.onAction(QuestionDetailAction.OnRelatedClick(id)) }) {
                         Icon(
                             painter = painterResource(Res.drawable.related),
                             contentDescription = null

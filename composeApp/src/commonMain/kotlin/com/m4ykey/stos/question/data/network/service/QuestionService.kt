@@ -36,6 +36,26 @@ class QuestionService(
         }.body()
     }
 
+    override suspend fun getRelatedQuestions(
+        id: Int,
+        filter: String,
+        page: Int,
+        pageSize: Int,
+        sort : String
+    ): Items<QuestionDto> {
+        return client.get {
+            url {
+                appendPathSegments("questions/$id/related")
+                setParameters(
+                    "filter" to filter,
+                    "page" to page,
+                    "pagesize" to pageSize,
+                    "sort" to sort
+                )
+            }
+        }.body()
+    }
+
     override suspend fun getQuestionComments(
         id: Int,
         filter: String,

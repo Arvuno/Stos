@@ -9,6 +9,7 @@ import com.m4ykey.stos.question.data.mapper.toDomain
 import com.m4ykey.stos.question.data.network.service.RemoteQuestionService
 import com.m4ykey.stos.question.data.paging.QuestionCommentPaging
 import com.m4ykey.stos.question.data.paging.QuestionPaging
+import com.m4ykey.stos.question.data.paging.QuestionRelatedPaging
 import com.m4ykey.stos.question.data.paging.QuestionTagPaging
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
@@ -48,6 +49,20 @@ class RemoteQuestionRepository(
             config = pagingConfig,
             pagingSourceFactory = {
                 QuestionCommentPaging(id = id, service = remoteQuestionService)
+            }
+        ).flow.flowOn(dispatcherIO)
+    }
+
+    override fun getRelatedQuestions(
+        page: Int,
+        pageSize: Int,
+        id: Int,
+        sort : String
+    ): Flow<PagingData<Question>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                QuestionRelatedPaging(id = id, service = remoteQuestionService, sort = sort)
             }
         ).flow.flowOn(dispatcherIO)
     }

@@ -12,6 +12,14 @@ import com.m4ykey.stos.question.data.network.dto.QuestionDto
 
 interface RemoteQuestionService {
 
+    suspend fun getRelatedQuestions(
+        id : Int,
+        filter : String = QUESTION_FILTER,
+        page : Int,
+        pageSize : Int,
+        sort : String
+    ) : Items<QuestionDto>
+
     suspend fun getQuestionComments(
         id : Int,
         filter : String = QUESTION_COMMENTS,

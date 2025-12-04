@@ -78,4 +78,21 @@ sealed class Screen(val route : String) {
             val route = "${routeBase}/{${ARG_SEARCH_IN_TITLE}}/{${ARG_SEARCH_TAG}}"
         }
     }
+
+    @Serializable
+    data class QuestionRelated(val id : Int) : Screen("$routeBase/$id") {
+        companion object {
+            const val routeBase = "question_related_screen"
+            const val ARG_QUESTION_ID = "id"
+
+            fun routeWithArgs(id: Int) : String = "$routeBase/$id"
+
+            val arguments = listOf(
+                navArgument(ARG_QUESTION_ID) { type = NavType.IntType }
+            )
+
+            val route = "${routeBase}/{${ARG_QUESTION_ID}}"
+        }
+    }
+
 }
