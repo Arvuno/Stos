@@ -7,11 +7,11 @@ import com.m4ykey.stos.search.presentation.SearchListScreen
 import com.m4ykey.stos.search.presentation.SearchScreen
 
 fun NavGraphBuilder.searchNavigation(navHostController: NavHostController) {
-    composable(route = Route.Search.route) {
+    composable(route = Screen.Search.route) {
         SearchScreen(
             onBack = { navHostController.navigateUp() },
             onSearchScreen = { inTitle, tag ->
-                navHostController.navigate(Route.SearchList.route(inTitle, tag)) {
+                navHostController.navigate(Screen.SearchList.routeWithArgs(inTitle, tag)) {
                     launchSingleTop = true
                 }
             }
@@ -19,18 +19,18 @@ fun NavGraphBuilder.searchNavigation(navHostController: NavHostController) {
     }
 
     composable(
-        route = Route.SearchList.routeWithArgs,
-        arguments = Route.SearchList.arguments
+        route = Screen.SearchList.route,
+        arguments = Screen.SearchList.arguments
     ) { navBackStackEntry ->
-        val tag = navBackStackEntry.savedStateHandle.get<String>(Route.SearchList.getIdTag()) ?: return@composable
-        val inTitle = navBackStackEntry.savedStateHandle.get<String>(Route.SearchList.getIdInTitle()) ?: return@composable
+        val tag = navBackStackEntry.savedStateHandle.get<String>(Screen.SearchList.ARG_SEARCH_TAG) ?: return@composable
+        val inTitle = navBackStackEntry.savedStateHandle.get<String>(Screen.SearchList.ARG_SEARCH_IN_TITLE) ?: return@composable
 
         SearchListScreen(
             onBack = { navHostController.navigateUp() },
             tag = tag,
             inTitle = inTitle,
             onQuestionClick = { questionId ->
-                navHostController.navigate(Route.QuestionDetail.route(questionId)) {
+                navHostController.navigate(Screen.QuestionDetail.routeWithArgs(questionId)) {
                     launchSingleTop = true
                 }
             }

@@ -9,56 +9,59 @@ import com.m4ykey.stos.question.presentation.list.QuestionListScreen
 import com.m4ykey.stos.question.presentation.tag.QuestionTagScreen
 
 fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
-    composable(Route.QuestionHome.route) {
+    composable(Screen.QuestionHome.route) {
         QuestionListScreen(
             onQuestionClick = { id ->
-                navHostController.navigate(Route.QuestionDetail.route(id)) {
+                navHostController.navigate(Screen.QuestionDetail.routeWithArgs(id)) {
                     launchSingleTop = true
                 }
             },
             onSearch = {
-                navHostController.navigate(Route.Search.route) {
+                navHostController.navigate(Screen.Search.route) {
                     launchSingleTop = true
                 }
             }
         )
     }
     composable(
-        route = Route.QuestionDetail.routeWithArgs,
-        arguments = Route.QuestionDetail.arguments
+        route = Screen.QuestionDetail.route,
+        arguments = Screen.QuestionDetail.arguments
     ) { navBackStackEntry ->
-        val id = navBackStackEntry.savedStateHandle.get<Int>(Route.QuestionDetail.getIdKey()) ?: return@composable
+        val id = navBackStackEntry.savedStateHandle.get<Int>(Screen.QuestionDetail.ARG_QUESTION_ID) ?: return@composable
         QuestionDetailScreen(
             onBack = { navHostController.popBackStack() },
             id = id,
             onTagClick = { tag ->
-                navHostController.navigate(Route.QuestionTag.route(tag))
+                navHostController.navigate(Screen.QuestionTag.routeWithArgs(tag))
             },
             onCommentClick = { id ->
-                navHostController.navigate(Route.QuestionComment.route(id))
+                navHostController.navigate(Screen.QuestionComment.routeWithArgs(id))
+            },
+            onRelatedClick = { id ->
+
             }
         )
     }
     composable(
-        route = Route.QuestionTag.routeWithArgs,
-        arguments = Route.QuestionTag.arguments
+        route = Screen.QuestionTag.route,
+        arguments = Screen.QuestionTag.arguments
     ) { navBackStackEntry ->
-        val tag = navBackStackEntry.savedStateHandle.get<String>(Route.QuestionTag.getIdTag()) ?: return@composable
+        val tag = navBackStackEntry.savedStateHandle.get<String>(Screen.QuestionTag.ARG_QUESTION_TAG) ?: return@composable
         QuestionTagScreen(
             tag = tag,
             onBack = { navHostController.popBackStack() },
             onQuestionClick = { id ->
-                navHostController.navigate(Route.QuestionDetail.route(id)) {
+                navHostController.navigate(Screen.QuestionDetail.routeWithArgs(id)) {
                     launchSingleTop = true
                 }
             }
         )
     }
     composable(
-        route = Route.QuestionComment.routeWithArgs,
-        arguments = Route.QuestionComment.arguments
+        route = Screen.QuestionComment.route,
+        arguments = Screen.QuestionComment.arguments
     ) { navBackStackEntry ->
-        val id = navBackStackEntry.savedStateHandle.get<Int>(Route.QuestionComment.getIdKey()) ?: return@composable
+        val id = navBackStackEntry.savedStateHandle.get<Int>(Screen.QuestionComment.ARG_QUESTION_ID) ?: return@composable
         QuestionCommentListScreen(
             id = id,
             onBack = { navHostController.popBackStack() }

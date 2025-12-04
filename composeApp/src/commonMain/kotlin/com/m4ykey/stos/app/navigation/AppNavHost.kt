@@ -13,7 +13,7 @@ fun AppNavHost(
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = Route.QuestionHome.route
+        startDestination = Screen.QuestionHome.route
     ) {
         questionNavigation(navHostController)
         searchNavigation(navHostController)
