@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
@@ -28,6 +29,7 @@ import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -77,6 +79,9 @@ fun QuestionListContent(
     onAction : (QuestionListAction) -> Unit,
     onQuestionClick: (Int) -> Unit
 ) {
+
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .padding(padding)
@@ -86,6 +91,9 @@ fun QuestionListContent(
             selectedChip = sort,
             onChipSelected = { selectedSort ->
                 onAction(QuestionListAction.OnSortClick(selectedSort))
+                coroutineScope.launch {
+                    listState.animateScrollToItem(0)
+                }
             },
             modifier = Modifier.fillMaxWidth()
         )

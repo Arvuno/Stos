@@ -18,20 +18,8 @@ class AnswerViewModel(
     private val useCase: AnswerUseCase
 ) : ViewModel() {
 
-    private val _answerId = MutableStateFlow<Int?>(null)
-    val answerId = _answerId.asStateFlow()
-
-    val comments : Flow<PagingData<AnswerComment>> = _answerId
-        .filterNotNull()
-        .flatMapLatest { id ->
-            useCase(id = id)
-        }
-        .cachedIn(viewModelScope)
-
-    fun loadCommentAnswer(id : Int) {
-        if (_answerId.value != id) {
-            _answerId.value = id
-        }
+    fun getCommentsFlow(id : Int) : Flow<PagingData<AnswerComment>> {
+        return useCase(id = id).cachedIn(viewModelScope)
     }
 
 }

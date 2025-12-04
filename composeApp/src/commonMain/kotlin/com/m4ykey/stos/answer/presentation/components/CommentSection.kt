@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.m4ykey.stos.answer.domain.model.AnswerComment
 import com.m4ykey.stos.core.views.BasePagingList
@@ -56,18 +58,23 @@ fun AnswerCommentItem(
 
 @Composable
 fun CommentSection(
-    comment : LazyPagingItems<AnswerComment>
+    comments : LazyPagingItems<AnswerComment>
 ) {
-    val listState = rememberLazyListState()
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, top = 8.dp)
+    ) {
+        comments.itemSnapshotList.items.forEach { item ->
+            AnswerCommentItem(comment = item)
+        }
 
-    BasePagingList(
-        listState = listState,
-        items = comment,
-        itemContent = { item ->
-            AnswerCommentItem(
-                comment = item
+        if (comments.loadState.append is LoadState.Loading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.CenterHorizontally)
             )
-        },
-        itemKey = { item -> item.commentId }
-    )
+        }
+    }
 }

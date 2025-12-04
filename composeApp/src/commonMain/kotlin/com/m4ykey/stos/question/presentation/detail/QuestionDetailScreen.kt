@@ -66,6 +66,8 @@ import kmp_stos.composeapp.generated.resources.comment
 import kmp_stos.composeapp.generated.resources.comments
 import kmp_stos.composeapp.generated.resources.last_edited_by
 import kmp_stos.composeapp.generated.resources.link
+import kmp_stos.composeapp.generated.resources.no_data
+import kmp_stos.composeapp.generated.resources.related
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -79,7 +81,8 @@ fun QuestionDetailScreen(
     onBack : () -> Unit,
     onTagClick : (String) -> Unit,
     onCommentClick : (Int) -> Unit,
-    answerViewModel : AnswerViewModel = koinViewModel()
+    answerViewModel : AnswerViewModel = koinViewModel(),
+    onRelatedClick : (Int) -> Unit
 ) {
     val detailState by viewModel.questionDetailState.collectAsStateWithLifecycle()
     val answerState by viewModel.questionAnswerState.collectAsStateWithLifecycle()
@@ -138,6 +141,12 @@ fun QuestionDetailScreen(
                             )
                         }
                     }
+                    IconButton(onClick = { onRelatedClick(id) }) {
+                        Icon(
+                            painter = painterResource(Res.drawable.related),
+                            contentDescription = null
+                        )
+                    }
                 }
             )
         }
@@ -165,7 +174,7 @@ fun QuestionDetailScreen(
                     Text(
                         fontSize = 16.sp,
                         modifier = Modifier.align(Alignment.Center),
-                        text = "No data"
+                        text = stringResource(Res.string.no_data)
                     )
                 }
             }
@@ -295,8 +304,7 @@ fun QuestionDetailContent(
                 answer = answer,
                 owner = answer.owner,
                 onLoadComments = { answerId ->
-                    answerViewModel.loadCommentAnswer(answerId)
-                    answerViewModel.comments
+                    answerViewModel.getCommentsFlow(answerId)
                 }
             )
             Spacer(modifier = Modifier.height(5.dp))

@@ -52,7 +52,6 @@ fun BaseQuestionListScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyListState = rememberLazyListState()
 
-    var showDialog by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
     val showScrollToTopButton by remember {
