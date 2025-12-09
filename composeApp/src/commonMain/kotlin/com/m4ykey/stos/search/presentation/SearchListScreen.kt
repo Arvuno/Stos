@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -23,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.BasePagingList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
@@ -31,7 +30,6 @@ import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -70,7 +68,7 @@ fun SearchListScreen(
     LaunchedEffect(viewModel) {
         viewModel.listUiEvent.collectLatest { event ->
             when (event) {
-                is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
+                is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
                 is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
             }
         }
@@ -83,12 +81,11 @@ fun SearchListScreen(
                 scrollBehavior = scrollBehavior,
                 title = { Text(text = stringResource(Res.string.search)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            contentDescription = stringResource(Res.string.back),
-                            painter = painterResource(Res.drawable.arrow_left)
-                        )
-                    }
+                    ActionIconButton(
+                        onClick = onBack,
+                        icon = Res.drawable.arrow_left,
+                        text = Res.string.back
+                    )
                 }
             )
         }
@@ -109,9 +106,8 @@ fun SearchListScreen(
                 itemContent = { question ->
                     QuestionItem(
                         question = question,
-                        onQuestionClick = {
-                            onQuestionClick(question.questionId)
-                        }
+                        onQuestionClick = { onQuestionClick(question.questionId) },
+                        onUserClick = {}
                     )
                 },
                 items = questions,

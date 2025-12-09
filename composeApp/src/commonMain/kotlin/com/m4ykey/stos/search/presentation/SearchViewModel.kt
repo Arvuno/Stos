@@ -114,7 +114,7 @@ class SearchViewModel(
     fun onAction(action: SearchListAction) {
         viewModelScope.launch {
             val event = when (action) {
-                is SearchListAction.OnQuestionClick -> ListUiEvent.OnQuestionClick(action.id)
+                is SearchListAction.OnQuestionClick -> ListUiEvent.NavigateToQuestion(action.id)
                 is SearchListAction.OnTagClick -> ListUiEvent.TagClick(action.tag)
                 is SearchListAction.OnSearchClick -> ListUiEvent.NavigateToSearch(action.inTitle, action.tag)
                 is SearchListAction.OnSortClick -> ListUiEvent.ChangeSort(action.sort)

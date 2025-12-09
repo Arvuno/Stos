@@ -1,6 +1,7 @@
-package com.m4ykey.stos.question.data.mapper
+package com.m4ykey.stos.core.model
 
-import com.m4ykey.stos.question.data.network.dto.BadgeCountsDto
+import com.m4ykey.stos.answer.data.network.dto.AnswerCommentDto
+import com.m4ykey.stos.answer.domain.model.AnswerComment
 import com.m4ykey.stos.question.data.network.dto.ClosedDetailsDto
 import com.m4ykey.stos.question.data.network.dto.QuestionAnswerDto
 import com.m4ykey.stos.question.data.network.dto.QuestionCommentDto
@@ -14,13 +15,25 @@ import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.model.QuestionOwner
+import com.m4ykey.stos.user.data.network.dto.BadgeCountsDto
+import com.m4ykey.stos.user.data.network.dto.UserDto
+import com.m4ykey.stos.user.domain.model.User
+
+fun UserDto.toDomain() = User(
+    userId = userId.safe,
+    reputation = reputation.safe,
+    profileImage = profileImage.orEmpty(),
+    link = link.orEmpty(),
+    displayName = displayName.orEmpty(),
+    badgeCounts = badgeCounts?.toDomain() ?: BadgeCounts.EMPTY
+)
 
 fun QuestionCommentDto.toDomain() = QuestionComment(
     body = body.orEmpty(),
     bodyMarkdown = bodyMarkdown.orEmpty(),
-    creationDate = creationDate ?: 0,
+    creationDate = creationDate.safe,
     owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
-    commentId = commentId ?: 0
+    commentId = commentId.safe
 )
 
 fun ClosedDetailsDto.toDomain() = ClosedDetails(
@@ -30,14 +43,14 @@ fun ClosedDetailsDto.toDomain() = ClosedDetails(
 )
 
 fun QuestionAnswerDto.toDomain() = QuestionAnswer(
-    answerId = answerId ?: 0,
+    answerId = answerId.safe,
     bodyMarkdown = bodyMarkdown.orEmpty(),
-    creationDate = creationDate ?: 0,
-    downVoteCount = downVoteCount ?: 0,
-    upVoteCount = upVoteCount ?: 0,
+    creationDate = creationDate.safe,
+    downVoteCount = downVoteCount.safe,
+    upVoteCount = upVoteCount.safe,
     owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
     isAccepted = isAccepted,
-    commentCount = commentCount ?: 0
+    commentCount = commentCount.safe
 )
 
 fun QuestionDetail.toQuestion() = Question(
@@ -52,47 +65,55 @@ fun QuestionDetail.toQuestion() = Question(
 )
 
 fun QuestionDetailDto.toDomain() = QuestionDetail(
-    answerCount = answerCount ?: 0,
+    answerCount = answerCount.safe,
     bodyMarkdown = bodyMarkdown.orEmpty(),
-    creationDate = creationDate ?: 0,
-    downVoteCount = downVoteCount ?: 0,
-    lastActivityDate = lastActivityDate ?: 0,
+    creationDate = creationDate.safe,
+    downVoteCount = downVoteCount.safe,
+    lastActivityDate = lastActivityDate.safe,
     link = link.orEmpty(),
-    questionId = questionId ?: 0,
+    questionId = questionId.safe,
     title = title.orEmpty(),
-    viewCount = viewCount ?: 0,
+    viewCount = viewCount.safe,
     tags = tags.orEmpty(),
-    upVoteCount = upVoteCount ?: 0,
+    upVoteCount = upVoteCount.safe,
     owner = owner?.toDomain() ?: QuestionOwner.EMPTY,
     closedDetails = closedDetails?.toDomain() ?: ClosedDetails.EMPTY,
-    commentCount = commentCount ?: 0,
+    commentCount = commentCount.safe,
     lastEditor = lastEditor?.toDomain() ?: QuestionOwner.EMPTY,
-    lastEditDate = lastEditDate ?: 0,
-    closedDate = closedDate ?: 0
+    lastEditDate = lastEditDate.safe,
+    closedDate = closedDate.safe
 )
 
 fun BadgeCountsDto.toDomain() = BadgeCounts(
-    bronze = bronze ?: 0,
-    silver = silver ?: 0,
-    gold = gold ?: 0
+    bronze = bronze.safe,
+    silver = silver.safe,
+    gold = gold.safe
 )
 
 fun QuestionOwnerDto.toDomain() = QuestionOwner(
     link = link.orEmpty(),
-    userId = userId ?: 0,
+    userId = userId.safe,
     displayName = displayName.orEmpty(),
     profileImage = profileImage.orEmpty(),
-    reputation = reputation ?: 0,
+    reputation = reputation.safe,
     badgeCounts = badgeCounts?.toDomain() ?: BadgeCounts.EMPTY
 )
 
 fun QuestionDto.toDomain() = Question(
     title = title.orEmpty(),
-    viewCount = viewCount ?: 0,
-    questionId = questionId ?: 0,
-    upVoteCount = upVoteCount ?: 0,
-    downVoteCount = downVoteCount ?: 0,
-    answerCount = answerCount ?: 0,
-    creationDate = creationDate ?: 0,
+    viewCount = viewCount.safe,
+    questionId = questionId.safe,
+    upVoteCount = upVoteCount.safe,
+    downVoteCount = downVoteCount.safe,
+    answerCount = answerCount.safe,
+    creationDate = creationDate.safe,
+    owner = owner?.toDomain() ?: QuestionOwner.EMPTY
+)
+
+fun AnswerCommentDto.toDomain() = AnswerComment(
+    body = body.orEmpty(),
+    bodyMarkdown = bodyMarkdown.orEmpty(),
+    commentId = commentId.safe,
+    creationDate = creationDate.safe,
     owner = owner?.toDomain() ?: QuestionOwner.EMPTY
 )

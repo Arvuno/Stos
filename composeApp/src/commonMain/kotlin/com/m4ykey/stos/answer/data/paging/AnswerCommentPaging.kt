@@ -1,8 +1,8 @@
 package com.m4ykey.stos.answer.data.paging
 
-import com.m4ykey.stos.answer.data.mapper.toDomain
 import com.m4ykey.stos.answer.data.network.service.RemoteAnswerService
 import com.m4ykey.stos.answer.domain.model.AnswerComment
+import com.m4ykey.stos.core.model.toDomain
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
 import com.m4ykey.stos.core.paging.BasePagingSource

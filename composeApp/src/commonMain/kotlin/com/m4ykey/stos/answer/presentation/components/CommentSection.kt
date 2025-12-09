@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,12 +15,11 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.m4ykey.stos.answer.domain.model.AnswerComment
-import com.m4ykey.stos.core.views.BasePagingList
 import com.m4ykey.stos.core.views.TextMarkdown
-import com.m4ykey.stos.owner.presentation.components.OwnerCard
 import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
+import com.m4ykey.stos.user.presentation.components.OwnerCard
 
 @Composable
 fun AnswerCommentItem(

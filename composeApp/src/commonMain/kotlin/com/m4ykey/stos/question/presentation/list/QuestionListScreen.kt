@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.BasePagingList
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.BaseQuestionListScreen
@@ -30,8 +29,6 @@ import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +36,8 @@ import org.koin.compose.viewmodel.koinViewModel
 fun QuestionListScreen(
     viewModel: QuestionListViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit,
-    onSearch : () -> Unit
+    onSearch : () -> Unit,
+    onUserClick: (Int) -> Unit
 ) {
     val questions = viewModel.getQuestionsFlow().collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
@@ -49,7 +47,8 @@ fun QuestionListScreen(
         viewModel.listUiEvent.collectLatest { event ->
             when (event) {
                 is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
-                is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
+                is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
+                is ListUiEvent.NavigateToUser -> onUserClick(event.id)
             }
         }
     }
@@ -59,13 +58,13 @@ fun QuestionListScreen(
         viewState = viewState,
         onAction = onAction,
         onQuestionClick = onQuestionClick,
+        onUserClick = onUserClick,
         actions = {
-            IconButton(onClick = onSearch) {
-                Icon(
-                    contentDescription = stringResource(Res.string.search),
-                    painter = painterResource(Res.drawable.search)
-                )
-            }
+            ActionIconButton(
+                onClick = onSearch,
+                icon = Res.drawable.search,
+                text = Res.string.search
+            )
         }
     )
 }
@@ -78,7 +77,8 @@ fun QuestionListContent(
     questions : LazyPagingItems<Question>,
     onAction : (QuestionListAction) -> Unit,
     onQuestionClick: (Int) -> Unit,
-    availableSorts : List<QuestionSort> = QuestionSort.entries
+    availableSorts : List<QuestionSort> = QuestionSort.entries,
+    onUserClick : (Int) -> Unit
 ) {
 
     val coroutineScope = rememberCoroutineScope()
@@ -104,9 +104,8 @@ fun QuestionListContent(
             itemContent = { question ->
                 QuestionItem(
                     question = question,
-                    onQuestionClick = {
-                        onQuestionClick(question.questionId)
-                    }
+                    onQuestionClick = { onQuestionClick(question.questionId) },
+                    onUserClick = { onUserClick(question.owner.userId) }
                 )
             },
             items = questions,

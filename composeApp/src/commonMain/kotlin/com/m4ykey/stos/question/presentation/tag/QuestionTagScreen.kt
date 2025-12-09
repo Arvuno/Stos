@@ -29,7 +29,7 @@ fun QuestionTagScreen(
         listViewModel.listUiEvent.collectLatest { event ->
             when (event) {
                 is ListUiEvent.ChangeSort -> listViewModel.updateSort(event.sort)
-                is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
+                is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
             }
         }
     }
@@ -40,6 +40,7 @@ fun QuestionTagScreen(
         onQuestionClick = onQuestionClick,
         onBack = onBack,
         viewState = viewState,
-        onAction = onAction
+        onAction = onAction,
+        onUserClick = {}
     )
 }

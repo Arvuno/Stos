@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.stos.core.views.TextMarkdown
-import com.m4ykey.stos.owner.presentation.components.OwnerCard
 import com.m4ykey.stos.question.domain.model.Question
+import com.m4ykey.stos.user.presentation.components.OwnerCard
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answer_count
 import kmp_stos.composeapp.generated.resources.arrow_down
@@ -31,7 +31,8 @@ import org.jetbrains.compose.resources.painterResource
 fun QuestionItem(
     modifier: Modifier = Modifier,
     question: Question,
-    onQuestionClick : (Int) -> Unit
+    onQuestionClick : (Int) -> Unit,
+    onUserClick : (Int) -> Unit
 ) {
     val formattedReputation = formatReputation(question.owner.reputation)
     val formattedDate = formatCreationDate(question.creationDate.toLong())
@@ -47,7 +48,7 @@ fun QuestionItem(
         ) {
             OwnerCard(
                 modifier = Modifier
-                    .clickable {}
+                    .clickable { onUserClick(question.owner.userId) }
                     .align(Alignment.CenterVertically),
                 owner = question.owner
             )

@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,12 +38,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.close
+import kmp_stos.composeapp.generated.resources.empty
 import kmp_stos.composeapp.generated.resources.popular_tags
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
@@ -79,12 +80,11 @@ fun SearchScreen(
             TopAppBar(
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            painter = painterResource(Res.drawable.arrow_left),
-                            contentDescription = stringResource(Res.string.back)
-                        )
-                    }
+                    ActionIconButton(
+                        onClick = onBack,
+                        icon = Res.drawable.arrow_left,
+                        text = Res.string.back
+                    )
                 },
                 title = { Text(stringResource(Res.string.search)) }
             )
@@ -215,12 +215,11 @@ fun SearchBox(
         singleLine = true,
         trailingIcon = {
             if (value.isNotEmpty()) {
-                IconButton(onClick = { onValueChange("") }) {
-                    Icon(
-                        contentDescription = null,
-                        painter = painterResource(Res.drawable.close)
-                    )
-                }
+                ActionIconButton(
+                    onClick = { onValueChange("") },
+                    icon = Res.drawable.close,
+                    text = Res.string.empty
+                )
             }
         },
         keyboardActions = KeyboardActions(

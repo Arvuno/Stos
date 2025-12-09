@@ -16,15 +16,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,10 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.m4ykey.stos.answer.presentation.AnswerViewModel
+import com.m4ykey.stos.core.model.toQuestion
 import com.m4ykey.stos.core.network.openBrowser
+import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.TextMarkdown
-import com.m4ykey.stos.owner.presentation.components.OwnerCard
-import com.m4ykey.stos.question.data.mapper.toQuestion
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.model.QuestionOwner
@@ -56,6 +52,7 @@ import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
+import com.m4ykey.stos.user.presentation.components.OwnerCard
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answers
 import kmp_stos.composeapp.generated.resources.arrow_left
@@ -64,12 +61,12 @@ import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.closed
 import kmp_stos.composeapp.generated.resources.comment
 import kmp_stos.composeapp.generated.resources.comments
+import kmp_stos.composeapp.generated.resources.empty
 import kmp_stos.composeapp.generated.resources.last_edited_by
 import kmp_stos.composeapp.generated.resources.link
 import kmp_stos.composeapp.generated.resources.no_data
 import kmp_stos.composeapp.generated.resources.related
 import kotlinx.coroutines.flow.collectLatest
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -119,38 +116,34 @@ fun QuestionDetailScreen(
                 scrollBehavior = scrollBehavior,
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            contentDescription = stringResource(resource = Res.string.back),
-                            painter = painterResource(Res.drawable.arrow_left)
-                        )
-                    }
+                    ActionIconButton(
+                        onClick = onBack,
+                        icon = Res.drawable.arrow_left,
+                        text = Res.string.back
+                    )
                 },
                 actions = {
                     val link = detail?.link
                     if (!link.isNullOrEmpty()) {
-                        IconButton(onClick = { openBrowser(link) }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Public,
-                                contentDescription = stringResource(Res.string.link)
-                            )
-                        }
+                        ActionIconButton(
+                            icon = Res.drawable.link,
+                            text = Res.string.link,
+                            onClick = { openBrowser(link) }
+                        )
                     }
                     val commentCount = detail?.commentCount
                     if (commentCount != null && commentCount > 0) {
-                        IconButton(onClick = { viewModel.onAction(QuestionDetailAction.OnCommentClick(id)) }) {
-                            Icon(
-                                contentDescription = stringResource(Res.string.comments),
-                                painter = painterResource(Res.drawable.comment)
-                            )
-                        }
-                    }
-                    IconButton(onClick = { viewModel.onAction(QuestionDetailAction.OnRelatedClick(id)) }) {
-                        Icon(
-                            painter = painterResource(Res.drawable.related),
-                            contentDescription = null
+                        ActionIconButton(
+                            onClick = { viewModel.onAction(QuestionDetailAction.OnCommentClick(id)) },
+                            text = Res.string.comments,
+                            icon = Res.drawable.comment
                         )
                     }
+                    ActionIconButton(
+                        icon = Res.drawable.related,
+                        text = Res.string.empty,
+                        onClick = { viewModel.onAction(QuestionDetailAction.OnRelatedClick(id)) }
+                    )
                 }
             )
         }

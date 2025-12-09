@@ -120,24 +120,37 @@ fun TextMarkdown(
         Highlights.Builder().theme(SyntaxThemes.atom(darkMode = isDarkTheme))
     }
 
-    val customComponents = markdownComponents(
-        codeBlock = {
-            MarkdownHighlightedCodeBlock(
-                content = it.content,
-                node = it.node,
-                highlightsBuilder = highlightBuilder
-            )
-        },
-        codeFence = {
-            MarkdownHighlightedCodeFence(
-                content = it.content,
-                node = it.node,
-                highlightsBuilder = highlightBuilder
-            )
-        }
-    )
+    val customComponents = remember(highlightBuilder) {
+        markdownComponents(
+            codeBlock = {
+                MarkdownHighlightedCodeBlock(
+                    content = it.content,
+                    node = it.node,
+                    highlightsBuilder = highlightBuilder
+                )
+            },
+            codeFence = {
+                MarkdownHighlightedCodeFence(
+                    content = it.content,
+                    node = it.node,
+                    highlightsBuilder = highlightBuilder
+                )
+            }
+        )
+    }
 
-    val customTypography = remember(fontSize, fontWeight) {
+    val linkColor = Color(0xFF1E88E5)
+
+    val customTypography = remember(fontSize, fontWeight, color) {
+        val baseParagraph = TextStyle(
+            fontSize = fontSize,
+            fontWeight = fontWeight,
+            color = color
+        )
+        val linkSpanStyle = SpanStyle(
+            color = linkColor,
+            textDecoration = TextDecoration.Underline
+        )
         object : MarkdownTypography {
             override val h1 = TextStyle(fontSize = fontSize * 1.6f, fontWeight = fontWeight)
             override val h2 = TextStyle(fontSize = fontSize * 1.4f, fontWeight = fontWeight)
@@ -145,11 +158,7 @@ fun TextMarkdown(
             override val h4 = TextStyle(fontSize = fontSize * 1.1f, fontWeight = fontWeight)
             override val h5 = TextStyle(fontSize = fontSize, fontWeight = fontWeight)
             override val h6 = TextStyle(fontSize = fontSize * 0.9f, fontWeight = fontWeight)
-            override val paragraph = TextStyle(
-                fontSize = fontSize,
-                fontWeight = fontWeight,
-                color = color
-            )
+            override val paragraph = baseParagraph
             override val text = paragraph
             override val bullet = paragraph
             override val list = paragraph
@@ -158,12 +167,7 @@ fun TextMarkdown(
             override val code = TextStyle(fontSize = fontSize * 0.9f, fontFamily = FontFamily.Monospace)
             override val inlineCode = code
             override val table = paragraph
-            override val textLink = TextLinkStyles(
-                style = SpanStyle(
-                    color = Color(0xFF1E88E5),
-                    textDecoration = TextDecoration.Underline
-                )
-            )
+            override val textLink = TextLinkStyles(style = linkSpanStyle)
         }
     }
 

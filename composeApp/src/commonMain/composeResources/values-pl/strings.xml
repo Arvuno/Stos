@@ -39,6 +39,7 @@
     <string name="web">Strony Internetowe</string>
     <string name="ai">Sztuczna Inteligencja</string>
     <string name="closed">Zamknięto</string>
-    <string name="last_edited_by">Last edited by</string>
+    <string name="last_edited_by">Edytowano przez</string>
     <string name="no_data">Brak danych</string>
+    <string name="empty"> </string>
 </resources>

@@ -3,7 +3,6 @@ package com.m4ykey.stos.app.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.savedstate.serialization.saved
 import com.m4ykey.stos.question.presentation.comment.QuestionCommentListScreen
 import com.m4ykey.stos.question.presentation.detail.QuestionDetailScreen
 import com.m4ykey.stos.question.presentation.list.QuestionListScreen
@@ -22,7 +21,8 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
                 navHostController.navigate(Screen.Search.route) {
                     launchSingleTop = true
                 }
-            }
+            },
+            onUserClick = {}
         )
     }
     composable(

@@ -1,15 +1,13 @@
 package com.m4ykey.stos.search.data.repository
 
-import androidx.paging.Pager
 import androidx.paging.PagingData
-import com.m4ykey.stos.core.paging.pagingConfig
+import com.m4ykey.stos.core.paging.createPagingFlow
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.search.data.network.service.RemoteSearchService
 import com.m4ykey.stos.search.data.paging.SearchPaging
 import com.m4ykey.stos.search.domain.repository.SearchRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 
 class RemoteSearchRepository(
     private val remoteSearchService: RemoteSearchService,
@@ -23,8 +21,8 @@ class RemoteSearchRepository(
         tagged: String?,
         inTitle: String?
     ): Flow<PagingData<Question>> {
-        return Pager(
-            config = pagingConfig,
+        return createPagingFlow(
+            dispatcher = dispatcherIO,
             pagingSourceFactory = {
                 SearchPaging(
                     service = remoteSearchService,
@@ -33,6 +31,6 @@ class RemoteSearchRepository(
                     tagged = tagged
                 )
             }
-        ).flow.flowOn(dispatcherIO)
+        )
     }
 }

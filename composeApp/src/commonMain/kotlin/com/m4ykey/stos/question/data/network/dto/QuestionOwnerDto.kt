@@ -1,5 +1,6 @@
 package com.m4ykey.stos.question.data.network.dto
 
+import com.m4ykey.stos.user.data.network.dto.BadgeCountsDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

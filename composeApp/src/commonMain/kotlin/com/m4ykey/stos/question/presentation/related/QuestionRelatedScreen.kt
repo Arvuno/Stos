@@ -28,7 +28,7 @@ fun QuestionRelatedScreen(
         listViewModel.listUiEvent.collectLatest { event ->
             when (event) {
                 is ListUiEvent.ChangeSort -> listViewModel.updateSort(event.sort)
-                is ListUiEvent.OnQuestionClick -> onQuestionClick(event.id)
+                is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
             }
         }
     }
@@ -40,6 +40,7 @@ fun QuestionRelatedScreen(
         onBack = onBack,
         viewState = viewState,
         onAction = onAction,
-        availableSorts = RELATED_SORT_OPTIONS
+        availableSorts = RELATED_SORT_OPTIONS,
+        onUserClick = {}
     )
 }

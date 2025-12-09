@@ -1,11 +1,10 @@
 package com.m4ykey.stos.question.data.repository
 
-import androidx.paging.Pager
 import androidx.paging.PagingData
+import com.m4ykey.stos.core.model.toDomain
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
-import com.m4ykey.stos.core.paging.pagingConfig
-import com.m4ykey.stos.question.data.mapper.toDomain
+import com.m4ykey.stos.core.paging.createPagingFlow
 import com.m4ykey.stos.question.data.network.service.RemoteQuestionService
 import com.m4ykey.stos.question.data.paging.QuestionCommentPaging
 import com.m4ykey.stos.question.data.paging.QuestionPaging
@@ -32,12 +31,16 @@ class RemoteQuestionRepository(
         sort: String,
         tagged: String
     ): Flow<PagingData<Question>> {
-        return Pager(
-            config = pagingConfig,
+        return createPagingFlow(
             pagingSourceFactory = {
-                QuestionTagPaging(sort = sort, service = remoteQuestionService, tagged = tagged)
-            }
-        ).flow.flowOn(dispatcherIO)
+                QuestionTagPaging(
+                    sort = sort,
+                    service = remoteQuestionService,
+                    tagged = tagged
+                )
+            },
+            dispatcher = dispatcherIO
+        )
     }
 
     override fun getQuestionsComment(
@@ -45,12 +48,10 @@ class RemoteQuestionRepository(
         pageSize: Int,
         id: Int
     ): Flow<PagingData<QuestionComment>> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = {
-                QuestionCommentPaging(id = id, service = remoteQuestionService)
-            }
-        ).flow.flowOn(dispatcherIO)
+        return createPagingFlow(
+            dispatcher = dispatcherIO,
+            pagingSourceFactory = { QuestionCommentPaging(id = id, service = remoteQuestionService) }
+        )
     }
 
     override fun getRelatedQuestions(
@@ -59,12 +60,10 @@ class RemoteQuestionRepository(
         id: Int,
         sort : String
     ): Flow<PagingData<Question>> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = {
-                QuestionRelatedPaging(id = id, service = remoteQuestionService, sort = sort)
-            }
-        ).flow.flowOn(dispatcherIO)
+        return createPagingFlow(
+            dispatcher = dispatcherIO,
+            pagingSourceFactory = { QuestionRelatedPaging(id = id, service = remoteQuestionService, sort = sort) }
+        )
     }
 
     override fun getQuestionsAnswer(id: Int): Flow<ApiResult<List<QuestionAnswer>>> {
@@ -100,11 +99,9 @@ class RemoteQuestionRepository(
         pageSize: Int,
         sort: String
     ): Flow<PagingData<Question>> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = {
-                QuestionPaging(service = remoteQuestionService, sort = sort)
-            }
-        ).flow.flowOn(dispatcherIO)
+        return createPagingFlow(
+            dispatcher = dispatcherIO,
+            pagingSourceFactory = { QuestionPaging(service = remoteQuestionService, sort = sort) }
+        )
     }
 }

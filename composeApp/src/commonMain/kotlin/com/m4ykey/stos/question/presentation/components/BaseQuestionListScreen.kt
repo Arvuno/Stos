@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -18,25 +17,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.compose.LazyPagingItems
+import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.BaseListState
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.list.QuestionListAction
 import com.m4ykey.stos.question.presentation.list.QuestionListContent
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
-import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +43,8 @@ fun BaseQuestionListScreen(
     onAction : (QuestionListAction) -> Unit,
     onQuestionClick: (Int) -> Unit,
     actions : @Composable RowScope.() -> Unit = {},
-    availableSorts : List<QuestionSort> = QuestionSort.entries
+    availableSorts : List<QuestionSort> = QuestionSort.entries,
+    onUserClick : (Int) -> Unit
 ) {
     val sort = viewState.sort
 
@@ -71,12 +67,11 @@ fun BaseQuestionListScreen(
                 title = { if (title != null) Text(text = title) },
                 navigationIcon = {
                     onBack?.let {
-                        IconButton(onClick = it) {
-                            Icon(
-                                contentDescription = stringResource(Res.string.back),
-                                painter = painterResource(Res.drawable.arrow_left)
-                            )
-                        }
+                        ActionIconButton(
+                            onClick = it,
+                            text = Res.string.back,
+                            icon = Res.drawable.arrow_left
+                        )
                     }
                 },
                 actions = {
@@ -113,7 +108,8 @@ fun BaseQuestionListScreen(
             sort = sort,
             onAction = onAction,
             onQuestionClick = onQuestionClick,
-            availableSorts = availableSorts
+            availableSorts = availableSorts,
+            onUserClick = onUserClick
         )
     }
 }

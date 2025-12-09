@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.stos.core.views.TextMarkdown
-import com.m4ykey.stos.owner.presentation.components.OwnerCard
 import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
+import com.m4ykey.stos.user.presentation.components.OwnerCard
 
 @Composable
 fun CommentItem(
