@@ -15,20 +15,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
-import com.m4ykey.stos.question.domain.model.QuestionOwner
+import com.m4ykey.stos.user.domain.model.User
 
 @Composable
-fun OwnerCard(
+fun UserCard(
     modifier : Modifier = Modifier,
-    owner : QuestionOwner
+    user : User
 ) {
     Card(
         shape = CircleShape,
         modifier = modifier.size(26.dp)
     ) {
         SubcomposeAsyncImage(
-            model = owner.profileImage,
-            contentDescription = owner.profileImage,
+            model = user.profileImage,
+            contentDescription = user.profileImage,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
             loading = {

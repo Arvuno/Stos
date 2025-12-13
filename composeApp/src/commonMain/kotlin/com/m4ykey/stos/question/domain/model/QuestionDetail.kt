@@ -1,8 +1,10 @@
 package com.m4ykey.stos.question.domain.model
 
+import com.m4ykey.stos.user.domain.model.User
+
 data class QuestionDetail(
     val tags : List<String>,
-    val owner : QuestionOwner,
+    val owner : User,
     val viewCount : Int,
     val downVoteCount : Int,
     val upVoteCount : Int,
@@ -16,6 +18,6 @@ data class QuestionDetail(
     val closedDetails: ClosedDetails,
     val commentCount : Int,
     val lastEditDate : Int,
-    val lastEditor : QuestionOwner,
+    val lastEditor : User,
     val closedDate : Int
 )

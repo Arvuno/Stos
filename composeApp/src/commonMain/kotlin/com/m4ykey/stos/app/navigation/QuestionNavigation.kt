@@ -22,7 +22,11 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
                     launchSingleTop = true
                 }
             },
-            onUserClick = {}
+            onUserClick = { id ->
+                navHostController.navigate(Screen.UserScreen.routeWithArgs(id)) {
+                    launchSingleTop = true
+                }
+            }
         )
     }
     composable(
@@ -41,6 +45,9 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
             },
             onRelatedClick = { id ->
                 navHostController.navigate(Screen.QuestionRelated.routeWithArgs(id))
+            },
+            onUserClick = { id ->
+                navHostController.navigate(Screen.UserScreen.routeWithArgs(id))
             }
         )
     }

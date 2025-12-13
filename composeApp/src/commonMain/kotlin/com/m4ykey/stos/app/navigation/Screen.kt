@@ -95,4 +95,20 @@ sealed class Screen(val route : String) {
         }
     }
 
+    @Serializable
+    data class UserScreen(val id : Int) : Screen("$routeBase/$id") {
+        companion object {
+            const val routeBase = "user_screen"
+            const val ARG_USER_ID = "id"
+
+            fun routeWithArgs(id : Int) : String = "$routeBase/$id"
+
+            val arguments = listOf(
+                navArgument(ARG_USER_ID) { type = NavType.IntType }
+            )
+
+            val route = "${routeBase}/{${ARG_USER_ID}}"
+        }
+    }
+
 }

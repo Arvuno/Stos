@@ -69,7 +69,6 @@ fun SearchListScreen(
         viewModel.listUiEvent.collectLatest { event ->
             when (event) {
                 is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
-                is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
             }
         }
     }

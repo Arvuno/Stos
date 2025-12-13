@@ -7,6 +7,7 @@ import com.m4ykey.stos.question.presentation.list.QuestionListViewModel
 import com.m4ykey.stos.question.presentation.related.QuestionRelatedViewModel
 import com.m4ykey.stos.question.presentation.tag.QuestionTagViewModel
 import com.m4ykey.stos.search.presentation.SearchViewModel
+import com.m4ykey.stos.user.presentation.UserViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -18,4 +19,5 @@ val viewModelModule = module {
     viewModel { QuestionCommentViewModel(get()) }
     viewModel { AnswerViewModel(get()) }
     viewModel { QuestionRelatedViewModel(get()) }
+    viewModel { UserViewModel(get()) }
 }

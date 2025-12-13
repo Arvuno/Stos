@@ -50,40 +50,42 @@ class SearchViewModel(
 
     private val _questionListState = MutableStateFlow(QuestionListState())
 
-    val tagSection : List<TagSection> = listOf(
-        TagSection(
-            title = Res.string.mobile,
-            tags = mobileTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.database,
-            tags = databaseTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.test,
-            tags = testTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.cloud,
-            tags = cloudTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.framework,
-            tags = frameworksTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.language,
-            tags = languageTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.web,
-            tags = webTags.shuffled().take(10)
-        ),
-        TagSection(
-            title = Res.string.ai,
-            tags = aiTags.shuffled().take(10)
+    val tagSection : List<TagSection> by lazy {
+        listOf(
+            TagSection(
+                title = Res.string.mobile,
+                tags = mobileTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.database,
+                tags = databaseTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.test,
+                tags = testTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.cloud,
+                tags = cloudTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.framework,
+                tags = frameworksTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.language,
+                tags = languageTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.web,
+                tags = webTags.shuffledAndLimited()
+            ),
+            TagSection(
+                title = Res.string.ai,
+                tags = aiTags.shuffledAndLimited()
+            )
         )
-    )
+    }
 
     private val _listUiEvent = MutableSharedFlow<ListUiEvent>()
     val listUiEvent = _listUiEvent.asSharedFlow()
@@ -113,13 +115,20 @@ class SearchViewModel(
 
     fun onAction(action: SearchListAction) {
         viewModelScope.launch {
-            val event = when (action) {
-                is SearchListAction.OnQuestionClick -> ListUiEvent.NavigateToQuestion(action.id)
-                is SearchListAction.OnTagClick -> ListUiEvent.TagClick(action.tag)
-                is SearchListAction.OnSearchClick -> ListUiEvent.NavigateToSearch(action.inTitle, action.tag)
-                is SearchListAction.OnSortClick -> ListUiEvent.ChangeSort(action.sort)
+            when (action) {
+                is SearchListAction.OnQuestionClick -> {
+                    _listUiEvent.emit(ListUiEvent.NavigateToQuestion(action.id))
+                }
+                is SearchListAction.OnTagClick -> {
+                    _listUiEvent.emit(ListUiEvent.TagClick(action.tag))
+                }
+                is SearchListAction.OnSearchClick -> {
+                    _listUiEvent.emit(ListUiEvent.NavigateToSearch(action.inTitle, action.tag))
+                }
+                is SearchListAction.OnSortClick -> {
+                    updateSort(sort = action.sort)
+                }
             }
-            _listUiEvent.emit(event)
         }
     }
 
@@ -130,4 +139,6 @@ class SearchViewModel(
     fun searchQuestion(inTitle : String, tag : String) {
         _searchQuery.value = SearchQueryState(inTitle = inTitle, tag = tag)
     }
+
+    private fun List<String>.shuffledAndLimited() = this.shuffled().take(10)
 }

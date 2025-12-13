@@ -16,7 +16,7 @@ import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
-import com.m4ykey.stos.user.presentation.components.OwnerCard
+import com.m4ykey.stos.user.presentation.components.UserCard
 
 @Composable
 fun CommentItem(
@@ -33,7 +33,7 @@ fun CommentItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            OwnerCard(owner = comment.owner)
+            UserCard(user = comment.owner)
             TextMarkdown(text = comment.owner.displayName)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

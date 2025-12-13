@@ -1,5 +1,6 @@
 package com.m4ykey.stos.answer.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,11 +20,12 @@ import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
-import com.m4ykey.stos.user.presentation.components.OwnerCard
+import com.m4ykey.stos.user.presentation.components.UserCard
 
 @Composable
 fun AnswerCommentItem(
-    comment: AnswerComment
+    comment: AnswerComment,
+    onUserClick : (Int) -> Unit
 ) {
     val formattedDate = formatCreationDate(comment.creationDate.toLong())
 
@@ -34,9 +36,10 @@ fun AnswerCommentItem(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.clickable { onUserClick(comment.owner.userId) }
         ) {
-            OwnerCard(owner = comment.owner)
+            UserCard(user = comment.owner)
             TextMarkdown(text = comment.owner.displayName)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -56,7 +59,8 @@ fun AnswerCommentItem(
 
 @Composable
 fun CommentSection(
-    comments : LazyPagingItems<AnswerComment>
+    comments : LazyPagingItems<AnswerComment>,
+    onUserClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -64,7 +68,10 @@ fun CommentSection(
             .padding(start = 16.dp, top = 8.dp)
     ) {
         comments.itemSnapshotList.items.forEach { item ->
-            AnswerCommentItem(comment = item)
+            AnswerCommentItem(
+                comment = item,
+                onUserClick = onUserClick
+            )
         }
 
         if (comments.loadState.append is LoadState.Loading) {

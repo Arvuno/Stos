@@ -30,8 +30,8 @@ import com.m4ykey.stos.answer.presentation.components.CommentSection
 import com.m4ykey.stos.answer.presentation.components.CommentToggleRow
 import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
-import com.m4ykey.stos.question.domain.model.QuestionOwner
 import com.m4ykey.stos.question.presentation.detail.DisplayOwner
+import com.m4ykey.stos.user.domain.model.User
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.votes
 import kotlinx.coroutines.flow.Flow
@@ -40,8 +40,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun AnswerItem(
     answer : QuestionAnswer,
-    owner : QuestionOwner,
-    onLoadComments : (id : Int) -> Flow<PagingData<AnswerComment>>
+    user : User,
+    onLoadComments : (id : Int) -> Flow<PagingData<AnswerComment>>,
+    onUserClick : (Int) -> Unit
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -76,7 +77,10 @@ fun AnswerItem(
                     )
                 }
             }
-            DisplayOwner(item = owner)
+            DisplayOwner(
+                item = user,
+                onUserClick = onUserClick
+            )
         }
         Text(
             text = "${answer.upVoteCount} ${stringResource(Res.string.votes)}",
@@ -92,7 +96,10 @@ fun AnswerItem(
         }
 
         if (isExpanded && commentsPaging != null) {
-            CommentSection(commentsPaging)
+            CommentSection(
+                commentsPaging,
+                onUserClick = onUserClick
+            )
         }
     }
 }

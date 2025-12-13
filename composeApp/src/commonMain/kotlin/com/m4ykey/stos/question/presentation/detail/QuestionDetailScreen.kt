@@ -1,5 +1,6 @@
 package com.m4ykey.stos.question.presentation.detail
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,9 +23,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,10 +40,10 @@ import com.m4ykey.stos.answer.presentation.AnswerViewModel
 import com.m4ykey.stos.core.model.toQuestion
 import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.stos.core.views.ActionIconButton
+import com.m4ykey.stos.core.views.AppScaffold
 import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionDetail
-import com.m4ykey.stos.question.domain.model.QuestionOwner
 import com.m4ykey.stos.question.presentation.components.AnswerItem
 import com.m4ykey.stos.question.presentation.components.ErrorCard
 import com.m4ykey.stos.question.presentation.components.QuestionStatsRow
@@ -52,7 +51,8 @@ import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.components.formatCreationDate
 import com.m4ykey.stos.question.presentation.components.formatReputation
-import com.m4ykey.stos.user.presentation.components.OwnerCard
+import com.m4ykey.stos.user.domain.model.User
+import com.m4ykey.stos.user.presentation.components.UserCard
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answers
 import kmp_stos.composeapp.generated.resources.arrow_left
@@ -79,7 +79,8 @@ fun QuestionDetailScreen(
     onTagClick : (String) -> Unit,
     onCommentClick : (Int) -> Unit,
     answerViewModel : AnswerViewModel = koinViewModel(),
-    onRelatedClick : (Int) -> Unit
+    onRelatedClick : (Int) -> Unit,
+    onUserClick: (Int) -> Unit
 ) {
     val detailState by viewModel.questionDetailState.collectAsStateWithLifecycle()
     val answerState by viewModel.questionAnswerState.collectAsStateWithLifecycle()
@@ -96,11 +97,12 @@ fun QuestionDetailScreen(
     val onAction = viewModel::onAction
 
     LaunchedEffect(viewModel) {
-        viewModel.detailUiEvent.collectLatest { event ->
+        viewModel.detailUiEvent.collect { event ->
             when (event) {
                 is DetailUiEvent.TagClick -> onTagClick(event.tag)
                 is DetailUiEvent.RelatedClick -> onRelatedClick(event.id)
                 is DetailUiEvent.CommentClick -> onCommentClick(event.id)
+                is DetailUiEvent.UserClick -> onUserClick(event.id)
             }
         }
     }
@@ -109,74 +111,71 @@ fun QuestionDetailScreen(
         viewModel.loadQuestions(id)
     }
 
-    Scaffold(
+    AppScaffold(
+        scrollBehavior = scrollBehavior,
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                scrollBehavior = scrollBehavior,
-                title = {},
-                navigationIcon = {
-                    ActionIconButton(
-                        onClick = onBack,
-                        icon = Res.drawable.arrow_left,
-                        text = Res.string.back
-                    )
-                },
-                actions = {
-                    val link = detail?.link
-                    if (!link.isNullOrEmpty()) {
-                        ActionIconButton(
-                            icon = Res.drawable.link,
-                            text = Res.string.link,
-                            onClick = { openBrowser(link) }
-                        )
-                    }
-                    val commentCount = detail?.commentCount
-                    if (commentCount != null && commentCount > 0) {
-                        ActionIconButton(
-                            onClick = { viewModel.onAction(QuestionDetailAction.OnCommentClick(id)) },
-                            text = Res.string.comments,
-                            icon = Res.drawable.comment
-                        )
-                    }
-                    ActionIconButton(
-                        icon = Res.drawable.related,
-                        text = Res.string.empty,
-                        onClick = { viewModel.onAction(QuestionDetailAction.OnRelatedClick(id)) }
-                    )
-                }
+        navigation = {
+            ActionIconButton(
+                onClick = onBack,
+                icon = Res.drawable.arrow_left,
+                text = Res.string.back
             )
-        }
-    ) { padding ->
-        Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                error != null -> {
-                    ErrorCard(
-                        modifier = Modifier.align(Alignment.Center),
-                        error = error
-                    )
-                }
-                detail != null -> {
-                    QuestionDetailContent(
-                        item = detail,
-                        listState = listState,
-                        answers = answers,
-                        onAction = onAction,
-                        paddingValues = padding,
-                        answerViewModel = answerViewModel
-                    )
-                }
-                else -> {
-                    Text(
-                        fontSize = 16.sp,
-                        modifier = Modifier.align(Alignment.Center),
-                        text = stringResource(Res.string.no_data)
-                    )
+        },
+        actions = {
+            val link = detail?.link
+            if (!link.isNullOrEmpty()) {
+                ActionIconButton(
+                    icon = Res.drawable.link,
+                    text = Res.string.link,
+                    onClick = { openBrowser(link) }
+                )
+            }
+            val commentCount = detail?.commentCount
+            if (commentCount != null && commentCount > 0) {
+                ActionIconButton(
+                    onClick = { viewModel.onAction(QuestionDetailAction.OnCommentClick(id)) },
+                    text = Res.string.comments,
+                    icon = Res.drawable.comment
+                )
+            }
+            ActionIconButton(
+                icon = Res.drawable.related,
+                text = Res.string.empty,
+                onClick = { viewModel.onAction(QuestionDetailAction.OnRelatedClick(id)) }
+            )
+        },
+        content = { padding ->
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    error != null -> {
+                        ErrorCard(
+                            modifier = Modifier.align(Alignment.Center),
+                            error = error
+                        )
+                    }
+                    detail != null -> {
+                        QuestionDetailContent(
+                            item = detail,
+                            listState = listState,
+                            answers = answers,
+                            onAction = onAction,
+                            paddingValues = padding,
+                            answerViewModel = answerViewModel,
+                            onUserClick = onUserClick
+                        )
+                    }
+                    else -> {
+                        Text(
+                            fontSize = 16.sp,
+                            modifier = Modifier.align(Alignment.Center),
+                            text = stringResource(Res.string.no_data)
+                        )
+                    }
                 }
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -228,11 +227,12 @@ fun QuestionDetailContent(
     listState : LazyListState,
     answers : List<QuestionAnswer>,
     onAction: (QuestionDetailAction) -> Unit,
-    answerViewModel: AnswerViewModel
+    answerViewModel: AnswerViewModel,
+    onUserClick: (Int) -> Unit
 ) {
     LazyColumn(
         state = listState,
-        modifier = modifier.padding(paddingValues = paddingValues).padding(horizontal = 10.dp),
+        modifier = modifier.padding(paddingValues = paddingValues).padding(horizontal = 10.dp, vertical = 5.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
@@ -284,7 +284,10 @@ fun QuestionDetailContent(
             )
         }
         item {
-            DisplayOwner(item = item.owner)
+            DisplayOwner(
+                item = item.owner,
+                onUserClick = onUserClick
+            )
         }
         item {
             Text(
@@ -299,10 +302,11 @@ fun QuestionDetailContent(
         ) { answer ->
             AnswerItem(
                 answer = answer,
-                owner = answer.owner,
+                user = answer.owner,
                 onLoadComments = { answerId ->
                     answerViewModel.getCommentsFlow(answerId)
-                }
+                },
+                onUserClick = onUserClick
             )
             Spacer(modifier = Modifier.height(5.dp))
             HorizontalDivider(modifier = Modifier.padding(horizontal = 5.dp))
@@ -313,13 +317,18 @@ fun QuestionDetailContent(
 @Composable
 fun DisplayOwner(
     modifier : Modifier = Modifier,
-    item: QuestionOwner
+    item: User,
+    onUserClick : (Int) -> Unit = {}
 ) {
     if (item.displayName.isBlank()) return
 
-    Row(modifier = modifier.fillMaxWidth()) {
-        OwnerCard(
-            owner = item,
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onUserClick(item.userId) }
+    ) {
+        UserCard(
+            user = item,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
         Spacer(modifier = Modifier.width(10.dp))

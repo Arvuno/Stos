@@ -1,12 +1,13 @@
 package com.m4ykey.stos.question.data.network.dto
 
+import com.m4ykey.stos.user.data.network.dto.UserDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class QuestionDetailDto(
     val tags : List<String>? = emptyList(),
-    val owner : QuestionOwnerDto? = null,
+    val owner : UserDto? = null,
     @SerialName("view_count") val viewCount : Int? = 0,
     @SerialName("down_vote_count") val downVoteCount : Int? = 0,
     @SerialName("up_vote_count") val upVoteCount : Int? = 0,
@@ -20,6 +21,6 @@ data class QuestionDetailDto(
     @SerialName("closed_details") val closedDetails : ClosedDetailsDto? = null,
     @SerialName("comment_count") val commentCount : Int? = 0,
     @SerialName("last_edit_date") val lastEditDate : Int? = 0,
-    @SerialName("last_editor") val lastEditor : QuestionOwnerDto? = null,
+    @SerialName("last_editor") val lastEditor : UserDto? = null,
     @SerialName("closed_date") val closedDate : Int? = 0
 )

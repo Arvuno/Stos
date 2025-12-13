@@ -16,18 +16,16 @@ fun QuestionRelatedScreen(
     onBack : () -> Unit,
     id : Int,
     viewModel: QuestionRelatedViewModel = koinViewModel(),
-    listViewModel : QuestionListViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit
 ) {
 
     val questions = viewModel.getRelatedQuestion(id).collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
-    val onAction = listViewModel::onAction
+    val onAction = viewModel::onAction
 
-    LaunchedEffect(listViewModel) {
-        listViewModel.listUiEvent.collectLatest { event ->
+    LaunchedEffect(viewModel) {
+        viewModel.listUiEvent.collectLatest { event ->
             when (event) {
-                is ListUiEvent.ChangeSort -> listViewModel.updateSort(event.sort)
                 is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
             }
         }

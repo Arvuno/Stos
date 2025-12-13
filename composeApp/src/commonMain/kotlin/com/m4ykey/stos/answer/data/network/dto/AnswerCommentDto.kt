@@ -1,6 +1,6 @@
 package com.m4ykey.stos.answer.data.network.dto
 
-import com.m4ykey.stos.question.data.network.dto.QuestionOwnerDto
+import com.m4ykey.stos.user.data.network.dto.UserDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,5 +10,5 @@ data class AnswerCommentDto(
     @SerialName("body_markdown") val bodyMarkdown: String? = null,
     @SerialName("comment_id") val commentId: Int? = null,
     @SerialName("creation_date") val creationDate: Int? = null,
-    val owner: QuestionOwnerDto? = null
+    val owner: UserDto? = null
 )

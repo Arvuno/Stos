@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -37,13 +38,22 @@ class QuestionDetailViewModel(
                 is QuestionDetailAction.OnCommentClick -> {
                     _detailUiEvent.emit(DetailUiEvent.CommentClick(action.id))
                 }
+                is QuestionDetailAction.OnUserClick -> {
+                    _detailUiEvent.emit(DetailUiEvent.UserClick(action.id))
+                }
             }
         }
     }
 
     fun loadQuestions(id : Int) {
-        loadQuestionAnswer(id)
-        loadQuestionDetail(id)
+        val currentQuestion = _questionDetailState.value.question
+        if (currentQuestion == null || currentQuestion.questionId != id) {
+            loadQuestionDetail(id)
+        }
+
+        if (currentQuestion == null || currentQuestion.questionId != id) {
+            loadQuestionAnswer(id)
+        }
     }
 
     private fun loadQuestionAnswer(id : Int) {

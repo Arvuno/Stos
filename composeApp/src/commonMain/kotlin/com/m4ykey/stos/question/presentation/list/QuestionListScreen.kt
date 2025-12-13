@@ -46,7 +46,6 @@ fun QuestionListScreen(
     LaunchedEffect(Unit) {
         viewModel.listUiEvent.collectLatest { event ->
             when (event) {
-                is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
                 is ListUiEvent.NavigateToQuestion -> onQuestionClick(event.id)
                 is ListUiEvent.NavigateToUser -> onUserClick(event.id)
             }

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.question.domain.model.Question
-import com.m4ykey.stos.user.presentation.components.OwnerCard
+import com.m4ykey.stos.user.presentation.components.UserCard
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.answer_count
 import kmp_stos.composeapp.generated.resources.arrow_down
@@ -46,11 +46,11 @@ fun QuestionItem(
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            OwnerCard(
+            UserCard(
                 modifier = Modifier
                     .clickable { onUserClick(question.owner.userId) }
                     .align(Alignment.CenterVertically),
-                owner = question.owner
+                user = question.owner
             )
             Spacer(modifier = Modifier.width(5.dp))
             Column(modifier = modifier.fillMaxWidth()) {

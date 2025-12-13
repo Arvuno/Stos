@@ -9,4 +9,15 @@ data class User(
     val profileImage : String,
     val reputation : Int,
     val userId : Int
-)
+) {
+    companion object {
+        val EMPTY = User(
+            link = "",
+            userId = 0,
+            reputation = 0,
+            profileImage = "",
+            displayName = "",
+            badgeCounts = BadgeCounts.EMPTY
+        )
+    }
+}
