@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -52,7 +51,8 @@ fun ColorCircle(
 
 @Composable
 fun BadgeRow(
-    badgeCounts: BadgeCounts
+    badgeCounts: BadgeCounts,
+    modifier : Modifier = Modifier
 ) {
     val badges = buildList {
         if (badgeCounts.gold > 0) add(Color(0xFFFFCC01) to badgeCounts.gold)
@@ -61,7 +61,7 @@ fun BadgeRow(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {

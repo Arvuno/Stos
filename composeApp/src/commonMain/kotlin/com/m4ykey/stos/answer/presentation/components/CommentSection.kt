@@ -40,7 +40,10 @@ fun AnswerCommentItem(
             modifier = Modifier.clickable { onUserClick(comment.owner.userId) }
         ) {
             UserCard(user = comment.owner)
-            TextMarkdown(text = comment.owner.displayName)
+            TextMarkdown(
+                text = comment.owner.displayName,
+                alignment = Alignment.TopStart
+            )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
@@ -49,7 +52,10 @@ fun AnswerCommentItem(
             )
             BadgeRow(comment.owner.badgeCounts)
         }
-        TextMarkdown(text = comment.bodyMarkdown)
+        TextMarkdown(
+            alignment = Alignment.TopStart,
+            text = comment.bodyMarkdown
+        )
         Text(
             text = formattedDate,
             fontSize = 12.sp

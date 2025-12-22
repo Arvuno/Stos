@@ -97,6 +97,7 @@ kotlin {
             implementation(libs.slf4j)
             implementation(libs.ksoup.html)
             implementation(libs.ksoup.entities)
+            implementation(libs.constraint.layout)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -1,11 +1,14 @@
 package com.m4ykey.stos.user.domain.repository
 
+import androidx.paging.PagingData
 import com.m4ykey.stos.core.network.ApiResult
+import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.user.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
     suspend fun getUserById(id : Int) : Flow<ApiResult<User>>
+    fun getUserQuestions(id : Int) : Flow<PagingData<Question>>
 
 }

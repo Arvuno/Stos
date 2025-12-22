@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import com.m4ykey.stos.user.domain.model.User
@@ -20,11 +21,12 @@ import com.m4ykey.stos.user.domain.model.User
 @Composable
 fun UserCard(
     modifier : Modifier = Modifier,
-    user : User
+    user : User,
+    size: Dp = 26.dp
 ) {
     Card(
         shape = CircleShape,
-        modifier = modifier.size(26.dp)
+        modifier = modifier.size(size)
     ) {
         SubcomposeAsyncImage(
             model = user.profileImage,

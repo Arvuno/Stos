@@ -86,7 +86,10 @@ fun AnswerItem(
             text = "${answer.upVoteCount} ${stringResource(Res.string.votes)}",
             fontSize = 14.sp
         )
-        TextMarkdown(text = answer.bodyMarkdown)
+        TextMarkdown(
+            alignment = Alignment.TopStart,
+            text = answer.bodyMarkdown
+        )
         if (answer.commentCount > 0) {
             CommentToggleRow(
                 isExpanded = isExpanded,

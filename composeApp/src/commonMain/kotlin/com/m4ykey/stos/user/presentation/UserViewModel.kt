@@ -2,8 +2,12 @@ package com.m4ykey.stos.user.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.m4ykey.stos.core.network.handleApiResult
+import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.user.domain.use_case.UserUseCase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -16,6 +20,11 @@ class UserViewModel(
 
     private val _userUiState = MutableStateFlow(UserUiState())
     val userUiState = _userUiState.asStateFlow()
+
+    fun getUserQuestion(id : Int) : Flow<PagingData<Question>> {
+        return useCase.getUserQuestions(id)
+            .cachedIn(viewModelScope)
+    }
 
     fun getUser(id : Int) {
         _userUiState.update { it.copy(error = null, loading = true) }

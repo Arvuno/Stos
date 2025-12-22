@@ -1,12 +1,13 @@
 package com.m4ykey.stos.answer.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,11 +39,12 @@ fun CommentToggleRow(
             fontSize = 15.sp
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Image(
+        Icon(
             painter = painterResource(
                 if (isExpanded) Res.drawable.keyboard_arrow_up else Res.drawable.keyboard_arrow_down
             ),
-            contentDescription = null
+            contentDescription = null,
+            tint = LocalContentColor.current
         )
     }
 }

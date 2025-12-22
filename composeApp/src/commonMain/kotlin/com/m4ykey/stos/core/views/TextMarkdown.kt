@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -108,12 +110,14 @@ fun TextMarkdown(
     modifier : Modifier = Modifier,
     fontSize : TextUnit = 16.sp,
     fontWeight: FontWeight = FontWeight.Normal,
-    color : Color = LocalContentColor.current
+    color : Color = LocalContentColor.current,
+    textAlign: TextAlign = TextAlign.Start,
+    alignment: Alignment = Alignment.Center
 ) {
     val isDarkTheme = isSystemInDarkTheme()
 
     val markdownContent = remember(text) {
-        text.decodeHtml()
+        text.normalizeMarkdown()
     }
 
     val highlightBuilder = remember(isDarkTheme) {
@@ -141,16 +145,24 @@ fun TextMarkdown(
 
     val linkColor = Color(0xFF1E88E5)
 
-    val customTypography = remember(fontSize, fontWeight, color) {
+    val customTypography = remember(fontSize, fontWeight, color, textAlign) {
         val baseParagraph = TextStyle(
             fontSize = fontSize,
             fontWeight = fontWeight,
-            color = color
+            color = color,
+            textAlign = textAlign
         )
+
         val linkSpanStyle = SpanStyle(
             color = linkColor,
             textDecoration = TextDecoration.Underline
         )
+        val code = TextStyle(
+            fontSize = fontSize * 0.85f,
+            fontFamily = FontFamily.Monospace,
+            lineHeight = fontSize * 1.2f
+        )
+
         object : MarkdownTypography {
             override val h1 = TextStyle(fontSize = fontSize * 1.6f, fontWeight = fontWeight)
             override val h2 = TextStyle(fontSize = fontSize * 1.4f, fontWeight = fontWeight)
@@ -164,16 +176,19 @@ fun TextMarkdown(
             override val list = paragraph
             override val ordered = paragraph
             override val quote = TextStyle(fontSize = fontSize, fontStyle = FontStyle.Italic)
-            override val code = TextStyle(fontSize = fontSize * 0.9f, fontFamily = FontFamily.Monospace)
+            override val code = code
             override val inlineCode = code
             override val table = paragraph
             override val textLink = TextLinkStyles(style = linkSpanStyle)
         }
     }
 
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = alignment
+    ) {
         Markdown(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier,
             imageTransformer = coil3ImageTransfer,
             typography = customTypography,
             components = customComponents,

@@ -66,7 +66,6 @@ import kmp_stos.composeapp.generated.resources.last_edited_by
 import kmp_stos.composeapp.generated.resources.link
 import kmp_stos.composeapp.generated.resources.no_data
 import kmp_stos.composeapp.generated.resources.related
-import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -208,7 +207,8 @@ fun ClosedDetailCard(
             )
             Spacer(modifier = Modifier.height(4.dp))
             TextMarkdown(
-                text = description
+                text = description,
+                alignment = Alignment.TopStart
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -248,15 +248,20 @@ fun QuestionDetailContent(
             TextMarkdown(
                 text = item.title,
                 fontSize = 24.sp,
+                alignment = Alignment.TopStart,
                 fontWeight = FontWeight.SemiBold
             )
         }
-        item { TextMarkdown(text = item.bodyMarkdown) }
+        item { TextMarkdown(
+            text = item.bodyMarkdown,
+            alignment = Alignment.TopStart
+        ) }
 
         item {
             if (item.lastEditor.displayName.isNotBlank()) {
                 TextMarkdown(
                     fontSize = 15.sp,
+                    alignment = Alignment.TopStart,
                     text = "*${stringResource(Res.string.last_edited_by)}: ${item.lastEditor.displayName}*"
                 )
             }
@@ -333,7 +338,10 @@ fun DisplayOwner(
         )
         Spacer(modifier = Modifier.width(10.dp))
         Column(modifier = Modifier.weight(1f)) {
-            TextMarkdown(text = item.displayName)
+            TextMarkdown(
+                text = item.displayName,
+                alignment = Alignment.TopStart
+            )
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
                     fontSize = 13.sp,

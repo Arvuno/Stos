@@ -8,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.stos.question.presentation.components.BaseQuestionListScreen
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
-import com.m4ykey.stos.question.presentation.list.QuestionListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 

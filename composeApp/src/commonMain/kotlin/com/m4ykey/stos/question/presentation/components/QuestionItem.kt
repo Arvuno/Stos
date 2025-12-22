@@ -56,7 +56,8 @@ fun QuestionItem(
             Column(modifier = modifier.fillMaxWidth()) {
                 TextMarkdown(
                     text = question.owner.displayName,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    alignment = Alignment.TopStart
                 )
                 Text(
                     fontSize = 13.sp,
@@ -65,7 +66,8 @@ fun QuestionItem(
             }
         }
         TextMarkdown(
-            text = question.title
+            text = question.title,
+            alignment = Alignment.TopStart
         )
         QuestionStatsRow(
             item = question,

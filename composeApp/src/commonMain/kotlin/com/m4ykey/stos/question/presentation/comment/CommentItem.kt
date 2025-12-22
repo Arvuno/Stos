@@ -34,7 +34,10 @@ fun CommentItem(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             UserCard(user = comment.owner)
-            TextMarkdown(text = comment.owner.displayName)
+            TextMarkdown(
+                text = comment.owner.displayName,
+                alignment = Alignment.TopStart
+            )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
@@ -43,7 +46,10 @@ fun CommentItem(
             )
             BadgeRow(comment.owner.badgeCounts)
         }
-        TextMarkdown(text = comment.bodyMarkdown)
+        TextMarkdown(
+            alignment = Alignment.TopStart,
+            text = comment.bodyMarkdown
+        )
         Text(
             text = formattedDate,
             fontSize = 12.sp
