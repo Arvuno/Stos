@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.stos.core.views.ActionIconButton
+import com.m4ykey.stos.core.views.AppScaffold
 import com.m4ykey.stos.core.views.BasePagingList
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.arrow_left
@@ -22,33 +23,33 @@ import org.koin.compose.viewmodel.koinViewModel
 fun QuestionCommentListScreen(
     id : Int,
     viewModel: QuestionCommentViewModel = koinViewModel(),
-    onBack : () -> Unit
+    onBack : () -> Unit,
+    onUserClick : (Int) -> Unit
 ) {
     val comments = viewModel.getQuestionComment(id).collectAsLazyPagingItems()
     val listState = rememberLazyListState()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("") },
-                navigationIcon = {
-                    ActionIconButton(
-                        onClick = onBack,
-                        text = Res.string.back,
-                        icon = Res.drawable.arrow_left
+    AppScaffold(
+        navigation = {
+            ActionIconButton(
+                onClick = onBack,
+                text = Res.string.back,
+                icon = Res.drawable.arrow_left
+            )
+        },
+        content = { padding ->
+            BasePagingList(
+                modifier = Modifier.padding(padding),
+                itemContent = { comment ->
+                    CommentItem(
+                        comment = comment,
+                        onUserClick = onUserClick
                     )
-                }
+                },
+                items = comments,
+                listState = listState,
+                itemKey = { it.commentId }
             )
         }
-    ) { innerPadding ->
-        BasePagingList(
-            modifier = Modifier.padding(innerPadding),
-            itemContent = { comment ->
-                CommentItem(comment = comment)
-            },
-            items = comments,
-            listState = listState,
-            itemKey = { it.commentId }
-        )
-    }
+    )
 }

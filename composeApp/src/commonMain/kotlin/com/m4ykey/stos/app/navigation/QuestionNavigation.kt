@@ -73,7 +73,12 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
         val id = backStack.savedStateHandle.get<Int>(Screen.QuestionComment.ARG_QUESTION_ID) ?: return@composable
         QuestionCommentListScreen(
             id = id,
-            onBack = { navHostController.popBackStack() }
+            onBack = { navHostController.popBackStack() },
+            onUserClick = { id ->
+                navHostController.navigate(Screen.UserScreen.routeWithArgs(id)) {
+                    launchSingleTop = true
+                }
+            }
         )
     }
 

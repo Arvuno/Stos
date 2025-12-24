@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,12 +29,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.AppScaffold
 import com.m4ykey.stos.core.views.TextMarkdown
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.ErrorCard
+import com.m4ykey.stos.question.presentation.components.QuestionItem
 import com.m4ykey.stos.question.presentation.components.badge.BadgeRow
 import com.m4ykey.stos.question.presentation.components.formatReputation
 import com.m4ykey.stos.user.domain.model.User
@@ -48,7 +52,8 @@ import org.koin.compose.viewmodel.koinViewModel
 fun UserScreen(
     id : Int,
     onBack : () -> Unit,
-    viewModel: UserViewModel = koinViewModel()
+    viewModel: UserViewModel = koinViewModel(),
+    onQuestionClick: (Int) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val state = rememberLazyListState()
@@ -82,6 +87,7 @@ fun UserScreen(
                             paddingValues = padding,
                             state = state,
                             user = uiState.user,
+                            onQuestionClick = onQuestionClick,
                             questions = questions
                         )
                     }
@@ -113,7 +119,8 @@ fun UserContent(
     paddingValues: PaddingValues,
     state : LazyListState,
     user: User,
-    questions : LazyPagingItems<Question>
+    questions : LazyPagingItems<Question>,
+    onQuestionClick : (Int) -> Unit
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -124,6 +131,20 @@ fun UserContent(
     ) {
         item {
             UserCardContent(user = user)
+        }
+        items(
+            count = questions.itemCount,
+            key = questions.itemKey { it.questionId },
+            contentType = questions.itemContentType { "questions" }
+        ) { index ->
+            val question = questions[index]
+            question?.let { item ->
+                QuestionItem(
+                    onUserClick = {},
+                    onQuestionClick = { onQuestionClick(item.questionId) },
+                    question = item
+                )
+            }
         }
     }
 }

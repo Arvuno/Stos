@@ -15,6 +15,11 @@ fun NavGraphBuilder.userNavigation(navHostController: NavHostController) {
             id = id,
             onBack = {
                 navHostController.navigateUp()
+            },
+            onQuestionClick = {
+                navHostController.navigate(Screen.QuestionDetail.routeWithArgs(id)) {
+                    launchSingleTop = true
+                }
             }
         )
     }

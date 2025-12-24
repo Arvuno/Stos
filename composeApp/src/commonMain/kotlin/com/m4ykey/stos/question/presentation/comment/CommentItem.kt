@@ -1,5 +1,6 @@
 package com.m4ykey.stos.question.presentation.comment
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,8 @@ import com.m4ykey.stos.user.presentation.components.UserCard
 
 @Composable
 fun CommentItem(
-    comment : QuestionComment
+    comment : QuestionComment,
+    onUserClick : (Int) -> Unit
 ) {
     val formattedDate = formatCreationDate(comment.creationDate.toLong())
 
@@ -31,7 +33,8 @@ fun CommentItem(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.clickable { onUserClick(comment.owner.userId) }
         ) {
             UserCard(user = comment.owner)
             TextMarkdown(
