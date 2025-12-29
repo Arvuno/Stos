@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.m4ykey.stos.user.presentation
 
 import androidx.lifecycle.ViewModel
@@ -7,10 +9,14 @@ import androidx.paging.cachedIn
 import com.m4ykey.stos.core.network.handleApiResult
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.user.domain.use_case.UserUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,12 +27,24 @@ class UserViewModel(
     private val _userUiState = MutableStateFlow(UserUiState())
     val userUiState = _userUiState.asStateFlow()
 
-    fun getUserQuestion(id : Int) : Flow<PagingData<Question>> {
-        return useCase.getUserQuestions(id)
-            .cachedIn(viewModelScope)
+    private val _id = MutableStateFlow<Int?>(null)
+
+    val userQuestions : Flow<PagingData<Question>> = _id
+        .filterNotNull()
+        .distinctUntilChanged()
+        .flatMapLatest { id ->
+            useCase.getUserQuestions(id = id)
+                .cachedIn(viewModelScope)
+        }
+
+    fun initUser(id : Int) {
+        if (_id.value == id) return
+
+        _id.value = id
+        getUser(id)
     }
 
-    fun getUser(id : Int) {
+    private fun getUser(id : Int) {
         _userUiState.update { it.copy(error = null, loading = true) }
 
         viewModelScope.launch {

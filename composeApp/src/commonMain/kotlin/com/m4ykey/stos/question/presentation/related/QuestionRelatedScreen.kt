@@ -18,7 +18,11 @@ fun QuestionRelatedScreen(
     onQuestionClick : (Int) -> Unit
 ) {
 
-    val questions = viewModel.getRelatedQuestion(id).collectAsLazyPagingItems()
+    LaunchedEffect(id) {
+        viewModel.setId(id)
+    }
+
+    val questions = viewModel.relatedQuestions.collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
     val onAction = viewModel::onAction
 

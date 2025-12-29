@@ -52,18 +52,16 @@ import org.koin.compose.viewmodel.koinViewModel
 fun UserScreen(
     id : Int,
     onBack : () -> Unit,
-    viewModel: UserViewModel = koinViewModel(),
-    onQuestionClick: (Int) -> Unit
+    viewModel: UserViewModel = koinViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val state = rememberLazyListState()
 
-    val questions = viewModel.getUserQuestion(id).collectAsLazyPagingItems()
-
-    LaunchedEffect(viewModel) {
-        viewModel.getUser(id)
+    LaunchedEffect(id) {
+        viewModel.initUser(id)
     }
 
+    val questions = viewModel.userQuestions.collectAsLazyPagingItems()
     val userUiState = viewModel.userUiState.collectAsState()
     val uiState = userUiState.value
 
@@ -87,7 +85,7 @@ fun UserScreen(
                             paddingValues = padding,
                             state = state,
                             user = uiState.user,
-                            onQuestionClick = onQuestionClick,
+                            onQuestionClick = {  },
                             questions = questions
                         )
                     }

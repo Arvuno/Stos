@@ -19,7 +19,11 @@ fun QuestionTagScreen(
     viewModel: QuestionTagViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit
 ) {
-    val questions = viewModel.getQuestionsTag(tag).collectAsLazyPagingItems()
+    LaunchedEffect(tag) {
+        viewModel.setTag(tag)
+    }
+
+    val questions = viewModel.tagQuestions.collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
     val onAction = viewModel::onAction
 

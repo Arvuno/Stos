@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -93,7 +94,7 @@ class SearchViewModel(
     private val _searchFlow = combine(
         _questionListState,
         _searchQuery
-    ) { _, queryState ->
+    ) { sort, queryState ->
         QueryParameters(
             sort = "activity",
             inTitle = queryState.inTitle,
@@ -101,15 +102,16 @@ class SearchViewModel(
         )
     }
         .distinctUntilChanged()
-        .debounce(1000L)
+        .debounce { params ->
+            if (params.inTitle.isEmpty()) 0L else 1000L
+        }
         .flatMapLatest { params ->
             useCase.searchQuestions(
                 sort = params.sort,
                 inTitle = params.inTitle,
                 tagged = params.tagged
             )
-        }
-        .cachedIn(viewModelScope)
+        }.cachedIn(viewModelScope)
 
     val searchResults : Flow<PagingData<Question>> = _searchFlow
 

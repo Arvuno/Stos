@@ -55,7 +55,7 @@ fun BaseQuestionListScreen(
 
     val showScrollToTopButton by remember {
         derivedStateOf {
-            lazyListState.firstVisibleItemIndex > 30 || lazyListState.firstVisibleItemScrollOffset > 0
+            lazyListState.firstVisibleItemIndex > 20
         }
     }
 

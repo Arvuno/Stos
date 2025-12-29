@@ -44,15 +44,18 @@ class QuestionDetailViewModel(
         }
     }
 
-    fun loadQuestions(id : Int) {
-        val currentQuestion = _questionDetailState.value.question
-        if (currentQuestion == null || currentQuestion.questionId != id) {
-            loadQuestionDetail(id)
-        }
+    private var lastLoadedId : Int? = null
 
-        if (currentQuestion == null || currentQuestion.questionId != id) {
-            loadQuestionAnswer(id)
-        }
+    fun loadQuestions(id : Int) {
+        if (lastLoadedId == id && _questionDetailState.value.question != null) return
+
+        lastLoadedId = id
+
+        _questionDetailState.update { QuestionDetailState(loading = true) }
+        _questionAnswerState.update { QuestionAnswerState(loading = true) }
+
+        loadQuestionDetail(id)
+        loadQuestionAnswer(id)
     }
 
     private fun loadQuestionAnswer(id : Int) {

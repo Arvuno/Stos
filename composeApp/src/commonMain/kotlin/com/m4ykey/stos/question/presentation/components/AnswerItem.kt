@@ -46,7 +46,7 @@ fun AnswerItem(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    val commentsFlow : Flow<PagingData<AnswerComment>> = remember(answer.answerId) {
+    val commentsFlow = remember(answer.answerId) {
         onLoadComments(answer.answerId)
     }
 

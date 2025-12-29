@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -31,7 +33,7 @@ class QuestionTagViewModel(
     private val _questionListState = MutableStateFlow(QuestionListState())
     val questionListState = _questionListState.asStateFlow()
 
-    private val tagFlowCache = mutableMapOf<String, Flow<PagingData<Question>>>()
+    private val _currentTag = MutableStateFlow<String?>(null)
 
     private val _listUiEvent = MutableSharedFlow<ListUiEvent>()
     val listUiEvent = _listUiEvent.asSharedFlow()
@@ -40,19 +42,21 @@ class QuestionTagViewModel(
         _questionListState.update { it.copy(sort = sort) }
     }
 
-    fun getQuestionsTag(tag : String) : Flow<PagingData<Question>> {
-        return tagFlowCache.getOrPut(tag) {
-            _questionListState
-                .map { it.sort }
-                .distinctUntilChanged()
-                .flatMapLatest { sort ->
-                    useCase.getQuestionsByTag(
-                        sort = sort.name,
-                        tagged = tag
-                    )
-                }
-                .cachedIn(viewModelScope)
-        }
+    fun setTag(tag : String) {
+        if (_currentTag.value == tag) return
+        _currentTag.value = tag
+    }
+
+    val tagQuestions : Flow<PagingData<Question>> = combine(
+        _currentTag.filterNotNull(),
+        _questionListState.map { it.sort }.distinctUntilChanged()
+    ) { tag, sort ->
+        tag to sort
+    }.flatMapLatest { (tag, sort) ->
+        useCase.getQuestionsByTag(
+            sort = sort.name,
+            tagged = tag
+        ).cachedIn(viewModelScope)
     }
 
     fun onAction(action: QuestionListAction) {

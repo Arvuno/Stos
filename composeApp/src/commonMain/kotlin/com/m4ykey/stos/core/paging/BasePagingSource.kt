@@ -2,6 +2,8 @@ package com.m4ykey.stos.core.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import kotlinx.coroutines.delay
+import okio.IOException
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
@@ -31,6 +33,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                     )
                 },
                 onFailure = { exception ->
+                    if (exception is IOException) delay(2000)
                     LoadResult.Error(exception)
                 }
             )

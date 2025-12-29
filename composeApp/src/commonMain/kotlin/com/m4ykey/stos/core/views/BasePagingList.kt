@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.m4ykey.stos.core.model.Id
 import com.m4ykey.stos.question.presentation.components.ErrorCard
 import kotlinx.coroutines.delay
 
@@ -34,7 +35,7 @@ fun <T: Any> BasePagingList(
     loadingContent : @Composable () -> Unit = defaultLoading,
     errorContent : @Composable (Throwable?) -> Unit = defaultError,
     contentPadding : PaddingValues = PaddingValues(10.dp),
-    itemKey : (T) -> Any = { it.hashCode() },
+    itemKey : (T) -> Any = { if (it is Id) it.id else it.hashCode() },
     showDivider : Boolean = true,
     itemContent : @Composable (item : T) -> Unit,
     emptyContent : @Composable () -> Unit = defaultEmpty,
@@ -82,7 +83,7 @@ fun <T: Any> BasePagingList(
                             count = items.itemCount,
                             contentType = { "paged_item" },
                             key = { index ->
-                                val item = items[index]
+                                val item = items.peek(index)
                                 if (item != null) itemKey(item)
                                 else "placeholder_$index"
                             }

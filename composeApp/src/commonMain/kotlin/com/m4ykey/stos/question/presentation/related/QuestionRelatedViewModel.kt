@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.m4ykey.stos.question.presentation.related
 
 import androidx.lifecycle.ViewModel
@@ -15,13 +17,14 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class QuestionRelatedViewModel(
     private val useCase: QuestionUseCase
 ) : ViewModel() {
@@ -29,16 +32,20 @@ class QuestionRelatedViewModel(
     private val _questionListState = MutableStateFlow(RelatedQuestionState())
     val questionListState = _questionListState.asStateFlow()
 
-    fun getRelatedQuestion(id : Int) : Flow<PagingData<Question>> {
-        return _questionListState
-            .map { it.sort }
-            .distinctUntilChanged()
-            .flatMapLatest { sort ->
-                useCase.getRelatedQuestions(
-                    id = id,
-                    sort = sort.name
-                )
-            }
+    private val _id = MutableStateFlow<Int?>(null)
+
+    fun setId(id : Int) {
+        if (_id.value == id) return
+        _id.value = id
+    }
+
+    val relatedQuestions : Flow<PagingData<Question>> = combine(
+        _id.filterNotNull(),
+        _questionListState.map { it.sort }.distinctUntilChanged()
+    ) { id, sort ->
+        id to sort
+    }.flatMapLatest { (id, sort) ->
+        useCase.getRelatedQuestions(id = id, sort = sort.name)
             .cachedIn(viewModelScope)
     }
 

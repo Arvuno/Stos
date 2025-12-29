@@ -1,5 +1,6 @@
 package com.m4ykey.stos.question.domain.model
 
+import com.m4ykey.stos.core.model.Id
 import com.m4ykey.stos.user.domain.model.User
 
 data class Question(
@@ -11,4 +12,6 @@ data class Question(
     val creationDate : Int,
     val questionId : Int,
     val title : String
-)
+) : Id {
+    override val id: Any = questionId
+}

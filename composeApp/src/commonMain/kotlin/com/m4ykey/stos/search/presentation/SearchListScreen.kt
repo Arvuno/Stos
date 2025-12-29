@@ -110,7 +110,8 @@ fun SearchListScreen(
                     )
                 },
                 items = questions,
-                listState = listState
+                listState = listState,
+                itemKey = { it.questionId }
             )
         }
     }

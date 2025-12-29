@@ -1,7 +1,7 @@
 # Stos
 
 Stos is a cross-platform application (Android/Desktop) built with **Compose Multiplatform** designed to
-browse [StackExchange](https://api.stackexchange.com/docs) and [StackOverflow](https://stackoverflow.com/) 
+browse [StackExchange](https://api.stackexchange.com/docs) and [StackOverflow](https://stackoverflow.com/)
 
 ## Why Stos?
 Stos was created with the intention to learn Compose Multiplatform. I wanted to write an application that can be quickly launched when you have a problem.
