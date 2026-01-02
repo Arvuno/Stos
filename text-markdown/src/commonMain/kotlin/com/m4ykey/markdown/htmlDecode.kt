@@ -1,27 +1,24 @@
-package com.m4ykey.stos.core.views
+package com.m4ykey.markdown
 
 import com.mohamedrejeb.ksoup.entities.KsoupEntities
 
 fun String.normalizeMarkdown() : String {
     val decoded = KsoupEntities.decodeHtml(this)
-
     val lines = decoded.lines()
-    var result = StringBuilder()
+    val result = StringBuilder()
 
     for (i in lines.indices) {
         val currentLines = lines[i]
 
         val isIndentedCode = currentLines.startsWith("    ") || currentLines.startsWith("\t")
-
         if (isIndentedCode && i > 0) {
             val previousLine = lines[i - 1]
-
             if (previousLine.trim().isNotEmpty() && !previousLine.startsWith("    ")) {
                 result.append("\n")
             }
         }
 
-        result.append(currentLines).append("  \n")
+        result.append(currentLines).append("\n")
     }
 
     return result

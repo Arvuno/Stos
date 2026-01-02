@@ -64,6 +64,8 @@ kotlin {
             implementation(libs.firebase.crashlytics)
         }
         commonMain.dependencies {
+            implementation(projects.textMarkdown)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -88,15 +90,12 @@ kotlin {
             implementation(libs.androidx.navigation)
             implementation(libs.coil3.network.ktor)
             implementation(libs.sqlite.bundled)
-            implementation(libs.bundles.markdown)
             implementation(libs.bundles.aboutlibraries)
             implementation(libs.bundles.compottie)
             implementation(libs.ktor.client.encoding)
             implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.paging.common)
             implementation(libs.slf4j)
-            implementation(libs.ksoup.html)
-            implementation(libs.ksoup.entities)
             implementation(libs.constraint.layout)
         }
         commonTest.dependencies {

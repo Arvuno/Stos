@@ -41,7 +41,7 @@ import com.m4ykey.stos.core.model.toQuestion
 import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.AppScaffold
-import com.m4ykey.stos.core.views.TextMarkdown
+import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.presentation.components.AnswerItem

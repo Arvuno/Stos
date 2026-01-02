@@ -1,4 +1,4 @@
-package com.m4ykey.stos.core.views
+package com.m4ykey.markdown
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -88,7 +88,6 @@ val coil3ImageTransfer = object : ImageTransformer {
                         .fillMaxWidth()
                         .height(200.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .shimmerEffect()
                 )
             }
             else -> {

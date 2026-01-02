@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.m4ykey.stos.core.views.TextMarkdown
+import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.user.presentation.components.UserCard
 import kmp_stos.composeapp.generated.resources.Res

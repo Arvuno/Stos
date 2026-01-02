@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,7 +33,7 @@ import androidx.paging.compose.itemKey
 import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.stos.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.AppScaffold
-import com.m4ykey.stos.core.views.TextMarkdown
+import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.ErrorCard
 import com.m4ykey.stos.question.presentation.components.QuestionItem
