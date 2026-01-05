@@ -25,9 +25,11 @@ k=YOUR_STACK_EXCHANGE_KEY
 ```
 
 ## Screenshots
-| ![home.jpg](resources/screenshots/home.jpg) | ![detail.jpg](resources/screenshots/detail.jpg) |
-| ![search.jpg](resources/screenshots/search.jpg) | ![tag.jpg](resources/screenshots/tag.jpg) |
-| ![user.jpg](resources/screenshots/user.jpg) |
+|    ![home.jpg](resources/screenshots/home.jpg)    |  ![detail.jpg](resources/screenshots/detail.jpg)  |
+|:-------------------------------------------------:|:-------------------------------------------------:|
+|  ![search.jpg](resources/screenshots/search.jpg)  |     ![tag.jpg](resources/screenshots/tag.jpg)     |
+| :-----------------------------------------------: | :-----------------------------------------------: |
+|    ![user.jpg](resources/screenshots/user.jpg)    |
 
 ## Tech Stack
 - **Language:** [Kotlin](https://kotlinlang.org/)

@@ -8,10 +8,11 @@ Stos został zbudowany z intencją do nauki Compose Multiplatform. Chciałem zro
 gdy ma się problem.
 
 ## Zdjęcia
-| ![home.jpg](resources/screenshots/home.jpg) | ![detail.jpg](resources/screenshots/detail.jpg) |
-| ![search.jpg](resources/screenshots/search.jpg) | ![tag.jpg](resources/screenshots/tag.jpg) |
-| ![user.jpg](resources/screenshots/user.jpg) |
-
+|    ![home.jpg](resources/screenshots/home.jpg)    |  ![detail.jpg](resources/screenshots/detail.jpg)  |
+|:-------------------------------------------------:|:-------------------------------------------------:|
+|  ![search.jpg](resources/screenshots/search.jpg)  |     ![tag.jpg](resources/screenshots/tag.jpg)     |
+| :-----------------------------------------------: | :-----------------------------------------------: |
+|    ![user.jpg](resources/screenshots/user.jpg)    |
 ## Cechy
 - Proste i minimalne UI skupiony na czytelności.
 - Wsparcie Cross-platformowe (aktualnie skupione na Android, PC jest w planie)
