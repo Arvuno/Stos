@@ -11,7 +11,6 @@ gdy ma się problem.
 |    ![home.jpg](resources/screenshots/home.jpg)    |  ![detail.jpg](resources/screenshots/detail.jpg)  |
 |:-------------------------------------------------:|:-------------------------------------------------:|
 |  ![search.jpg](resources/screenshots/search.jpg)  |     ![tag.jpg](resources/screenshots/tag.jpg)     |
-| :-----------------------------------------------: | :-----------------------------------------------: |
 |    ![user.jpg](resources/screenshots/user.jpg)    |
 ## Cechy
 - Proste i minimalne UI skupiony na czytelności.
