@@ -16,6 +16,19 @@ Stos was created with the intention to learn Compose Multiplatform. I wanted to 
 Currently, you can download the latest APK from the [Releases](https://github.com/m4ykey/Stos/releases)
 section and install it on your Android device.
 
+## Project Setup
+1. Clone repository and open in the latest version of Android Studio
+2. Create ```local.properties``` file
+3. Add your [StackExchange](https://api.stackexchange.com/docs) key:
+```
+k=YOUR_STACK_EXCHANGE_KEY
+```
+
+## Screenshots
+| ![home.jpg](resources/screenshots/home.jpg) | ![detail.jpg](resources/screenshots/detail.jpg) |
+| ![search.jpg](resources/screenshots/search.jpg) | ![tag.jpg](resources/screenshots/tag.jpg) |
+| ![user.jpg](resources/screenshots/user.jpg) |
+
 ## Tech Stack
 - **Language:** [Kotlin](https://kotlinlang.org/)
 - **UI Components:** - [Compose Multiplatform](https://www.jetbrains.com/compose-multiplatform/)
@@ -32,7 +45,7 @@ section and install it on your Android device.
 This application was inspired by [Stack](https://github.com/tylerbwong/stack)
 
 # License
-```plaintext
+```
 Copyright (C) 2025 Michał F
 
 This program is free software: you can redistribute it and/or modify
@@ -47,3 +60,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
+```

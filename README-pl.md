@@ -7,6 +7,11 @@ do przeglądania  [StackExchange](https://api.stackexchange.com/docs) i [StackOv
 Stos został zbudowany z intencją do nauki Compose Multiplatform. Chciałem zrobić aplikację, która będzie poręczna
 gdy ma się problem.
 
+## Zdjęcia
+| ![home.jpg](resources/screenshots/home.jpg) | ![detail.jpg](resources/screenshots/detail.jpg) |
+| ![search.jpg](resources/screenshots/search.jpg) | ![tag.jpg](resources/screenshots/tag.jpg) |
+| ![user.jpg](resources/screenshots/user.jpg) |
+
 ## Cechy
 - Proste i minimalne UI skupiony na czytelności.
 - Wsparcie Cross-platformowe (aktualnie skupione na Android, PC jest w planie)
@@ -28,11 +33,19 @@ gdy ma się problem.
 ## Pobierz
 Obecnie możesz pobrać najnowsze APK z [Releases](https://github.com/m4ykey/Stos/releases) i zainstalować ją na swoim urządzeniu.
 
+## Ustawienie projektu
+1. Sklonuj repozytorium i otwórz je w najnowszej wersji Android Studio
+2. Stwórz plik ```local.properties```
+3. Dodaj klucz [StackExchange](https://api.stackexchange.com/docs)
+```
+k=YOUR_STACK_EXCHANGE_KEY
+```
+
 ## Inspiracja
 Ta aplikacja jest zainspirowana przez [Stack](https://github.com/tylerbwong/stack)
 
 # Licencja
-```plaintext
+```
 Copyright (C) 2025 Michał F
 
 This program is free software: you can redistribute it and/or modify
@@ -47,3 +60,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
+```
