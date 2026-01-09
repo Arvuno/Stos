@@ -1,4 +1,4 @@
-package com.m4ykey.stos.core.paging
+package com.m4ykey.core.paging
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 
 fun <T: Any> createPagingFlow(
-    pagingSourceFactory : () -> PagingSource<Int, T>,
-    dispatcher: CoroutineDispatcher
+    dispatcher : CoroutineDispatcher,
+    pagingSourceFactory : () -> PagingSource<Int, T>
 ) : Flow<PagingData<T>> {
     return Pager(
         config = pagingConfig,

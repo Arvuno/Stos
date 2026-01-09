@@ -51,6 +51,8 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            implementation(projects.core)
+
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
@@ -59,12 +61,12 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.coil3.network.okhttp)
             implementation(libs.androidx.browser)
-            implementation(libs.androidx.paging.runtime)
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics)
         }
         commonMain.dependencies {
             implementation(projects.textMarkdown)
+            implementation(projects.core)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -91,10 +93,7 @@ kotlin {
             implementation(libs.coil3.network.ktor)
             implementation(libs.sqlite.bundled)
             implementation(libs.bundles.aboutlibraries)
-            implementation(libs.bundles.compottie)
             implementation(libs.ktor.client.encoding)
-            implementation(libs.androidx.paging.compose)
-            implementation(libs.androidx.paging.common)
             implementation(libs.slf4j)
             implementation(libs.constraint.layout)
         }

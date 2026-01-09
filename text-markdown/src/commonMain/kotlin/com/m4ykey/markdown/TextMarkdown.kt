@@ -2,8 +2,11 @@ package com.m4ykey.markdown
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -33,13 +36,20 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.mikepenz.markdown.compose.LazyMarkdownSuccess
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownHighlightedCodeBlock
 import com.mikepenz.markdown.compose.elements.MarkdownHighlightedCodeFence
+import com.mikepenz.markdown.compose.extendedspans.ExtendedSpans
+import com.mikepenz.markdown.compose.extendedspans.RoundedCornerSpanPainter
+import com.mikepenz.markdown.compose.extendedspans.SquigglyUnderlineSpanPainter
+import com.mikepenz.markdown.compose.extendedspans.rememberSquigglyUnderlineAnimator
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.model.ImageData
 import com.mikepenz.markdown.model.ImageTransformer
 import com.mikepenz.markdown.model.MarkdownTypography
+import com.mikepenz.markdown.model.markdownExtendedSpans
+import com.mikepenz.markdown.model.rememberMarkdownState
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxThemes
 
@@ -56,9 +66,9 @@ fun TextMarkdown(
     val isDarkTheme = isSystemInDarkTheme()
 
     val markdownContent = remember(text) {
-        text.normalizeMarkdown()
-            .fixImageReferences()
+        val processed = text.normalizeMarkdown()
             .replace("\r\n", "\n")
+        processed
     }
 
     val highlightBuilder = remember(isDarkTheme) {
@@ -130,7 +140,7 @@ fun TextMarkdown(
     ) {
         key(markdownContent) {
             Markdown(
-                modifier = Modifier,
+                modifier = Modifier.wrapContentHeight(),
                 imageTransformer = coil3ImageTransfer,
                 typography = customTypography,
                 components = customComponents,

@@ -1,20 +1,16 @@
-package com.m4ykey.stos.core.paging
+package com.m4ykey.core.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import kotlinx.coroutines.delay
-import okio.IOException
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
     override fun getRefreshKey(state: PagingState<Int, Value>): Int? {
         return state.anchorPosition?.let { position ->
-            state.closestPageToPosition(position)?.prevKey
-                ?: state.closestPageToPosition(position)?.nextKey
+            state.closestPageToPosition(position)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(position)?.nextKey?.minus(1)
         }
     }
-
-    protected abstract suspend fun loadData(page : Int, pageSize : Int) : Result<List<Value>>
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Value> {
         val position = params.key ?: 1
@@ -25,20 +21,23 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
             result.fold(
                 onSuccess = { data ->
+                    val isLastPage = data.size < pageSize
+
                     LoadResult.Page(
-                        itemsBefore = 0,
+                        data = data,
                         prevKey = if (position == 1) null else position - 1,
-                        nextKey = if (data.size < pageSize) null else position + 1,
-                        data = data
+                        nextKey = if (isLastPage) null else position + 1
                     )
                 },
                 onFailure = { exception ->
-                    if (exception is IOException) delay(2000)
                     LoadResult.Error(exception)
                 }
             )
-        } catch (exception : Exception) {
-            LoadResult.Error(exception)
+        } catch (e : Exception) {
+            LoadResult.Error(e)
         }
     }
+
+    protected abstract suspend fun loadData(page : Int, pageSize : Int) : Result<List<Value>>
+
 }

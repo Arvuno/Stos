@@ -1,9 +1,9 @@
 package com.m4ykey.stos.user.data.paging
 
+import com.m4ykey.core.paging.BasePagingSource
 import com.m4ykey.stos.core.model.toDomain
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
-import com.m4ykey.stos.core.paging.BasePagingSource
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.user.data.network.service.RemoteUserService
 

@@ -22,7 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.compose.LazyPagingItems
-import com.m4ykey.stos.core.views.ActionIconButton
+import com.m4ykey.core.views.ActionIconButton
 import com.m4ykey.stos.core.views.BaseListState
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.list.QuestionListAction

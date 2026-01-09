@@ -138,3 +138,8 @@ compottie = [
     "compottie-dot",
     "compottie-network"
 ]
+
+paging = [
+    "androidx-paging-common",
+    "androidx-paging-compose"
+]

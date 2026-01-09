@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.m4ykey.stos.core.views
+package com.m4ykey.core.views
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
@@ -18,10 +18,10 @@ import org.jetbrains.compose.resources.stringResource
 fun AppScaffold(
     modifier : Modifier = Modifier,
     title : StringResource? = null,
-    navigation : @Composable () -> Unit = {},
+    content : @Composable (PaddingValues) -> Unit,
     actions : @Composable RowScope.() -> Unit = {},
-    scrollBehavior: TopAppBarScrollBehavior? = null,
-    content : @Composable (PaddingValues) -> Unit
+    navigation : @Composable () -> Unit = {},
+    scrollBehavior : TopAppBarScrollBehavior? = null
 ) {
     Scaffold(
         modifier = modifier,
@@ -29,12 +29,8 @@ fun AppScaffold(
             TopAppBar(
                 scrollBehavior = scrollBehavior,
                 title = { title?.let { Text(text = stringResource(it)) } },
-                navigationIcon = {
-                    navigation()
-                },
-                actions = {
-                    actions()
-                }
+                navigationIcon = { navigation() },
+                actions = { actions() }
             )
         }
     ) { paddingValues ->

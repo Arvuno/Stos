@@ -1,8 +1,8 @@
 package com.m4ykey.stos.user.data.network.service
 
-import com.m4ykey.stos.core.Filters.QUESTION_FILTER
-import com.m4ykey.stos.core.Filters.USER_FILTER
-import com.m4ykey.stos.core.model.Items
+import com.m4ykey.core.model.Items
+import com.m4ykey.core.Filters.QUESTION_FILTER
+import com.m4ykey.core.Filters.USER_FILTER
 import com.m4ykey.stos.question.data.network.dto.QuestionDto
 import com.m4ykey.stos.user.data.network.dto.UserDto
 

@@ -1,4 +1,4 @@
-package com.m4ykey.stos.core.views
+package com.m4ykey.core.views
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -10,11 +10,13 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ActionIconButton(
-    onClick : () -> Unit,
+    text : StringResource,
     icon : DrawableResource,
-    text : StringResource
+    onClick : () -> Unit
 ) {
-    IconButton(onClick = onClick) {
+    IconButton(
+        onClick = onClick
+    ) {
         Icon(
             contentDescription = stringResource(text),
             painter = painterResource(icon)

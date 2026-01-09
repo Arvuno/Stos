@@ -1,10 +1,10 @@
 package com.m4ykey.stos.user.data.repository
 
 import androidx.paging.PagingData
+import com.m4ykey.core.paging.createPagingFlow
 import com.m4ykey.stos.core.model.toDomain
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
-import com.m4ykey.stos.core.paging.createPagingFlow
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.user.data.network.service.RemoteUserService
 import com.m4ykey.stos.user.data.paging.UserQuestionPaging

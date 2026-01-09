@@ -1,5 +1,6 @@
 package com.m4ykey.stos.core.model
 
+import com.m4ykey.core.model.safe
 import com.m4ykey.stos.answer.data.network.dto.AnswerCommentDto
 import com.m4ykey.stos.answer.domain.model.AnswerComment
 import com.m4ykey.stos.question.data.network.dto.ClosedDetailsDto

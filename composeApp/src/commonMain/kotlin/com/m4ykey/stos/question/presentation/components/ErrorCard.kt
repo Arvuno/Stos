@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.m4ykey.stos.core.views.AnimationImage
+import com.m4ykey.core.views.AnimationImage
 
 @Composable
 fun ErrorCard(
@@ -34,7 +34,9 @@ fun ErrorCard(
                 .padding(20.dp)
                 .fillMaxWidth()
         ) {
-            AnimationImage()
+            AnimationImage(
+                jsonPath = "files/black_cat_animation.json"
+            )
             Text(text = error ?: "Unknown error")
         }
     }

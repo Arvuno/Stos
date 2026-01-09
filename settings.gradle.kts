@@ -35,3 +35,4 @@ plugins {
 
 include(":composeApp")
 include(":text-markdown")
+include(":core")

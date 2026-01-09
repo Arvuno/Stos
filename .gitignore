@@ -21,3 +21,4 @@ node_modules/
 .idea
 /composeApp/google-services.json
 /composeApp/release/
+/keystore.properties

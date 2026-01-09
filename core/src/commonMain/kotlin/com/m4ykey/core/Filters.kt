@@ -1,4 +1,4 @@
-package com.m4ykey.stos.core
+package com.m4ykey.core
 
 object Filters {
 
@@ -8,5 +8,6 @@ object Filters {
     const val QUESTION_COMMENTS = "!)6tt_(8R4esD5Eb7DsO1G_yA13SWkqS"
     const val ANSWER_COMMENT_FILTER = "!)6tt_(8R4esD5Eb7DsO1G_yA13SWkqS"
     const val USER_FILTER = "!N6lP84MuPy)29xJ*zz.pLDDFvmA5sHHi"
+    const val SITES_FILTER = "!BH*s)gJOH5dUQqo6BHU0UVMhGQDtp4"
 
 }

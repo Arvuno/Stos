@@ -38,7 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.m4ykey.stos.core.views.ActionIconButton
+import com.m4ykey.core.views.ActionIconButton
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import kmp_stos.composeapp.generated.resources.Res

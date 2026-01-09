@@ -1,6 +1,6 @@
 package com.m4ykey.stos.user.data.network.service
 
-import com.m4ykey.stos.core.model.Items
+import com.m4ykey.core.model.Items
 import com.m4ykey.stos.core.network.setParameters
 import com.m4ykey.stos.question.data.network.dto.QuestionDto
 import com.m4ykey.stos.user.data.network.dto.UserDto

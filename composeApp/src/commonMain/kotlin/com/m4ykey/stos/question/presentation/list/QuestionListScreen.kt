@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.m4ykey.stos.core.views.ActionIconButton
-import com.m4ykey.stos.core.views.BasePagingList
+import com.m4ykey.core.views.ActionIconButton
+import com.m4ykey.core.views.BasePagingList
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.BaseQuestionListScreen
 import com.m4ykey.stos.question.presentation.components.QuestionItem

@@ -1,7 +1,7 @@
 package com.m4ykey.stos.search.data.repository
 
 import androidx.paging.PagingData
-import com.m4ykey.stos.core.paging.createPagingFlow
+import com.m4ykey.core.paging.createPagingFlow
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.search.data.network.service.RemoteSearchService
 import com.m4ykey.stos.search.data.paging.SearchPaging
