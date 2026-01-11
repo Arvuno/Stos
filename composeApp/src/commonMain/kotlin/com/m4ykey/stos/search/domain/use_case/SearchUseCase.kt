@@ -9,7 +9,7 @@ class SearchUseCase(
     private val repository: SearchRepository
 ) {
 
-    fun searchQuestions(
+    fun invoke(
         page : Int = 1,
         pageSize : Int = 20,
         sort : String,

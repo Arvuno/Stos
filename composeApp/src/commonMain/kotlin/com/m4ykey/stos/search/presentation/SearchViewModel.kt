@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -106,7 +105,7 @@ class SearchViewModel(
             if (params.inTitle.isEmpty()) 0L else 1000L
         }
         .flatMapLatest { params ->
-            useCase.searchQuestions(
+            useCase.invoke(
                 sort = params.sort,
                 inTitle = params.inTitle,
                 tagged = params.tagged

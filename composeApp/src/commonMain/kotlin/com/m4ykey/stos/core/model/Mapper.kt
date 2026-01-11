@@ -14,9 +14,21 @@ import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionComment
 import com.m4ykey.stos.question.domain.model.QuestionDetail
+import com.m4ykey.stos.sites.data.network.dto.SitesDto
+import com.m4ykey.stos.sites.domain.model.Sites
 import com.m4ykey.stos.user.data.network.dto.BadgeCountsDto
 import com.m4ykey.stos.user.data.network.dto.UserDto
 import com.m4ykey.stos.user.domain.model.User
+
+fun SitesDto.toDomain() = Sites(
+    apiSiteParameter = apiSiteParameter.orEmpty(),
+    audience = audience.orEmpty(),
+    iconUrl = iconUrl.orEmpty(),
+    logoUrt = logoUrl.orEmpty(),
+    name = name.orEmpty(),
+    siteUrl = siteUrl.orEmpty(),
+    faviconUrl = faviconUrl.orEmpty()
+)
 
 fun UserDto.toDomain() = User(
     userId = userId.safe,

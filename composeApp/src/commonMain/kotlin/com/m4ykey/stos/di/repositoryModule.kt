@@ -6,6 +6,8 @@ import com.m4ykey.stos.question.data.repository.RemoteQuestionRepository
 import com.m4ykey.stos.question.domain.repository.QuestionRepository
 import com.m4ykey.stos.search.data.repository.RemoteSearchRepository
 import com.m4ykey.stos.search.domain.repository.SearchRepository
+import com.m4ykey.stos.sites.data.repository.RemoteSitesRepository
+import com.m4ykey.stos.sites.domain.repository.SitesRepository
 import com.m4ykey.stos.user.data.repository.RemoteUserRepository
 import com.m4ykey.stos.user.domain.repository.UserRepository
 import org.koin.dsl.module
@@ -15,4 +17,5 @@ val repositoryModule = module {
     single<SearchRepository> { RemoteSearchRepository(get(), get()) }
     single<AnswerRepository> { RemoteAnswerRepository(get(), get()) }
     single<UserRepository> { RemoteUserRepository(get(), get()) }
+    single<SitesRepository> { RemoteSitesRepository(get(), get()) }
 }
