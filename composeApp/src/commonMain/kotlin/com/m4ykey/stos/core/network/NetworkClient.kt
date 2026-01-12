@@ -83,7 +83,7 @@ object NetworkClient {
                 path(API_VERSION)
                 setParameters(
                     "key" to API_KEY,
-                    "site" to DEFAULT_SITE
+                    //"site" to DEFAULT_SITE
                 )
             }
             contentType(ContentType.Application.Json)

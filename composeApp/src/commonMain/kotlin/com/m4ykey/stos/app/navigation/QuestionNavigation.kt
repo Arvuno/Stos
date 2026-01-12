@@ -26,6 +26,9 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
                 navHostController.navigate(Screen.UserScreen.routeWithArgs(id)) {
                     launchSingleTop = true
                 }
+            },
+            onSitesClick = {
+                navHostController.navigate(Screen.SitesScreen.route)
             }
         )
     }

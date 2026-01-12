@@ -46,14 +46,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.core.views.ActionIconButton
 import com.m4ykey.core.views.BasePagingList
 import com.m4ykey.stos.question.domain.model.Question
-import com.m4ykey.stos.question.presentation.components.BaseQuestionListScreen
 import com.m4ykey.stos.question.presentation.components.QuestionItem
 import com.m4ykey.stos.question.presentation.components.chip.ChipList
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.model.DrawerItem
 import kmp_stos.composeapp.generated.resources.Res
-import kmp_stos.composeapp.generated.resources.arrow_left
-import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.menu
 import kmp_stos.composeapp.generated.resources.search
 import kmp_stos.composeapp.generated.resources.settings
@@ -63,7 +60,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.collections.listOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,7 +67,8 @@ fun QuestionListScreen(
     viewModel: QuestionListViewModel = koinViewModel(),
     onQuestionClick : (Int) -> Unit,
     onSearch : () -> Unit,
-    onUserClick: (Int) -> Unit
+    onUserClick: (Int) -> Unit,
+    onSitesClick : () -> Unit
 ) {
     val questions = viewModel.getQuestionsFlow().collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
@@ -102,7 +99,7 @@ fun QuestionListScreen(
     val items = remember {
         listOf(
             DrawerItem(
-                onClick = {},
+                onClick = { onSitesClick() },
                 titleRes = Res.string.sites
             ),
             DrawerItem(

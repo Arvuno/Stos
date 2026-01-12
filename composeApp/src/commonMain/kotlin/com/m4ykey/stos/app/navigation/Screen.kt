@@ -14,6 +14,9 @@ sealed class Screen(val route : String) {
     object Search : Screen(route = "search")
 
     @Serializable
+    object SitesScreen : Screen(route = "sites")
+
+    @Serializable
     data class QuestionDetail(val id : Int) : Screen("$routeBase/$id") {
         companion object {
             const val routeBase = "question_detail_screen"
