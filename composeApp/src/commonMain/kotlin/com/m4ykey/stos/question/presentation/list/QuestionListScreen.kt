@@ -1,5 +1,8 @@
 package com.m4ykey.stos.question.presentation.list
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -7,14 +10,36 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -25,11 +50,20 @@ import com.m4ykey.stos.question.presentation.components.BaseQuestionListScreen
 import com.m4ykey.stos.question.presentation.components.QuestionItem
 import com.m4ykey.stos.question.presentation.components.chip.ChipList
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
+import com.m4ykey.stos.question.presentation.list.model.DrawerItem
 import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.arrow_left
+import kmp_stos.composeapp.generated.resources.back
+import kmp_stos.composeapp.generated.resources.menu
 import kmp_stos.composeapp.generated.resources.search
+import kmp_stos.composeapp.generated.resources.settings
+import kmp_stos.composeapp.generated.resources.sites
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.collections.listOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +77,13 @@ fun QuestionListScreen(
     val viewState by viewModel.questionListState.collectAsState()
     val onAction = viewModel::onAction
 
+    val sort = viewState.sort
+
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val lazyListState = rememberLazyListState()
+
+    val coroutineScope = rememberCoroutineScope()
+
     LaunchedEffect(Unit) {
         viewModel.listUiEvent.collectLatest { event ->
             when (event) {
@@ -52,20 +93,110 @@ fun QuestionListScreen(
         }
     }
 
-    BaseQuestionListScreen(
-        questions = questions,
-        viewState = viewState,
-        onAction = onAction,
-        onQuestionClick = onQuestionClick,
-        onUserClick = onUserClick,
-        actions = {
-            ActionIconButton(
-                onClick = onSearch,
-                icon = Res.drawable.search,
-                text = Res.string.search
+    val showScrollToTopButton by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex > 20
+        }
+    }
+
+    val items = remember {
+        listOf(
+            DrawerItem(
+                onClick = {},
+                titleRes = Res.string.sites
+            ),
+            DrawerItem(
+                onClick = {},
+                titleRes = Res.string.settings
+            ),
+        )
+    }
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    var selectedItemIndex by rememberSaveable { mutableStateOf(-1) }
+
+    ModalNavigationDrawer(
+        drawerContent = {
+            ModalDrawerSheet(
+                modifier = Modifier.width(300.dp)
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                items.forEachIndexed { index, item ->
+                    NavigationDrawerItem(
+                        label = { Text(text = stringResource(item.titleRes)) },
+                        selected = index == selectedItemIndex,
+                        onClick = {
+                            selectedItemIndex = index
+                            coroutineScope.launch { drawerState.close() }
+                            item.onClick()
+                        },
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                        icon = {
+
+                        }
+                    )
+                }
+            }
+        },
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                TopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    title = {},
+                    actions = {
+                        ActionIconButton(
+                            onClick = onSearch,
+                            icon = Res.drawable.search,
+                            text = Res.string.search
+                        )
+                    },
+                    navigationIcon = {
+                        ActionIconButton(
+                            onClick = { coroutineScope.launch { drawerState.open() } },
+                            icon = Res.drawable.menu,
+                            text = Res.string.menu
+                        )
+                    }
+                )
+            },
+            floatingActionButton = {
+                AnimatedVisibility(
+                    visible = showScrollToTopButton,
+                    enter = slideInHorizontally { it },
+                    exit = slideOutHorizontally { it }
+                ) {
+                    FloatingActionButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                lazyListState.animateScrollToItem(0)
+                            }
+                        },
+                        content = {
+                            Icon(
+                                contentDescription = null,
+                                imageVector = Icons.Default.ArrowUpward
+                            )
+                        }
+                    )
+                }
+            }
+        ) { padding ->
+            QuestionListContent(
+                padding = padding,
+                listState = lazyListState,
+                questions = questions,
+                sort = sort,
+                onAction = onAction,
+                onQuestionClick = onQuestionClick,
+                onUserClick = onUserClick,
+                coroutineScope = coroutineScope
             )
         }
-    )
+    }
 }
 
 @Composable
@@ -77,11 +208,9 @@ fun QuestionListContent(
     onAction : (QuestionListAction) -> Unit,
     onQuestionClick: (Int) -> Unit,
     availableSorts : List<QuestionSort> = QuestionSort.entries,
-    onUserClick : (Int) -> Unit
+    onUserClick : (Int) -> Unit,
+    coroutineScope : CoroutineScope
 ) {
-
-    val coroutineScope = rememberCoroutineScope()
-
     Column(
         modifier = Modifier
             .padding(padding)

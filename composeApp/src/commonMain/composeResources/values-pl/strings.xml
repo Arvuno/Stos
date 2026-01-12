@@ -42,4 +42,7 @@
     <string name="last_edited_by">Edytowano przez</string>
     <string name="no_data">Brak danych</string>
     <string name="empty"> </string>
+    <string name="sites">Strony</string>
+    <string name="settings">Ustawienia</string>
+    <string name="menu">Menu</string>
 </resources>

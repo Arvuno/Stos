@@ -109,7 +109,8 @@ fun BaseQuestionListScreen(
             onAction = onAction,
             onQuestionClick = onQuestionClick,
             availableSorts = availableSorts,
-            onUserClick = onUserClick
+            onUserClick = onUserClick,
+            coroutineScope = coroutineScope
         )
     }
 }
