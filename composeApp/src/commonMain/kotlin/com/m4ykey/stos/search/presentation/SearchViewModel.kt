@@ -19,6 +19,7 @@ import com.m4ykey.stos.search.data.model.mobileTags
 import com.m4ykey.stos.search.data.model.testTags
 import com.m4ykey.stos.search.data.model.webTags
 import com.m4ykey.stos.search.domain.use_case.SearchUseCase
+import com.m4ykey.stos.sites.data.helpers.SiteManager
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.ai
 import kmp_stos.composeapp.generated.resources.cloud
@@ -43,7 +44,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class SearchViewModel(
-    private val useCase: SearchUseCase
+    private val useCase: SearchUseCase,
+    private val siteManager: SiteManager
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow(SearchQueryState())
@@ -92,12 +94,14 @@ class SearchViewModel(
 
     private val _searchFlow = combine(
         _questionListState,
-        _searchQuery
-    ) { sort, queryState ->
+        _searchQuery,
+        siteManager.selectedSite
+    ) { _, queryState, site ->
         QueryParameters(
             sort = "activity",
             inTitle = queryState.inTitle,
-            tagged = queryState.tag
+            tagged = queryState.tag,
+            site = site
         )
     }
         .distinctUntilChanged()

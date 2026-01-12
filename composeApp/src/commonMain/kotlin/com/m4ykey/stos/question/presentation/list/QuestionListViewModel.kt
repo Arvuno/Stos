@@ -8,7 +8,7 @@ import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
-import com.m4ykey.stos.sites.presentation.components.SiteManager
+import com.m4ykey.stos.sites.data.helpers.SiteManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

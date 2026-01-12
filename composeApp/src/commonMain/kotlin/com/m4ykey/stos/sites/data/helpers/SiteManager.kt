@@ -1,5 +1,8 @@
-package com.m4ykey.stos.sites.presentation.components
+@file:OptIn(ExperimentalCoroutinesApi::class)
 
+package com.m4ykey.stos.sites.data.helpers
+
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

@@ -11,6 +11,7 @@ import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import com.m4ykey.stos.question.presentation.list.QuestionListAction
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
+import com.m4ykey.stos.sites.data.helpers.SiteManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +27,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class QuestionRelatedViewModel(
-    private val useCase: QuestionUseCase
+    private val useCase: QuestionUseCase,
+    private val siteManager: SiteManager
 ) : ViewModel() {
 
     private val _questionListState = MutableStateFlow(RelatedQuestionState())
@@ -40,9 +42,10 @@ class QuestionRelatedViewModel(
     }
 
     val relatedQuestions : Flow<PagingData<Question>> = combine(
-        _id.filterNotNull(),
-        _questionListState.map { it.sort }.distinctUntilChanged()
-    ) { id, sort ->
+        _id.filterNotNull().distinctUntilChanged(),
+        _questionListState.map { it.sort }.distinctUntilChanged(),
+        siteManager.selectedSite
+    ) { id, sort, _ ->
         id to sort
     }.flatMapLatest { (id, sort) ->
         useCase.getRelatedQuestions(id = id, sort = sort.name)

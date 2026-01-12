@@ -14,12 +14,12 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { QuestionListViewModel(get(), get()) }
-    viewModel { QuestionDetailViewModel(get()) }
-    viewModel { QuestionTagViewModel(get()) }
-    viewModel { SearchViewModel(get()) }
-    viewModel { QuestionCommentViewModel(get()) }
-    viewModel { AnswerViewModel(get()) }
-    viewModel { QuestionRelatedViewModel(get()) }
-    viewModel { UserViewModel(get()) }
+    viewModel { QuestionDetailViewModel(get(), get()) }
+    viewModel { QuestionTagViewModel(get(), get()) }
+    viewModel { SearchViewModel(get(), get()) }
+    viewModel { QuestionCommentViewModel(get(), get()) }
+    viewModel { AnswerViewModel(get(), get()) }
+    viewModel { QuestionRelatedViewModel(get(), get()) }
+    viewModel { UserViewModel(get(), get()) }
     viewModel { SitesViewModel(get(), get()) }
 }

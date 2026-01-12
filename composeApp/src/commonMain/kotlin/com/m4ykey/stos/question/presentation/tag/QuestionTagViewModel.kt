@@ -10,6 +10,7 @@ import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import com.m4ykey.stos.question.presentation.list.QuestionListAction
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
+import com.m4ykey.stos.sites.data.helpers.SiteManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class QuestionTagViewModel(
-    private val useCase : QuestionUseCase
+    private val useCase : QuestionUseCase,
+    private val siteManager: SiteManager
 ) : ViewModel() {
 
     private val _questionListState = MutableStateFlow(QuestionListState())
@@ -49,10 +51,11 @@ class QuestionTagViewModel(
 
     val tagQuestions : Flow<PagingData<Question>> = combine(
         _currentTag.filterNotNull(),
-        _questionListState.map { it.sort }.distinctUntilChanged()
-    ) { tag, sort ->
-        tag to sort
-    }.flatMapLatest { (tag, sort) ->
+        _questionListState.map { it.sort }.distinctUntilChanged(),
+        siteManager.selectedSite
+    ) { tag, sort, site ->
+        Triple(tag, sort, site)
+    }.flatMapLatest { (tag, sort, _) ->
         useCase.getQuestionsByTag(
             sort = sort.name,
             tagged = tag

@@ -1,6 +1,6 @@
 package com.m4ykey.stos.core.network
 
-import com.m4ykey.stos.sites.presentation.components.SiteManager
+import com.m4ykey.stos.sites.data.helpers.SiteManager
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine

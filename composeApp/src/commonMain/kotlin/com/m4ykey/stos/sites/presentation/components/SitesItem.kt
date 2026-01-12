@@ -1,10 +1,13 @@
 package com.m4ykey.stos.sites.presentation.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Person
@@ -53,12 +56,20 @@ fun SitesItem(
                 )
             }
         )
-        TextMarkdown(
-            text = item.name,
-            modifier = Modifier.weight(1f),
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-            alignment = Alignment.TopStart
-        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            TextMarkdown(
+                text = item.name,
+                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                alignment = Alignment.TopStart
+            )
+            val audienceUppercase = item.audience.replaceFirstChar { it.uppercase() }
+            TextMarkdown(
+                text = audienceUppercase,
+                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                alignment = Alignment.TopStart
+            )
+        }
 
         if (isSelected) {
             Icon(
