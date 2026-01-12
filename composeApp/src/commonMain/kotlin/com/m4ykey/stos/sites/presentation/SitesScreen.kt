@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -30,6 +32,8 @@ fun SitesScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState = rememberLazyListState()
 
+    val currentSelected by viewModel.selectedSite.collectAsState()
+
     AppScaffold(
         navigation = {
             ActionIconButton(
@@ -42,7 +46,14 @@ fun SitesScreen(
             BasePagingList(
                 modifier = modifier.padding(padding),
                 itemContent = { site ->
-                    SitesItem(item = site)
+                    SitesItem(
+                        item = site,
+                        isSelected = site.apiSiteParameter == currentSelected,
+                        onClick = {
+                            viewModel.selectSite(site)
+                            onBack()
+                        }
+                    )
                 },
                 items = items,
                 listState = listState,

@@ -1,5 +1,6 @@
 package com.m4ykey.stos.core.network
 
+import com.m4ykey.stos.sites.presentation.components.SiteManager
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -14,6 +15,7 @@ import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
@@ -26,12 +28,11 @@ object NetworkClient {
     private const val API_VERSION = "2.3"
     private val API_KEY = API_KEY_VALUE
     private const val BASE_HOST = "api.stackexchange.com"
-    private const val DEFAULT_SITE = "stackoverflow"
 
-    fun create(engine : HttpClientEngine) : HttpClient {
+    fun create(engine : HttpClientEngine, siteManager: SiteManager) : HttpClient {
         return HttpClient(engine) {
             configureLogging()
-            configureDefaultRequest()
+            configureDefaultRequest(siteManager)
             configureTimeout()
             configureRetries()
             configureValidator()
@@ -75,18 +76,33 @@ object NetworkClient {
         }
     }
 
-    private fun HttpClientConfig<*>.configureDefaultRequest() {
+    private fun HttpClientConfig<*>.configureDefaultRequest(siteManager: SiteManager) {
         defaultRequest {
             url {
                 protocol = URLProtocol.HTTPS
                 host = BASE_HOST
-                path(API_VERSION)
-                setParameters(
-                    "key" to API_KEY,
-                    //"site" to DEFAULT_SITE
-                )
+
+                if (pathSegments.isEmpty() || pathSegments.first() != API_VERSION) {
+                    path(API_VERSION, "")
+                }
             }
             contentType(ContentType.Application.Json)
+        }
+
+        install("SiteHeaderPlugin") {
+            requestPipeline.intercept(HttpRequestPipeline.Before) {
+                val url = context.url
+
+                if (!url.parameters.contains("key")) {
+                    url.parameters.append("key", API_KEY)
+                }
+
+                val isSitesRequest = url.pathSegments.contains("sites")
+
+                if (!isSitesRequest && !url.parameters.contains("site")) {
+                    url.parameters.append("site", siteManager.selectedSite.value)
+                }
+            }
         }
     }
 

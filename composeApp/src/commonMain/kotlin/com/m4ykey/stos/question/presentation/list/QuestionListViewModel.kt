@@ -8,6 +8,7 @@ import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.domain.use_case.QuestionUseCase
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
+import com.m4ykey.stos.sites.presentation.components.SiteManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -25,7 +27,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class QuestionListViewModel(
-    private val useCase: QuestionUseCase
+    private val useCase: QuestionUseCase,
+    private val siteManager: SiteManager
 ) : ViewModel() {
 
     private val _questionListState = MutableStateFlow(QuestionListState())
@@ -34,18 +37,19 @@ class QuestionListViewModel(
     private val _listUiEvent = MutableSharedFlow<ListUiEvent>()
     val listUiEvent = _listUiEvent.asSharedFlow()
 
-    private val _questionFlow = _questionListState
-        .map { it.sort }
-        .distinctUntilChanged()
-        .flatMapLatest { sort ->
-            useCase.getQuestions(sort = sort.name)
-                .cachedIn(viewModelScope)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = PagingData.empty(),
-            started = SharingStarted.Lazily
-        )
+    private val _questionFlow = combine(
+        _questionListState.map { it.sort }.distinctUntilChanged(),
+        siteManager.selectedSite
+    ) { sort, site ->
+        sort to site
+    }.flatMapLatest { (sort, _) ->
+        useCase.getQuestions(sort = sort.name)
+            .cachedIn(viewModelScope)
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = PagingData.empty(),
+        started = SharingStarted.Lazily
+    )
 
     fun getQuestionsFlow() : Flow<PagingData<Question>> = _questionFlow
 
