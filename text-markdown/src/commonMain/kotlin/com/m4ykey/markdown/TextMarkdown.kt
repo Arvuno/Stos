@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -66,9 +68,9 @@ fun TextMarkdown(
     val isDarkTheme = isSystemInDarkTheme()
 
     val markdownContent = remember(text) {
-        val processed = text.normalizeMarkdown()
-            .replace("\r\n", "\n")
-        processed
+        val normalizedEndings = text.replace("\r\n", "\n")
+        val processed = normalizedEndings.normalizeMarkdown()
+        if (processed.isBlank()) "" else "$processed\n"
     }
 
     val highlightBuilder = remember(isDarkTheme) {

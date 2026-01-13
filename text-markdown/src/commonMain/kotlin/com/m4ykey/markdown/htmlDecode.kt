@@ -6,7 +6,12 @@ fun String.normalizeMarkdown() : String {
     val decoded = KsoupEntities.decodeHtml(this)
     val withFixedImages = decoded.fixImageReferences()
 
-    val lines = withFixedImages.lines()
+    val cleaned = withFixedImages
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
+        .replace("\u00A0", " ")
+
+    val lines = cleaned.lines()
     val result = StringBuilder()
 
     for (i in lines.indices) {
@@ -19,11 +24,14 @@ fun String.normalizeMarkdown() : String {
                 result.append("\n")
             }
         }
-
         result.append(currentLines).append("\n")
     }
 
-    return result.toString().trim()
+    repeat(20) {
+        result.append(" ")
+    }
+
+    return result.toString()
 }
 
 fun String.fixImageReferences(): String {
@@ -54,5 +62,5 @@ fun String.fixImageReferences(): String {
         "![$alt]($url)"
     }
 
-    return result.trim()
+    return result
 }
