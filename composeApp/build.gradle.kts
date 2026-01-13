@@ -191,3 +191,23 @@ compose.desktop {
         }
     }
 }
+
+aboutLibraries {
+    offlineMode = false
+    export {
+        val path = "${project.projectDir}/src/commonMain/composeResources/files/aboutlibraries.json"
+        outputFile = file(path)
+        excludeFields.addAll("developers", "funding")
+        prettyPrint = true
+    }
+    license {
+        strictMode = com.mikepenz.aboutlibraries.plugin.StrictMode.WARN
+
+        allowedLicenses.addAll("Apache-2.0", "MIT", "BSD-3-Clause", "LGPL-2.1")
+
+        allowedLicensesMap = mapOf(
+            "asdkl" to listOf("androidx.jetpack.library"),
+            "NOASSERTION" to listOf("org.jetbrains.kotlinx"),
+        )
+    }
+}

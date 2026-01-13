@@ -38,10 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.m4ykey.core.views.ActionIconButton
 import com.m4ykey.core.views.AppScaffold
+import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.answer.presentation.AnswerViewModel
 import com.m4ykey.stos.core.model.toQuestion
 import com.m4ykey.stos.core.network.openBrowser
-import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.presentation.components.AnswerItem

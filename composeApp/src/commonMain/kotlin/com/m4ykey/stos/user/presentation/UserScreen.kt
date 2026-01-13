@@ -32,8 +32,8 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.m4ykey.core.views.ActionIconButton
 import com.m4ykey.core.views.AppScaffold
-import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.markdown.TextMarkdown
+import com.m4ykey.stos.core.network.openBrowser
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.ErrorCard
 import com.m4ykey.stos.question.presentation.components.QuestionItem

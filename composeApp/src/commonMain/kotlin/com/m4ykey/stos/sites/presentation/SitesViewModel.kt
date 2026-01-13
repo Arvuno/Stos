@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.m4ykey.stos.sites.data.helpers.SiteManager
 import com.m4ykey.stos.sites.domain.model.Sites
 import com.m4ykey.stos.sites.domain.use_case.SitesUseCase
-import com.m4ykey.stos.sites.data.helpers.SiteManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest

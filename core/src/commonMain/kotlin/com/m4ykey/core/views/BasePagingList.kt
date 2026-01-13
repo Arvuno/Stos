@@ -60,7 +60,7 @@ private fun ErrorItem(message : String, onRetry: () -> Unit) {
 private fun DefaultEmpty() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            AnimationImage("") // Add empty animation
+            AnimationImage("files/black_cat_animation.json")
             Text(
                 text = "No results found",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

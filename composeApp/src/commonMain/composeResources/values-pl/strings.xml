@@ -45,4 +45,11 @@
     <string name="sites">Strony</string>
     <string name="settings">Ustawienia</string>
     <string name="menu">Menu</string>
+    <string name="about">O</string>
+    <string name="powered_by">Dane są dostarczone przez</string>
+    <string name="api_provided">Stack Exchange 2.3</string>
+    <string name="used_libraries">Użyte biblioteki</string>
+    <string name="open_source_libraries">Te biblioteki open source zasilają tę aplikację</string>
+    <string name="source_code">Kod źródłowy</string>
+    <string name="visit_project_on_github">Odwiedź projekt na Githubie</string>
 </resources>

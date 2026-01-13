@@ -19,5 +19,6 @@ fun AppNavHost(
         searchNavigation(navHostController)
         userNavigation(navHostController)
         sitesNavigation(navHostController)
+        settingsNavigation(navHostController)
     }
 }

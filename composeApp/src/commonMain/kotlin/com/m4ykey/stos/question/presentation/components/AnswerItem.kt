@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.answer.domain.model.AnswerComment
 import com.m4ykey.stos.answer.presentation.components.CommentSection
 import com.m4ykey.stos.answer.presentation.components.CommentToggleRow
-import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.question.domain.model.QuestionAnswer
 import com.m4ykey.stos.question.presentation.detail.DisplayOwner
 import com.m4ykey.stos.user.domain.model.User

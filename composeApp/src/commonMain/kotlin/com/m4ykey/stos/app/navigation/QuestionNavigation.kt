@@ -29,6 +29,9 @@ fun NavGraphBuilder.questionNavigation(navHostController: NavHostController) {
             },
             onSitesClick = {
                 navHostController.navigate(Screen.SitesScreen.route)
+            },
+            onSettingsClick = {
+                navHostController.navigate(Screen.SettingsScreen.route)
             }
         )
     }

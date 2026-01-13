@@ -68,7 +68,8 @@ fun QuestionListScreen(
     onQuestionClick : (Int) -> Unit,
     onSearch : () -> Unit,
     onUserClick: (Int) -> Unit,
-    onSitesClick : () -> Unit
+    onSitesClick : () -> Unit,
+    onSettingsClick : () -> Unit
 ) {
     val questions = viewModel.getQuestionsFlow().collectAsLazyPagingItems()
     val viewState by viewModel.questionListState.collectAsState()
@@ -103,7 +104,7 @@ fun QuestionListScreen(
                 titleRes = Res.string.sites
             ),
             DrawerItem(
-                onClick = {},
+                onClick = { onSettingsClick() },
                 titleRes = Res.string.settings
             ),
         )
