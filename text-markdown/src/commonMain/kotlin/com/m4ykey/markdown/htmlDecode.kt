@@ -1,15 +1,43 @@
 package com.m4ykey.markdown
 
 import com.mohamedrejeb.ksoup.entities.KsoupEntities
+import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler
+import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlParser
+
+fun String.decodeAndCleanHtml() : String {
+    val result = StringBuilder()
+
+    val handler = KsoupHtmlHandler.Builder()
+        .onText { text ->
+            result.append(text)
+        }
+        .onOpenTag { name, _, _ ->
+            when (name) {
+                "p", "br", "div", "li" -> result.append("\n")
+            }
+        }
+        .onCloseTag { name, _ ->
+            if (name == "p" || name == "div") {
+                result.append("\n")
+            }
+        }
+        .build()
+
+    val parser = KsoupHtmlParser(handler = handler)
+
+    parser.write(this)
+    parser.end()
+
+    return KsoupEntities
+        .decodeHtml(result.toString())
+        .replace(Regex("\n{3,}"), "\n\n")
+        .trim()
+}
 
 fun String.normalizeMarkdown() : String {
-    val decoded = KsoupEntities.decodeHtml(this)
-    val withFixedImages = decoded.fixImageReferences()
-
-    val cleaned = withFixedImages
+    val cleaned = this
         .replace("\r\n", "\n")
         .replace("\r", "\n")
-        .replace("\u00A0", " ")
 
     val lines = cleaned.lines()
     val result = StringBuilder()
@@ -27,39 +55,31 @@ fun String.normalizeMarkdown() : String {
         result.append(currentLines).append("\n")
     }
 
-    repeat(20) {
-        result.append(" ")
-    }
-
     return result.toString()
 }
 
 fun String.fixImageReferences(): String {
-    val referenceRegex = Regex("""\[(\d+)\]:\s*(\S+)""")
+    val referenceRegex = Regex("""^\[(\d+)]\s*:\s*(.+)$""", RegexOption.MULTILINE)
     val references = mutableMapOf<String, String>()
 
     referenceRegex.findAll(this).forEach { match ->
-        val refNum = match.groupValues[1]
-        val url = match.groupValues[2]
-        references[refNum] = url
+        references[match.groupValues[1]] = match.groupValues[2].trim()
     }
 
     var result = this
 
-    val imageRefRegex = Regex("""\[!\[(.*?)\]\[(\d+)\]\]\[(\d+)\]""")
-    result = result.replace(imageRefRegex) { match ->
-        val alt = match.groupValues[1]
-        val refNum = match.groupValues[2]
-        val url = references[refNum] ?: ""
-        "![$alt]($url)"
+    val fullRef = Regex("""\[!\[(.*?)]\[(\d+)]]\[(\d+)]""")
+    result = result.replace(fullRef) {
+        val alt = it.groupValues[1]
+        val ref = references[it.groupValues[2]] ?: return@replace it.value
+        "![$alt]($ref)"
     }
 
-    val simpleImageRefRegex = Regex("""\[!\[(.*?)\]\[(\d+)\]\]""")
-    result = result.replace(simpleImageRefRegex) { match ->
-        val alt = match.groupValues[1]
-        val refNum = match.groupValues[2]
-        val url = references[refNum] ?: ""
-        "![$alt]($url)"
+    val shortRef = Regex("""\[!\[(.*?)]\[(\d+)]]""")
+    result = result.replace(shortRef) {
+        val alt = it.groupValues[1]
+        val ref = references[it.groupValues[2]] ?: return@replace it.value
+        "![$alt]($ref)"
     }
 
     return result
