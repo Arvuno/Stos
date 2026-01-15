@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -79,13 +80,15 @@ fun TextMarkdown(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = alignment
     ) {
-        Markdown(
-            content = processedText,
-            modifier = Modifier.wrapContentHeight(),
-            imageTransformer = coil3ImageTransfer,
-            typography = customTypography,
-            components = customComponents
-        )
+        SelectionContainer {
+            Markdown(
+                content = processedText,
+                modifier = Modifier.wrapContentHeight(),
+                imageTransformer = coil3ImageTransfer,
+                typography = customTypography,
+                components = customComponents
+            )
+        }
     }
 }
 
