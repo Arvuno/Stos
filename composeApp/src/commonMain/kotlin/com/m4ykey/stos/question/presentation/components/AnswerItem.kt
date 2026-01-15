@@ -46,15 +46,7 @@ fun AnswerItem(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    val commentsFlow = remember(answer.answerId) {
-        onLoadComments(answer.answerId)
-    }
-
-    val commentsPaging = if (isExpanded) {
-        commentsFlow.collectAsLazyPagingItems()
-    } else {
-        null
-    }
+    val commentsPaging = onLoadComments(answer.answerId).collectAsLazyPagingItems()
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -98,7 +90,7 @@ fun AnswerItem(
             )
         }
 
-        if (isExpanded && commentsPaging != null) {
+        if (isExpanded) {
             CommentSection(
                 commentsPaging,
                 onUserClick = onUserClick
