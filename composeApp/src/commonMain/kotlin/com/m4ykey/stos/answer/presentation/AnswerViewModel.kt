@@ -18,15 +18,11 @@ class AnswerViewModel(
     private val siteManager: SiteManager
 ) : ViewModel() {
 
-    private val commentsCache = mutableMapOf<Int, Flow<PagingData<AnswerComment>>>()
-
     fun getCommentsFlow(id : Int) : Flow<PagingData<AnswerComment>> {
-        return commentsCache.getOrPut(id) {
-            siteManager.selectedSite
-                .flatMapLatest { _ ->
-                    useCase(id = id)
-                }
-                .cachedIn(viewModelScope)
-        }
+        return siteManager.selectedSite
+            .flatMapLatest { _ ->
+                useCase(id = id)
+            }
+            .cachedIn(viewModelScope)
     }
 }

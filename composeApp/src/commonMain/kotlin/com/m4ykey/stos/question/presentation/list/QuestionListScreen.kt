@@ -114,6 +114,8 @@ fun QuestionListScreen(
 
     var selectedItemIndex by rememberSaveable { mutableStateOf(-1) }
 
+    val scope = rememberCoroutineScope()
+
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet(
@@ -125,8 +127,10 @@ fun QuestionListScreen(
                         label = { Text(text = stringResource(item.titleRes)) },
                         selected = index == selectedItemIndex,
                         onClick = {
-                            selectedItemIndex = index
-                            coroutineScope.launch { drawerState.close() }
+                            scope.launch {
+                                drawerState.close()
+                                selectedItemIndex = -1
+                            }
                             item.onClick()
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),

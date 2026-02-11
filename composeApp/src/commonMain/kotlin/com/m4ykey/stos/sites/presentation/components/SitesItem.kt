@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.SubcomposeAsyncImage
 import com.m4ykey.markdown.TextMarkdown
 import com.m4ykey.stos.sites.domain.model.Sites
@@ -67,7 +68,8 @@ fun SitesItem(
             TextMarkdown(
                 text = audienceUppercase,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                alignment = Alignment.TopStart
+                alignment = Alignment.TopStart,
+                fontSize = 12.sp
             )
         }
 

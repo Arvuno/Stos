@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.m4ykey.markdown.TextMarkdown
@@ -46,7 +47,13 @@ fun AnswerItem(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    val commentsPaging = onLoadComments(answer.answerId).collectAsLazyPagingItems()
+    val commentFlow = remember(answer.answerId) { onLoadComments(answer.answerId) }
+    val commentsPaging = commentFlow.collectAsLazyPagingItems()
+
+    val isActuallyEmpty = remember(commentsPaging.loadState) {
+        commentsPaging.itemCount == 0 &&
+                commentsPaging.loadState.refresh is LoadState.NotLoading
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -91,10 +98,14 @@ fun AnswerItem(
         }
 
         if (isExpanded) {
-            CommentSection(
-                commentsPaging,
-                onUserClick = onUserClick
-            )
+            if (isActuallyEmpty) {
+
+            } else {
+                CommentSection(
+                    commentsPaging,
+                    onUserClick = onUserClick
+                )
+            }
         }
     }
 }

@@ -301,7 +301,7 @@ fun QuestionDetailContent(
             )
         }
         items(
-            items = answers,
+            items = answers.filter { it.bodyMarkdown.isNotBlank() },
             key = { it.answerId },
             contentType = { "answer_item" }
         ) { answer ->
