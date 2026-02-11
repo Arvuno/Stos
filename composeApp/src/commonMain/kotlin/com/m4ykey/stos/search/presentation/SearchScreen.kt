@@ -37,7 +37,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.m4ykey.core.views.ActionIconButton
 import com.m4ykey.stos.question.presentation.components.chip.ChipItem
 import com.m4ykey.stos.question.presentation.list.ListUiEvent
@@ -46,7 +45,6 @@ import kmp_stos.composeapp.generated.resources.arrow_left
 import kmp_stos.composeapp.generated.resources.back
 import kmp_stos.composeapp.generated.resources.close
 import kmp_stos.composeapp.generated.resources.empty
-import kmp_stos.composeapp.generated.resources.popular_tags
 import kmp_stos.composeapp.generated.resources.search
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
@@ -97,11 +95,7 @@ fun SearchScreen(
             onSearch = {
                 viewModel.onAction(SearchListAction.OnSearchClick(inTitle = inTitle, tag = ""))
             },
-            onInTitleChange = { inTitle = it },
-            onTagClick = { clickedTag ->
-                viewModel.onAction(SearchListAction.OnSearchClick(inTitle = inTitle, tag = clickedTag))
-            },
-            viewModel = viewModel
+            onInTitleChange = { inTitle = it }
         )
     }
 }
@@ -112,12 +106,8 @@ fun SearchContent(
     listState : LazyListState,
     inTitle : String,
     onInTitleChange : (String) -> Unit,
-    onSearch : () -> Unit,
-    onTagClick : (String) -> Unit,
-    viewModel: SearchViewModel
+    onSearch : () -> Unit
 ) {
-    val tags = viewModel.tagSection
-
     LazyColumn(
         state = listState,
         modifier = Modifier
@@ -131,23 +121,6 @@ fun SearchContent(
                 value = inTitle,
                 onValueChange = onInTitleChange,
                 onSearch = onSearch
-            )
-        }
-        item {
-            Text(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                text = stringResource(Res.string.popular_tags)
-            )
-        }
-        items(
-            items = tags,
-            key = { section -> section.title.toString() }
-        ) { section ->
-            TagList(
-                onTagClick = onTagClick,
-                tags = section.tags,
-                title = stringResource(section.title)
             )
         }
     }

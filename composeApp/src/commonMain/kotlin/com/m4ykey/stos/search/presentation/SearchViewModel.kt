@@ -9,26 +9,8 @@ import com.m4ykey.stos.question.presentation.list.ListUiEvent
 import com.m4ykey.stos.question.presentation.list.enums.QuestionSort
 import com.m4ykey.stos.question.presentation.list.state.QuestionListState
 import com.m4ykey.stos.search.data.model.QueryParameters
-import com.m4ykey.stos.search.data.model.TagSection
-import com.m4ykey.stos.search.data.model.aiTags
-import com.m4ykey.stos.search.data.model.cloudTags
-import com.m4ykey.stos.search.data.model.databaseTags
-import com.m4ykey.stos.search.data.model.frameworksTags
-import com.m4ykey.stos.search.data.model.languageTags
-import com.m4ykey.stos.search.data.model.mobileTags
-import com.m4ykey.stos.search.data.model.testTags
-import com.m4ykey.stos.search.data.model.webTags
 import com.m4ykey.stos.search.domain.use_case.SearchUseCase
 import com.m4ykey.stos.sites.data.helpers.SiteManager
-import kmp_stos.composeapp.generated.resources.Res
-import kmp_stos.composeapp.generated.resources.ai
-import kmp_stos.composeapp.generated.resources.cloud
-import kmp_stos.composeapp.generated.resources.database
-import kmp_stos.composeapp.generated.resources.framework
-import kmp_stos.composeapp.generated.resources.language
-import kmp_stos.composeapp.generated.resources.mobile
-import kmp_stos.composeapp.generated.resources.test
-import kmp_stos.composeapp.generated.resources.web
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -51,43 +33,6 @@ class SearchViewModel(
     private val _searchQuery = MutableStateFlow(SearchQueryState())
 
     private val _questionListState = MutableStateFlow(QuestionListState())
-
-    val tagSection : List<TagSection> by lazy {
-        listOf(
-            TagSection(
-                title = Res.string.mobile,
-                tags = mobileTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.database,
-                tags = databaseTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.test,
-                tags = testTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.cloud,
-                tags = cloudTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.framework,
-                tags = frameworksTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.language,
-                tags = languageTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.web,
-                tags = webTags.shuffledAndLimited()
-            ),
-            TagSection(
-                title = Res.string.ai,
-                tags = aiTags.shuffledAndLimited()
-            )
-        )
-    }
 
     private val _listUiEvent = MutableSharedFlow<ListUiEvent>()
     val listUiEvent = _listUiEvent.asSharedFlow()
@@ -125,7 +70,7 @@ class SearchViewModel(
                     _listUiEvent.emit(ListUiEvent.NavigateToQuestion(action.id))
                 }
                 is SearchListAction.OnTagClick -> {
-                    _listUiEvent.emit(ListUiEvent.TagClick(action.tag))
+                    //_listUiEvent.emit(ListUiEvent.TagClick(action.tag))
                 }
                 is SearchListAction.OnSearchClick -> {
                     _listUiEvent.emit(ListUiEvent.NavigateToSearch(action.inTitle, action.tag))
@@ -144,6 +89,4 @@ class SearchViewModel(
     fun searchQuestion(inTitle : String, tag : String) {
         _searchQuery.value = SearchQueryState(inTitle = inTitle, tag = tag)
     }
-
-    private fun List<String>.shuffledAndLimited() = this.shuffled().take(10)
 }
