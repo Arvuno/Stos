@@ -58,6 +58,7 @@ import kmp_stos.composeapp.generated.resources.sites
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -101,11 +102,13 @@ fun QuestionListScreen(
         listOf(
             DrawerItem(
                 onClick = { onSitesClick() },
-                titleRes = Res.string.sites
+                titleRes = Res.string.sites,
+                icon = Res.drawable.sites
             ),
             DrawerItem(
                 onClick = { onSettingsClick() },
-                titleRes = Res.string.settings
+                titleRes = Res.string.settings,
+                icon = Res.drawable.settings
             ),
         )
     }
@@ -135,7 +138,10 @@ fun QuestionListScreen(
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                         icon = {
-
+                            Icon(
+                                contentDescription = stringResource(item.titleRes),
+                                painter = painterResource(item.icon)
+                            )
                         }
                     )
                 }
