@@ -47,12 +47,15 @@ fun AnswerItem(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    val commentFlow = remember(answer.answerId) { onLoadComments(answer.answerId) }
-    val commentsPaging = commentFlow.collectAsLazyPagingItems()
+    val commentsFlow = remember(answer.answerId) {
+        onLoadComments(answer.answerId)
+    }
+    val commentsPaging = commentsFlow.collectAsLazyPagingItems()
 
-    val isActuallyEmpty = remember(commentsPaging.loadState) {
-        commentsPaging.itemCount == 0 &&
-                commentsPaging.loadState.refresh is LoadState.NotLoading
+    val isEmpty = remember(commentsPaging.loadState, isExpanded) {
+        isExpanded &&
+                commentsPaging.loadState.refresh is LoadState.NotLoading &&
+                commentsPaging.itemCount == 0
     }
 
     Column(
@@ -81,15 +84,18 @@ fun AnswerItem(
                 onUserClick = onUserClick
             )
         }
+
+        val score = answer.upVoteCount - answer.downVoteCount
+
         Text(
-            text = "${answer.upVoteCount} ${stringResource(Res.string.votes)}",
+            text = "$score ${stringResource(Res.string.votes)}",
             fontSize = 14.sp
         )
         TextMarkdown(
             alignment = Alignment.TopStart,
             text = answer.bodyMarkdown
         )
-        if (answer.commentCount > 0) {
+        if (answer.commentCount > 0 && !isEmpty) {
             CommentToggleRow(
                 isExpanded = isExpanded,
                 commentCount = answer.commentCount,
@@ -98,14 +104,10 @@ fun AnswerItem(
         }
 
         if (isExpanded) {
-            if (isActuallyEmpty) {
-
-            } else {
-                CommentSection(
-                    commentsPaging,
-                    onUserClick = onUserClick
-                )
-            }
+            CommentSection(
+                commentsPaging,
+                onUserClick = onUserClick
+            )
         }
     }
 }
