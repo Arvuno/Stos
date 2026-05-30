@@ -24,6 +24,35 @@ section and install it on your Android device.
 k=YOUR_STACK_EXCHANGE_KEY
 ```
 
+## Building from the Command Line
+
+On Linux (without Android Studio), you can build from the command line:
+
+```bash
+# Clone and enter the repository
+git clone https://github.com/m4ykey/Stos.git
+cd Stos
+
+# Create local.properties with your StackExchange API key
+echo "k=YOUR_STACK_EXCHANGE_KEY" > local.properties
+
+# Build the Android debug APK
+./gradlew assembleDebug
+
+# Build without running any checks
+./gradlew assemble --no-daemon
+
+# Run desktop (requires display)
+./gradlew run --no-daemon
+
+# List all available Gradle tasks
+./gradlew tasks --no-daemon
+```
+
+Requirements for CLI builds:
+- JDK 17+
+- Android SDK (set ANDROID_HOME or ANDROID_SDK_ROOT)
+
 ## Screenshots
 |    ![home.jpg](resources/screenshots/home.jpg)    |  ![detail.jpg](resources/screenshots/detail.jpg)  |
 |:-------------------------------------------------:|:-------------------------------------------------:|
