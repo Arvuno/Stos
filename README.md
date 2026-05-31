@@ -1,3 +1,4 @@
+[![CI](https://github.com/Arvuno/stos/actions/workflows/ci.yml/badge.svg)](https://github.com/Arvuno/stos/actions)
 # Stos
 
 Stos is a cross-platform application (Android/Desktop) built with **Compose Multiplatform** designed to
