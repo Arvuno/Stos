@@ -1,7 +1,7 @@
 # Stos
 
 Stos to cross-platformowa aplikacja (Android/PC) zbudowana przy użyciu **Compose Multiplatform**, zaprojektowana
-do przeglądania  [StackExchange](https://api.stackexchange.com/docs) i [StackOverflow](https://stackoverflow.com/)
+|do przeglądania [StackExchange](https://api.stackexchange.com/docs) i [StackOverflow](https://stackoverflow.com/)
 
 ## Dlaczego Stos?
 Stos został zbudowany z intencją do nauki Compose Multiplatform. Chciałem zrobić aplikację, która będzie poręczna
@@ -12,8 +12,9 @@ gdy ma się problem.
 |:-------------------------------------------------:|:-------------------------------------------------:|
 |  ![search.jpg](resources/screenshots/search.jpg)  |     ![tag.jpg](resources/screenshots/tag.jpg)     |
 |    ![user.jpg](resources/screenshots/user.jpg)    |
-## Cechy
-- Proste i minimalne UI skupiony na czytelności.
+|
+|## Cechy|
+|- Proste i minimalne UI skupione na czytelności.
 - Wsparcie Cross-platformowe (aktualnie skupione na Android, PC jest w planie)
 - Wyszukiwanie z filtrami - zaawansowane wyszukiwanie, aby znaleźć dokładnie te odpowiedzi, których potrzebujesz
 - Podświetlanie składni i sformatowane fragmenty kodu dla lepszej czytelności
@@ -31,7 +32,7 @@ gdy ma się problem.
 - **Ładowanie obrazów:** [Coil](https://github.com/coil-kt/coil)
 
 ## Pobierz
-Obecnie możesz pobrać najnowsze APK z [Releases](https://github.com/m4ykey/Stos/releases) i zainstalować ją na swoim urządzeniu.
+|Obecnie możesz pobrać najnowsze APK z [Releases](https://github.com/m4ykey/Stos/releases) i zainstalować je na swoim urządzeniu.
 
 ## Ustawienie projektu
 1. Sklonuj repozytorium i otwórz je w najnowszej wersji Android Studio

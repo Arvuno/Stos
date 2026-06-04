@@ -32,7 +32,7 @@ k=YOUR_STACK_EXCHANGE_KEY
 
 ## Tech Stack
 - **Language:** [Kotlin](https://kotlinlang.org/)
-- **UI Components:** - [Compose Multiplatform](https://www.jetbrains.com/compose-multiplatform/)
+|- **UI Components:** [Compose Multiplatform](https://www.jetbrains.com/compose-multiplatform/)
     - [Compottie](https://github.com/alexzhirkevich/compottie) (Lottie animations for Compose Multiplatform)
     - [Multiplatform Markdown Renderer](https://github.com/mikepenz/multiplatform-markdown-renderer) (with Material3 and Coil3 support)
 - **Networking:** [Ktor](https://ktor.io/) (with Content Negotiation, Logging, and multi-platform engines like OkHttp, Darwin and CIO)
